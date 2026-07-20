@@ -1,0 +1,20 @@
+# Arquivos de design e especificação (não fazem parte do deploy)
+*.pdf
+spec-*.md
+Desktop*.png
+sections.png
+
+# Cópias de backup
+*-copy.html
+*-backup.html
+
+# Claude Code (sessão local)
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

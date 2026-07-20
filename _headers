@@ -1,0 +1,25 @@
+# HTML — sempre revalidado (sem cache local)
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# JavaScript e CSS — 7 dias
+/css/*
+  Cache-Control: public, max-age=604800
+
+/js/*
+  Cache-Control: public, max-age=604800
+
+# Vídeo — 30 dias
+/*.mp4
+  Cache-Control: public, max-age=2592000
+
+# Imagens e ícones SVG na raiz — 30 dias
+/*.svg
+  Cache-Control: public, max-age=2592000
+
+/*.avif
+  Cache-Control: public, max-age=2592000
+
+# Assets em subdiretório — 30 dias
+/assets/*
+  Cache-Control: public, max-age=2592000

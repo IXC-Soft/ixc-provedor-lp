@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="O IXC Provedor é o sistema de gestão mais utilizado por ISPs no Brasil. Centralize financeiro, rede e atendimento em uma só plataforma e opere com mais controle." />
+  <title>Sistema de Gestão para Provedores de Internet | IXC Provedor</title>
+
+  <!-- Preconnect: máximo 3 origens críticas (Lighthouse) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.clarity.ms" />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  <link rel="dns-prefetch" href="https://js.hsforms.net" />
+
+  <!-- Fontes: carregamento assíncrono para não bloquear render no mobile -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+  </noscript>
+
+  <!-- Favicon placeholder (evita 404 no console) -->
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;," />
+
+  <!-- CSS crítico inline: garante loader visível antes do stylesheet async -->
+  <style>
+    :root {
+      --black: #000000;
+    }
+
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transition: opacity .6s ease, visibility .6s ease;
+      will-change: opacity;
+    }
+
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-logo {
+      height: 40px;
+      animation: loader-pulse 1.5s ease infinite;
+    }
+
+    @keyframes loader-pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .4;
+        transform: scale(.95);
+      }
+    }
+  </style>
+
+  <!-- Styles: preload async para não bloquear render -->
+  <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="css/styles.css" />
+  </noscript>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="IXC Provedor — Um único sistema para seu provedor" />
+  <meta property="og:description"
+    content="Gerencie financeiro, estoque, atendimento, rede e mobilidade em uma única plataforma." />
+  <meta property="og:type" content="website" />
+
+  <!-- Analytics: GTM + Clarity carregam apenas na primeira interação do usuário -->
+  <script>!function () { var f = false; function load() { if (f) return; f = true; (function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var a = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; a.parentNode.insertBefore(j, a); })(window, document, 'script', 'dataLayer', 'GTM-TZ73W9RN'); (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', 'xpdrvrdas4'); } ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function (e) { window.addEventListener(e, load, { once: true, passive: true }); }); setTimeout(load, 5000); }();</script>
+  <!-- End Analytics -->
+</head>
+
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZ73W9RN" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- ═══════════════════════════════════════════
+       PAGE LOADER
+  ════════════════════════════════════════════ -->
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <img src="assets/Logo-ixc-provedor.svg" alt="IXC Provedor" class="loader-logo" width="144" height="40" />
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ════════════════════════════════════════════ -->
+  <header class="site-header" id="siteHeader" role="banner">
+    <a href="#hero" aria-label="IXC Provedor — Início">
+      <img src="assets/Logo-ixc-provedor.svg" alt="IXC Provedor" class="header-logo" width="144" height="36"
+        fetchpriority="high" />
+    </a>
+
+    <nav class="header-nav" id="headerNav" role="navigation" aria-label="Menu principal">
+      <a href="#functions">Funcionalidades</a>
+      <a href="#" class="btn btn-primary header-cta" data-hs-modal>Solicitar demo</a>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════
+         SEÇÃO 1 — HERO
+    ════════════════════════════════════════════ -->
+    <section class="hero" id="hero" aria-label="Apresentação">
+      <!-- Background Video -->
+      <div class="hero-video-container" aria-hidden="true">
+        <video id="heroVideo" muted playsinline loop preload="none" class="hero-video" aria-hidden="true">
+          <source data-src="video1.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- Dot grid overlay -->
+      <div class="hero-dot-grid" aria-hidden="true"></div>
+
+      <!-- Radial glow -->
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="hero-content">
+
+          <h1 class="hero-title" id="heroTitle">
+            <span class="line-wrap">
+              <span class="line-inner">
+                Conecte toda a operação em um único sistema
+              </span>
+            </span>
+          </h1>
+
+          <p class="hero-subtitle p-large" id="heroSubtitle">
+            Financeiro, rede, atendimento, contratos, estoque e cobrança funcionando de forma integrada para evitar
+            retrabalho e acelerar a tomada de decisão.
+          </p>
+
+          <div class="hero-actions" id="heroActions">
+            <a href="#" class="btn btn-primary" id="heroCta" data-hs-modal>
+              Conhecer o IXC Provedor
+            </a>
+            <a href="#functions" class="btn btn-shimmer" id="heroSecondary">
+              Ver funcionalidades
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="hero-scroll" id="heroScroll" aria-hidden="true">
+        <span class="hero-scroll-text">Role para baixo</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SEÇÃO 2 — AUTHORITY
+    ════════════════════════════════════════════ -->
+    <section class="authority section-py" id="authority" aria-label="Autoridade">
+
+      <!-- Radial glow background -->
+      <div class="authority-glow" aria-hidden="true"></div>
+
+      <!-- Abstract SVG network decoration -->
+      <div class="authority-network" aria-hidden="true">
+        <svg viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg" class="network-svg">
+          <circle cx="300" cy="200" r="3" fill="#00FEE4" opacity="0.6" class="net-dot net-dot-1" />
+          <circle cx="160" cy="120" r="2.5" fill="#00FEE4" opacity="0.4" class="net-dot net-dot-2" />
+          <circle cx="440" cy="110" r="2.5" fill="#00FEE4" opacity="0.4" class="net-dot net-dot-3" />
+          <circle cx="100" cy="260" r="2" fill="#3B82F6" opacity="0.4" class="net-dot net-dot-4" />
+          <circle cx="500" cy="280" r="2" fill="#3B82F6" opacity="0.4" class="net-dot net-dot-5" />
+          <circle cx="220" cy="320" r="2" fill="#00FEE4" opacity="0.3" class="net-dot net-dot-6" />
+          <circle cx="380" cy="300" r="2" fill="#00FEE4" opacity="0.3" class="net-dot net-dot-7" />
+          <line x1="300" y1="200" x2="160" y2="120" stroke="#00FEE4" stroke-opacity="0.12" stroke-width="1" />
+          <line x1="300" y1="200" x2="440" y2="110" stroke="#00FEE4" stroke-opacity="0.12" stroke-width="1" />
+          <line x1="300" y1="200" x2="100" y2="260" stroke="#3B82F6" stroke-opacity="0.1" stroke-width="1" />
+          <line x1="300" y1="200" x2="500" y2="280" stroke="#3B82F6" stroke-opacity="0.1" stroke-width="1" />
+          <line x1="300" y1="200" x2="220" y2="320" stroke="#00FEE4" stroke-opacity="0.08" stroke-width="1" />
+          <line x1="300" y1="200" x2="380" y2="300" stroke="#00FEE4" stroke-opacity="0.08" stroke-width="1" />
+          <line x1="160" y1="120" x2="440" y2="110" stroke="#00FEE4" stroke-opacity="0.06" stroke-width="1" />
+          <line x1="100" y1="260" x2="220" y2="320" stroke="#00FEE4" stroke-opacity="0.06" stroke-width="1" />
+          <line x1="500" y1="280" x2="380" y2="300" stroke="#3B82F6" stroke-opacity="0.06" stroke-width="1" />
+        </svg>
+      </div>
+
+      <div class="container">
+        <div class="authority-content">
+          <!-- <span class="authority-eyebrow">AUTORIDADE</span> -->
+          <h2 class="authority-title">
+            O ERP escolhido por mais de <span style="color: var(--cyan)">3.500 provedores</span> no Brasil
+          </h2>
+        </div>
+
+        <!-- Métricas de autoridade inline -->
+        <div class="authority-metrics" id="statsGrid">
+          <div class="metric-item">
+            <span class="stat-number" data-target="19000000" data-prefix="+">+19M</span>
+            <span class="stat-label">Usuários ativos</span>
+          </div>
+          <div class="metric-divider" aria-hidden="true"></div>
+          <div class="metric-item">
+            <span class="stat-number" data-target="51000000" data-prefix="+">+51M</span>
+            <span class="stat-label">Pessoas impactadas</span>
+          </div>
+        </div>
+
+        <div class="authority-award">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex-shrink:0">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+              fill="#00FEE4" opacity="0.85" />
+          </svg>
+          <span><strong>Melhor ERP </strong>por <strong>6 anos</strong> seguidos — Pesquisa Marcas de Destaque | Revista
+            RTI</span>
+        </div>
+
+        <!-- Faixa estática de premiação -->
+        <!-- <div class="marquee-strip" id="marqueeStrip">
+          <div class="marquee-track" id="marqueeTrack">
+            <div class="marquee-item">
+              <img src="assets/icon-award.svg" alt="Prêmio" width="20" height="20" />
+              <span class="marquee-text">ERP mais premiado do setor</span>
+              <span class="marquee-dot"></span>
+            </div>
+            <div class="marquee-item">
+              <img src="assets/icon-award.svg" alt="Prêmio" width="20" height="20" />
+              <span class="marquee-text">ERP mais premiado do setor</span>
+              <span class="marquee-dot"></span>
+            </div>
+            <div class="marquee-item">
+              <img src="assets/icon-award.svg" alt="Prêmio" width="20" height="20" />
+              <span class="marquee-text">ERP mais premiado do setor</span>
+              <span class="marquee-dot"></span>
+            </div>
+          </div>
+        </div> -->
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════
+         SEÇÃO 3 — STATS
+    ════════════════════════════════════════════ -->
+    <!-- <section class="stats-section" id="stats" aria-label="Números">
+      <div class="stats-bg-container" aria-hidden="true">
+        <div class="stats-bg" id="authorityBg"></div>
+        <div class="stats-overlay"></div>
+      </div>
+
+      <div class="container">
+        <div class="stats-grid" id="statsGrid">
+
+          <div class="stat-card">
+            <span class="stat-number" data-target="3500" data-prefix="+">+3.500</span>
+            <span class="stat-label">provedores</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-number" data-target="94000" data-prefix="+">+94.000</span>
+            <span class="stat-label">usuários ativos</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-number" data-target="40000000" data-prefix="+">+40M</span>
+            <span class="stat-label">pessoas impactadas</span>
+          </div>
+
+        </div>
+      </div>
+    </section> -->
+
+    <!-- ═══════════════════════════════════════════
+         SEÇÃO 3 — MANIFESTO
+    ════════════════════════════════════════════ -->
+    <section class="manifesto-section" id="manifesto" aria-label="Declaração de propósito">
+      <div class="container manifesto-container">
+        <div class="manifesto-inner">
+          <p class="manifesto-main" id="manifestoMain">
+            Quando cada setor trabalha separado, toda a operação perde eficiência.
+          </p>
+          <p class="manifesto-support" id="manifestoSupport">
+            Informações duplicadas, retrabalho, processos manuais e dificuldade para acompanhar indicadores fazem o
+            crescimento do provedor ficar mais complexo. O IXC Provedor reúne tudo em uma única plataforma para conectar
+            pessoas, processos e dados.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SEÇÃO 4 — BENTO MODULES
+    ════════════════════════════════════════════ -->
+    <section class="bento-section section-py" id="functions" aria-label="Funcionalidades">
+      <div class="container">
+
+        <div class="bento-header">
+          <h2 class="bento-section-title">Tudo o que seu provedor precisa para operar melhor</h2>
+          <p class="bento-section-subtitle">Automatize processos, acompanhe indicadores em tempo real e conecte todas as
+            áreas da empresa em um único sistema.</p>
+        </div>
+
+        <div class="bento-grid" id="bentoGrid">
+
+          <!-- Card 1: Financeiro -->
+          <div class="bento-card" data-bento-card>
+            <div class="bento-card-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <circle cx="12" cy="12" r="2" />
+                <path d="M6 12h.01M18 12h.01" />
+              </svg>
+            </div>
+            <h3 class="bento-card-title">Financeiro</h3>
+            <p class="bento-card-desc">Contas a pagar com auditoria para controle completo e régua de cobrança com
+              avisos por E-mail e SMS.</p>
+          </div>
+
+          <!-- Card 2: Rede e Monitoramento -->
+          <div class="bento-card" data-bento-card>
+            <div class="bento-card-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="2" />
+                <path
+                  d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.13-2.28a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14" />
+              </svg>
+            </div>
+            <h3 class="bento-card-title">Rede e Monitoramento</h3>
+            <p class="bento-card-desc">Sinal, tempo de atividade e alertas proativos em tempo real.</p>
+          </div>
+
+          <!-- Card 3: Atendimento e OS -->
+          <div class="bento-card" data-bento-card>
+            <div class="bento-card-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                <path d="M12 11h4M12 16h4M8 11h.01M8 16h.01" />
+              </svg>
+            </div>
+            <h3 class="bento-card-title">Atendimento e Ordens de Serviço</h3>
+            <p class="bento-card-desc">Chamados e ordens de serviço com assinatura eletrônica.</p>
+          </div>
+
+          <!-- Card 4: Estoque e Patrimônio -->
+          <div class="bento-card" data-bento-card>
+            <div class="bento-card-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
+            <h3 class="bento-card-title">Estoque e Patrimônio</h3>
+            <p class="bento-card-desc">Controle de equipamentos, almoxarifado e ativos de rede.</p>
+          </div>
+
+          <!-- Card 5: Mobilidade (wide) -->
+          <div class="bento-card bento-card-wide" data-bento-card>
+            <div class="bento-card-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12.01" y2="18" />
+              </svg>
+            </div>
+            <h3 class="bento-card-title">Mobilidade</h3>
+            <p class="bento-card-desc">Todos os recursos da versão desktop direto no seu smartphone ou tablet.</p>
+            <div class="bento-card-badge">iOS + Android</div>
+          </div>
+
+        </div>
+
+        <div class="bento-cta">
+          <a href="#" class="btn btn-primary" data-hs-modal>Ver em ação</a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════
+         SEÇÃO 5 — CTA FINAL
+    ════════════════════════════════════════════ -->
+    <section class="goodbye" id="goodbye" aria-label="Chamada para ação final">
+
+      <div class="goodbye-glow" aria-hidden="true"></div>
+
+      <div class="goodbye-content">
+        <h2 class="goodbye-title" id="goodbyeTitle">
+          Transforme a gestão<br>do seu provedor
+        </h2>
+        <p class="goodbye-desc" id="goodbyeDesc">
+          <strong>Comece hoje.</strong> Converse com um especialista e descubra, na prática, como integrar toda a
+          sua operação e escalar o seu negócio.
+        </p>
+        <div class="goodbye-actions" id="goodbyeActions">
+          <a href="#" class="btn btn-primary" id="goodbyeCta" data-hs-modal>
+            Agendar demonstração gratuita
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <a href="https://ixcsoft.com/">
+        <img src="assets/logo-a-ixc-soft-product.svg" alt="IXCsoft" class="footer-logo" width="120" height="32"
+          loading="lazy" decoding="async" />
+      </a>
+      <p class="footer-copy">© 2026 IXC Soft. Todos os direitos reservados.</p>
+      <nav class="footer-links" aria-label="Links do rodapé">
+        <a href="https://ixcsoft.com/politica-de-privacidade/">Privacidade e Termos de Uso</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       MODAL — FORMULÁRIO HUBSPOT
+  ════════════════════════════════════════════ -->
+  <div class="hs-modal-overlay" id="hsModalOverlay" aria-hidden="true">
+    <div class="hs-modal" id="hsModal" role="dialog" aria-modal="true" aria-label="Solicitar demonstração">
+      <button class="hs-modal-close" id="hsModalClose" aria-label="Fechar">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round">
+          <line x1="1" y1="1" x2="13" y2="13" />
+          <line x1="13" y1="1" x2="1" y2="13" />
+        </svg>
+      </button>
+      <div class="hs-modal-header">
+        <img src="assets/Logo-ixc-provedor.svg" alt="IXC Provedor" class="hs-modal-logo" width="104" height="26"
+          loading="lazy" decoding="async" />
+        <h3 class="hs-modal-title">Agende sua demonstração</h3>
+        <p class="hs-modal-subtitle">Preencha o formulário e nossa equipe entrará em contato em breve.</p>
+      </div>
+      <div id="hsFormContainer">
+        <div class="hs-form-frame" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
+          data-portal-id="50388221"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GSAP + ScrollTrigger (CDN) — defer: non-blocking, executa em ordem após parse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis smooth scroll (CDN) -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" defer></script>
+
+  <!-- App scripts -->
+  <script src="js/animations.js" defer></script>
+  <script src="js/main.js" defer></script>
+
+  <!-- HubSpot: carregado sob demanda ao abrir o modal (ver initHubspotModal) -->
+
+</body>
+
+</html>

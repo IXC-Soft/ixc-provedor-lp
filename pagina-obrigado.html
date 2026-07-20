@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Obrigado — IXC Provedor</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.clarity.ms" />
+  <link rel="dns-prefetch" href="https://www.clarity.ms" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #030712;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    /* ── Layout ── */
+    .ty-page {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(32px, 6vw, 64px) clamp(24px, 6vw, 48px);
+      position: relative;
+      text-align: center;
+    }
+
+    /* ── Glow de fundo ── */
+    .ty-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: clamp(480px, 70vw, 900px);
+      height: clamp(320px, 50vh, 600px);
+      background: radial-gradient(ellipse at center,
+          rgba(0, 91, 102, 0.55) 0%,
+          rgba(0, 164, 183, 0.12) 40%,
+          transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Grade de pontos ── */
+    .ty-dot-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Conteúdo ── */
+    .ty-content {
+      position: relative;
+      z-index: 1;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Badge de sucesso */
+    .ty-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: rgba(0, 254, 228, 0.08);
+      border: 1px solid rgba(0, 254, 228, 0.25);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #00FEE4;
+      margin-bottom: 36px;
+      animation: fade-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    .ty-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #00FEE4;
+      animation: pulse 2.4s ease infinite;
+      flex-shrink: 0;
+    }
+
+    /* Ícone de check */
+    .ty-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(0, 254, 228, 0.07);
+      border: 1px solid rgba(0, 254, 228, 0.2);
+      margin-bottom: 32px;
+      animation: fade-up 0.6s 0.05s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    .ty-check svg {
+      display: block;
+    }
+
+    /* Título */
+    .ty-title {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(160deg, #ffffff 40%, rgba(255, 255, 255, 0.5));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fade-up 0.7s 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    /* Subtítulo */
+    .ty-subtitle {
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.58);
+      max-width: 460px;
+      margin-bottom: 44px;
+      animation: fade-up 0.7s 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    /* Botão shimmer */
+    .ty-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 100px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      animation: fade-up 0.7s 0.26s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    .ty-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(0, 254, 228, 0.12) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.55s ease;
+    }
+
+    .ty-btn:hover {
+      color: #ffffff;
+      border-color: rgba(0, 254, 228, 0.35);
+      background: rgba(0, 254, 228, 0.06);
+    }
+
+    .ty-btn:hover::after {
+      transform: translateX(100%);
+    }
+
+    .ty-btn svg {
+      opacity: 0.6;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .ty-btn:hover svg {
+      opacity: 1;
+      transform: translateX(-2px);
+    }
+
+    /* Logo no topo */
+    .ty-logo {
+      position: fixed;
+      top: 28px;
+      left: clamp(24px, 5vw, 64px);
+      z-index: 10;
+      opacity: 0;
+      animation: fade-in 0.5s 0.05s ease forwards;
+    }
+
+    .ty-logo img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    /* Linha separadora */
+    .ty-divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0, 254, 228, 0.35), transparent);
+      margin: 0 auto 44px;
+      animation: fade-up 0.6s 0.14s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    /* ── Animações ── */
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.35;
+        transform: scale(0.7);
+      }
+    }
+
+    /* ── Responsivo ── */
+    @media (max-width: 480px) {
+
+      html,
+      body {
+        overflow: auto;
+      }
+
+      .ty-page {
+        min-height: 100svh;
+        justify-content: center;
+        padding-top: 80px;
+        padding-bottom: 48px;
+      }
+
+      .ty-check {
+        width: 60px;
+        height: 60px;
+      }
+
+      .ty-badge {
+        margin-bottom: 28px;
+      }
+    }
+  </style>
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">(function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "xpdrvrdas4");</script>
+  <!-- End Microsoft Clarity -->
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-TZ73W9RN');</script>
+  <!-- End Google Tag Manager -->
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZ73W9RN" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Logo -->
+  <a href="index.html" class="ty-logo" aria-label="IXC Provedor — Início">
+    <img src="assets/Logo-ixc-provedor.svg" alt="IXC Provedor" width="144" height="32" />
+  </a>
+
+  <main class="ty-page" role="main">
+
+    <!-- Efeitos de fundo -->
+    <div class="ty-glow" aria-hidden="true"></div>
+    <div class="ty-dot-grid" aria-hidden="true"></div>
+
+    <div class="ty-content">
+
+      <!-- Badge de sucesso -->
+      <div class="ty-badge" role="status" aria-live="polite">
+        <span class="ty-badge-dot" aria-hidden="true"></span>
+        Solicitação enviada
+      </div>
+
+      <!-- Ícone de confirmação -->
+      <div class="ty-check" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00FEE4" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+
+      <!-- Título -->
+      <h1 class="ty-title">Obrigado pelo interesse!</h1>
+
+      <!-- Divisor -->
+      <div class="ty-divider" aria-hidden="true"></div>
+
+      <!-- Subtítulo -->
+      <p class="ty-subtitle">
+        Nossa equipe entrará em contato com você em breve.
+      </p>
+
+      <!-- Botão de retorno -->
+      <a href="index.html" class="ty-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+        Voltar ao início
+      </a>
+
+    </div>
+  </main>
+
+</body>
+
+</html>
