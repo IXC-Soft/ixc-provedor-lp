@@ -447,6 +447,7 @@
       <p class="footer-copy">© 2026 IXC Soft. Todos os direitos reservados.</p>
       <nav class="footer-links" aria-label="Links do rodapé">
         <a href="https://ixcsoft.com/politica-de-privacidade/">Privacidade e Termos de Uso</a>
+        <a href="#" onclick="showCookieBanner(event)">Configurações de cookies</a>
       </nav>
     </div>
   </footer>
@@ -491,6 +492,49 @@
   <script src="js/utm-capture.js" defer></script>
 
   <!-- HubSpot: carregado sob demanda ao abrir o modal (ver initHubspotModal) -->
+
+  <!-- Banner de consentimento de cookies -->
+  <style>
+    #cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#0a0a0a;border-top:1px solid rgba(0,254,228,.35);box-shadow:0 -8px 30px -18px rgba(0,0,0,.8);transform:translateY(110%);transition:transform .4s ease}
+    #cookie-banner.is-visible{transform:translateY(0)}
+    #cookie-banner .cookie-inner{max-width:1200px;margin:0 auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+    #cookie-banner p{margin:0;color:#e6e6e6;font-size:14px;line-height:1.55}
+    #cookie-banner a{color:#00FEE4;text-decoration:underline}
+    #cookie-banner .cookie-actions{display:flex;gap:12px;flex-wrap:wrap;width:100%}
+    #cookie-banner button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:11px 26px;cursor:pointer;border:1px solid transparent;transition:filter .2s ease,background .2s ease}
+    #cookie-banner .cookie-accept{background:#00FEE4;color:#001b18}
+    #cookie-banner .cookie-accept:hover{filter:brightness(1.08)}
+    #cookie-banner .cookie-reject{background:transparent;color:#e6e6e6;border-color:rgba(255,255,255,.25)}
+    #cookie-banner .cookie-reject:hover{background:rgba(255,255,255,.08)}
+    @media(min-width:768px){#cookie-banner .cookie-inner{flex-direction:row;align-items:center;justify-content:space-between;gap:32px}#cookie-banner .cookie-actions{width:auto;flex-shrink:0}}
+  </style>
+  <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
+    <div class="cookie-inner">
+      <p>Utilizamos cookies para melhorar sua experiência, analisar o tráfego e personalizar conteúdo. Ao continuar navegando, você concorda com nossa <a href="https://ixcsoft.com/politica-de-privacidade/" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
+      <div class="cookie-actions">
+        <button type="button" class="cookie-reject" onclick="setCookieConsent('denied')">Rejeitar</button>
+        <button type="button" class="cookie-accept" onclick="setCookieConsent('granted')">Aceitar cookies</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var KEY='ixcprovedor_cookie_consent';
+      var banner=document.getElementById('cookie-banner');
+      function stored(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
+      function open(){banner.classList.add('is-visible');}
+      function close(){banner.classList.remove('is-visible');}
+      window.setCookieConsent=function(status){
+        try{localStorage.setItem(KEY,status);}catch(e){}
+        window.dataLayer=window.dataLayer||[];
+        window.dataLayer.push({event:'cookie_consent',cookie_consent_status:status});
+        if(window._hsp){window._hsp.push(['setHubSpotConsent',status==='granted'?{analytics:true,advertisement:true}:{analytics:false,advertisement:false}]);}
+        close();
+      };
+      window.showCookieBanner=function(e){if(e)e.preventDefault();open();};
+      if(!stored()){setTimeout(open,600);}
+    })();
+  </script>
 
 </body>
 
