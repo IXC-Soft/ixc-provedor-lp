@@ -69,14 +69,10 @@ function initAnchorLinks() {
   });
 }
 
-function initVideo(isTouch) {
-  if (isTouch) return;
+function initVideo() {
   const video = document.getElementById('heroVideo');
   if (!video) return;
-  const source = video.querySelector('source[data-src]');
-  if (!source) return;
-  source.src = source.dataset.src;
-  video.load();
+  // src is declared natively; this is a fallback for browsers that block autoplay
   video.play().catch(() => {});
 }
 
@@ -91,7 +87,7 @@ window.addEventListener('load', () => {
     initHeader();
     initMobileNav();
     initAnchorLinks();
-    initVideo(isTouch);
+    initVideo();
 
     const anim = window.LPAnimations;
 
