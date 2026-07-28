@@ -17,7 +17,7 @@
   <link rel="dns-prefetch" href="https://unpkg.com" />
   <link rel="dns-prefetch" href="https://js.hsforms.net" />
 
-  <!-- Fontes: carregamento assíncrono para não bloquear render no mobile -->
+  <!-- Fontes: assíncrono (display=swap já declarado); fallback métrico definido inline abaixo -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     as="style" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript>
@@ -28,10 +28,48 @@
   <!-- Favicon placeholder (evita 404 no console) -->
   <link rel="icon" type="image/x-icon" href="data:image/x-icon;," />
 
-  <!-- CSS crítico inline: garante loader visível antes do stylesheet async -->
+  <!-- CSS crítico inline: estabilizadores de layout + fallback métrico da fonte -->
   <style>
+    /*
+     * Font metric override: fallback para Inter enquanto a web font carrega.
+     * Valores calculados via fontaine para Inter → Arial:
+     *   size-adjust escala o Arial para a largura média dos glifos do Inter;
+     *   ascent/descent/line-gap-override igualam as métricas de line-box,
+     *   eliminando o reflow quando o swap acontece.
+     */
+    @font-face {
+      font-family: 'Inter Fallback';
+      src: local('Arial');
+      ascent-override: 90.49%;
+      descent-override: 22.56%;
+      line-gap-override: 0%;
+      size-adjust: 107.06%;
+    }
+
     :root {
       --black: #000000;
+    }
+
+    /*
+     * Estabilizadores críticos de layout.
+     * Garantem que hero e header não mudem de tamanho/posição antes de
+     * styles.css terminar de parsear (janela de ~0-50 ms numa conexão lenta).
+     */
+    body {
+      background-color: #030712;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      z-index: 100;
+    }
+
+    .hero {
+      min-height: 100svh;
     }
 
     .page-loader {
@@ -72,11 +110,8 @@
     }
   </style>
 
-  <!-- Styles: preload async para não bloquear render -->
-  <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript>
-    <link rel="stylesheet" href="css/styles.css" />
-  </noscript>
+  <!-- Styles: bloqueante (arquivo local pequeno; custo de bloqueio < CLS causado pelo async) -->
+  <link rel="stylesheet" href="css/styles.css" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="IXC Provedor — Um único sistema para seu provedor" />
@@ -476,9 +511,11 @@
     </div>
   </div>
 
-  <!-- GSAP + ScrollTrigger (CDN) — defer: non-blocking, executa em ordem após parse -->
+  <!-- GSAP (CDN) — defer: non-blocking, executa em ordem após parse -->
+  <!-- ScrollTrigger removido: não é utilizado no projeto (animations.js usa IntersectionObserver).
+       A lib se auto-registra no GSAP ao carregar e roda refresh() internamente, causando
+       ~48 ms de forced reflow antes do window.load mesmo sem nenhum ScrollTrigger.create(). -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
   <!-- Lenis smooth scroll (CDN) -->
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" defer></script>
