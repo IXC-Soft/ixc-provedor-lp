@@ -1,3 +1,13 @@
+/* Font metric override — fallback para Inter, minimiza reflow no swap */
+@font-face {
+    font-family: 'Inter Fallback';
+    src: local('Arial');
+    ascent-override: 90.49%;
+    descent-override: 22.56%;
+    line-gap-override: 0%;
+    size-adjust: 107.06%;
+}
+
 :root {
     --black: #000000;
     --space-950: #030712;
@@ -7,7 +17,7 @@
     --cyan-100: #00FEE4;
     --cyan-200: #00E8D9;
     --dark-blue-700: #030712;
-    --font-body: 'Inter', sans-serif;
+    --font-body: 'Inter', 'Inter Fallback', sans-serif;
     --fs-h1: clamp(2.8rem, 5.5vw, 5rem);
     --fs-h2: clamp(2rem, 3.5vw, 3.2rem);
     --fs-h3: clamp(1.3rem, 2vw, 1.6rem);
