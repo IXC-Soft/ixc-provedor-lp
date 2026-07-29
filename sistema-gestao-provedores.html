@@ -580,16 +580,27 @@
       </div>
       <div id="hsFormContainer">
         <!--
-          Embed CLASSICO (hs-form-frame, iframe).
-          A variante "developer" (hs-form-html) renderiza inline e permitiria preencher
-          campos ocultos pela pagina — mas gera classes hsfc-* em vez de hs-input /
-          hs-form-field / form-columns-2, e as 54 regras de CSS desta LP foram escritas
-          para o embed classico. Resultado: formulario sem estilo, estreito no mobile.
-          Se um dia migrar para o developer, o CSS precisa ser reescrito para hsfc-*
-          ANTES da troca.
-          Captura de UTM: ver js/utm-capture.js e o tracking code do HubSpot abaixo.
+          Embed INLINE (hs-form-html, "developer").
+
+          Por que inline e nao o iframe: o iframe e cross-origin, entao o
+          js/utm-capture.js NAO alcanca os campos ocultos e nenhuma UTM chega ao
+          HubSpot. Inline, os campos existem no DOM desta pagina — verificado na
+          definicao do formulario: 0-1/var_utm_source, _medium, _campaign,
+          _content, _term e 0-1/var_ad_id sao <input type="hidden"> reais.
+
+          O CSS para as classes hsfc-* que este embed gera esta em css/styles.css
+          (secao "EMBED INLINE"), escrito pelas 106 variaveis --hsf-* que o
+          HubSpot expoe como API de estilo. As regras hs-* antigas foram MANTIDAS
+          de proposito: se a definicao SSR falhar, este mesmo script troca a
+          classe para hs-form-frame e carrega o embed classico — as regras
+          antigas sao o caminho de contingencia.
+
+          Ainda faltam, e sao trabalho no editor do HubSpot (nao aqui):
+          os campos ocultos var_gads_keyword, var_gads_ad_id e var_gads_campaign
+          (o utm-capture.js ja captura os valores e as propriedades ja existem no
+          portal); e definir quem preenche 0-1/criativo_url, hoje orfao.
         -->
-        <div class="hs-form-frame" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
+        <div class="hs-form-html" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
           data-portal-id="50388221"></div>
       </div>
     </div>

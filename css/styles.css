@@ -1477,6 +1477,238 @@ p {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   FORMULÁRIO HUBSPOT — EMBED INLINE (v4, classes hsfc-*)
+   ═══════════════════════════════════════════════════════════════════════
+
+   Por que este bloco existe
+   -------------------------
+   O embed inline (`hs-form-html`) renderiza o formulário no DOM da página, o
+   que permite ao js/utm-capture.js preencher os campos ocultos de UTM. Com o
+   embed clássico (iframe) isso é impossível: cross-origin. Sem este bloco, o
+   inline sobe sem estilo, porque as regras acima são escritas para as classes
+   do embed clássico (hs-input, hs-form-field, form-columns-2, hs-button).
+
+   Por que as regras `hs-*` acima NÃO foram removidas
+   --------------------------------------------------
+   O script do embed inline tem fallback: se a definição SSR do formulário
+   falhar, ele troca a classe de `hs-form-html` para `hs-form-frame` e carrega
+   o embed clássico. As regras acima são o caminho de contingência — apagá-las
+   deixaria o formulário sem estilo justamente no dia em que a API do HubSpot
+   estivesse instável.
+
+   Por que variáveis CSS e não sobrescrita de classe
+   -------------------------------------------------
+   O HubSpot v4 expõe 106 variáveis `--hsf-*` como API de estilo, consumidas no
+   padrão `var(--hsf-X, var(--hsf-default-X))`. Definir a variável é a forma
+   documentada e estável; sobrescrever `.hsfc-*` depende de nome de classe
+   interna, que muda sem aviso. Abaixo, variável para tudo que ela cobre e
+   sobrescrita de classe só para o que não é exposto (foco, painel do dropdown,
+   altura do textarea, ícone do telefone).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+#hsFormContainer .hs-form-html,
+#hsFormContainer [data-hsfc-id="Renderer"] {
+    /* Base: uma variável global resolve fonte e cor em todos os módulos */
+    --hsf-global__font-family: var(--font-body);
+    --hsf-global__font-size: var(--fs-p);
+    --hsf-global__color: var(--white);
+    --hsf-global__error-color: #ff7b7b;
+
+    /* O formulário vive dentro do modal da LP, que já tem fundo e padding.
+       O padrão do HubSpot é fundo escuro opaco + 40px — daria caixa na caixa. */
+    --hsf-background__background-color: transparent;
+    --hsf-background__background-image: none;
+    --hsf-background__border-style: none;
+    --hsf-background__border-width: 0;
+    --hsf-background__border-radius: 0;
+    --hsf-background__padding: 0;
+
+    /* Espaçamento: substitui o grid manual de .form-columns-2 — o Row do
+       HubSpot já distribui as colunas, só precisa do gap certo. */
+    --hsf-row__horizontal-spacing: var(--space-3);
+    --hsf-row__vertical-spacing: var(--space-3);
+    --hsf-module__vertical-spacing: 6px;
+
+    /* Rótulos */
+    --hsf-field-label__color: rgba(255, 255, 255, 0.65);
+    --hsf-field-label__font-size: var(--fs-small);
+    --hsf-field-label-requiredindicator__color: var(--cyan-100);
+
+    /* Campos de texto */
+    --hsf-field-input__background-color: rgba(255, 255, 255, 0.05);
+    --hsf-field-input__border-color: rgba(0, 254, 228, 0.18);
+    --hsf-field-input__border-style: solid;
+    --hsf-field-input__border-width: 1px;
+    --hsf-field-input__border-radius: var(--radius-sm);
+    --hsf-field-input__color: var(--white);
+    --hsf-field-input__padding: 11px 14px;
+    --hsf-field-input__placeholder-color: rgba(255, 255, 255, 0.22);
+
+    /* Textarea espelha o campo de texto */
+    --hsf-field-textarea__background-color: rgba(255, 255, 255, 0.05);
+    --hsf-field-textarea__border-color: rgba(0, 254, 228, 0.18);
+    --hsf-field-textarea__border-style: solid;
+    --hsf-field-textarea__border-width: 1px;
+    --hsf-field-textarea__border-radius: var(--radius-sm);
+    --hsf-field-textarea__color: var(--white);
+    --hsf-field-textarea__padding: 11px 14px;
+    --hsf-field-textarea__placeholder-color: rgba(255, 255, 255, 0.22);
+
+    /* Caixas de seleção e rádio */
+    --hsf-field-checkbox__background-color: rgba(255, 255, 255, 0.05);
+    --hsf-field-checkbox__border-color: rgba(0, 254, 228, 0.18);
+    --hsf-field-checkbox__border-style: solid;
+    --hsf-field-checkbox__border-width: 1px;
+    --hsf-field-checkbox__color: var(--cyan-200);
+    --hsf-field-radio__background-color: rgba(255, 255, 255, 0.05);
+    --hsf-field-radio__border-color: rgba(0, 254, 228, 0.18);
+    --hsf-field-radio__border-style: solid;
+    --hsf-field-radio__border-width: 1px;
+    --hsf-field-radio__color: var(--cyan-200);
+
+    /* Botão */
+    --hsf-button__background-color: var(--cyan-200);
+    --hsf-button__background-image: none;
+    --hsf-button__color: var(--dark-blue-700);
+    --hsf-button__border-style: none;
+    --hsf-button__border-width: 0;
+    --hsf-button__border-radius: var(--radius-pill);
+    --hsf-button__padding: 14px 32px;
+    --hsf-button__font-weight: 700;
+    --hsf-button__font-size: 1rem;
+    --hsf-button__width: 100%;
+    --hsf-button--hover__background-color: var(--cyan-100);
+    --hsf-button--hover__color: var(--dark-blue-700);
+    --hsf-button--focus__background-color: var(--cyan-100);
+    --hsf-button--focus__color: var(--dark-blue-700);
+
+    /* Textos auxiliares */
+    --hsf-erroralert__color: #ff7b7b;
+    --hsf-erroralert__font-size: 0.78rem;
+    --hsf-infoalert__color: var(--cyan-100);
+    --hsf-richtext__color: rgba(255, 255, 255, 0.55);
+    --hsf-richtext__font-size: 0.78rem;
+    --hsf-field-description__color: rgba(255, 255, 255, 0.45);
+    --hsf-field-description__font-size: 0.78rem;
+    --hsf-field-footer__color: rgba(255, 255, 255, 0.45);
+    --hsf-field-footer__font-size: 0.78rem;
+    --hsf-heading__color: var(--white);
+    --hsf-heading__text-shadow: none;
+    --hsf-field-dropdown-options__border-radius: var(--radius-sm);
+}
+
+/* ── Abaixo: só o que as variáveis não expõem ────────────────────────── */
+
+/* Foco. Não há variável `--hsf-field-input--focus__*`, e o anel de foco é
+   requisito de acessibilidade, não enfeite. */
+#hsFormContainer .hsfc-TextInput:focus,
+#hsFormContainer .hsfc-TextareaInput:focus,
+#hsFormContainer .hsfc-DropdownInput:focus,
+#hsFormContainer .hsfc-PhoneInput:focus,
+#hsFormContainer .hsfc-DateInput:focus,
+#hsFormContainer .hsfc-FileInput:focus {
+    border-color: var(--cyan-100);
+    box-shadow: 0 0 0 3px rgba(0, 254, 228, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    outline: none;
+}
+
+/* Altura mínima do textarea — sem variável equivalente */
+#hsFormContainer .hsfc-TextareaInput {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Painel do dropdown: só o raio é exposto por variável. Sem isto a lista
+   abre em fundo claro sobre a LP escura, com texto quase ilegível. */
+#hsFormContainer .hsfc-DropdownOptions,
+#hsFormContainer .hsfc-DropdownOptions__List {
+    background: var(--dark-blue-700);
+    border: 1px solid rgba(0, 254, 228, 0.18);
+    color: var(--white);
+}
+
+#hsFormContainer .hsfc-DropdownOptions__List__ListItem {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+#hsFormContainer .hsfc-DropdownOptions__List__ListItem--selected,
+#hsFormContainer .hsfc-DropdownOptions__List__ListItem:hover {
+    background: rgba(0, 254, 228, 0.12);
+    color: var(--white);
+}
+
+/* Seta do dropdown e bandeira do telefone herdam a cor do tema claro */
+#hsFormContainer .hsfc-DropdownInput__Caret svg,
+#hsFormContainer .hsfc-PhoneInput__FlagAndCaret__Caret svg {
+    fill: var(--cyan-100);
+    stroke: var(--cyan-100);
+}
+
+/* Botão: as variáveis dão cor, raio e largura; o realce de interação da LP
+   (escala + glow) não é exposto. */
+#hsFormContainer .hsfc-Button {
+    transition: all 0.25s var(--ease-out);
+}
+
+#hsFormContainer .hsfc-Button:hover:not(:disabled) {
+    filter: brightness(1.08);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-glow);
+}
+
+#hsFormContainer .hsfc-Button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* A linha de navegação usa flex; para o botão ocupar a largura toda ele
+   precisa crescer, e `--hsf-button__width` sozinho não vence o flex. */
+#hsFormContainer .hsfc-NavigationRow__Buttons {
+    width: 100%;
+}
+
+#hsFormContainer .hsfc-NavigationRow__Buttons .hsfc-Button {
+    flex: 1 1 auto;
+}
+
+/* Mensagem de sucesso — equivalente ao .submitted-message do embed clássico */
+#hsFormContainer .hsfc-PostSubmit,
+#hsFormContainer .hsfc-PostSubmit .hsfc-RichText {
+    text-align: center;
+    color: var(--cyan-100);
+    font-size: var(--fs-p-large);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* reCAPTCHA: widget de largura fixa (304px) que estoura em telas estreitas */
+#hsFormContainer .hsfc-ReCaptchaV2 {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+/* Links dentro do texto de consentimento */
+#hsFormContainer .hsfc-RichText a,
+#hsFormContainer .hsfc-DataPrivacyField a {
+    color: var(--cyan-100);
+    text-decoration: underline;
+}
+
+/* Empilha as colunas no mobile: o Row do HubSpot mantém as colunas lado a
+   lado, o que aperta os campos abaixo de 480px. */
+@media (max-width: 480px) {
+    #hsFormContainer .hsfc-Row {
+        flex-direction: column;
+    }
+
+    #hsFormContainer .hsfc-Step__Content {
+        --hsf-row__horizontal-spacing: 0px;
+    }
+}
+
 @media (max-width: 480px) {
     .authority-award {
         justify-content: flex-start;
