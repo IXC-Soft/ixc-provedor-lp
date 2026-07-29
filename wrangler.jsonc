@@ -5,10 +5,41 @@
   "observability": {
     "enabled": true
   },
+
+  // Coleta própria: o Worker atende /api/collect e repassa todo o resto para os
+  // assets estáticos da LP. Mesmo deploy, mesma origem, nenhum serviço novo
+  // para manter no ar — se a LP está no ar, o endpoint está no ar.
+  "main": "worker/index.js",
+
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+
+    // O roteamento normal é "asset primeiro": se o caminho casa com um arquivo,
+    // ele é servido SEM invocar o Worker. Para estes caminhos isso é inaceitável
+    // — foi assim que `/.git/config` respondeu 200 em produção. Forçando o Worker
+    // a rodar antes, a lista BLOQUEADOS do worker/index.js passa a valer mesmo se
+    // o arquivo tiver sido publicado como asset.
+    "run_worker_first": [
+      "/api/*",
+      "/.git/*",
+      "/.wrangler/*",
+      "/worker/*",
+      "/node_modules/*",
+      "/wrangler.jsonc",
+      "/.assetsignore",
+      "/.gitignore",
+      "/package.json",
+      "/package-lock.json"
+    ]
   },
   "compatibility_flags": [
     "nodejs_compat"
   ]
+
+  // Segredos NÃO ficam neste arquivo. São secrets do Worker:
+  //   wrangler secret put META_CAPI_TOKEN
+  //   wrangler secret put COLLECT_SHARED_SECRET
+  //   wrangler secret put GA4_API_SECRET          (só para o MQL vindo do n8n)
+  //   wrangler secret put META_TEST_EVENT_CODE    (só durante o teste)
 }
