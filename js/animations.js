@@ -108,6 +108,9 @@ function initHubspotModal() {
     if (hsLoaded) return;
     hsLoaded = true;
     const s = document.createElement('script');
+    // Embed CLASSICO (iframe). O CSS da LP (54 regras) e escrito para as classes
+    // hs-input / hs-form-field / form-columns-2 / hs-button do embed classico.
+    // O embed "developer" gera classes hsfc-* e deixa o form sem estilo — ver HTML.
     s.src = 'https://js.hsforms.net/forms/embed/50388221.js';
     document.head.appendChild(s);
   }
