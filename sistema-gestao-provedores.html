@@ -16,6 +16,24 @@
   <link rel="dns-prefetch" href="https://www.clarity.ms" />
   <link rel="dns-prefetch" href="https://unpkg.com" />
   <link rel="dns-prefetch" href="https://js.hsforms.net" />
+  <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
+
+  <!--
+    Consentimento do HubSpot — DEVE vir antes do tracking code.
+    Default negado: sem escolha registrada, nada de analytics/anúncio.
+    Também reaplica a escolha já persistida, que antes só era enviada no clique do
+    banner e se perdia nas visitas seguintes.
+  -->
+  <script>
+    window._hsp = window._hsp || [];
+    (function () {
+      var granted = false;
+      try { granted = localStorage.getItem('ixcprovedor_cookie_consent') === 'granted'; } catch (e) { }
+      window._hsp.push(['setHubSpotConsent', {
+        analytics: granted, advertisement: granted, functionality: granted
+      }]);
+    })();
+  </script>
 
   <!-- Fontes: assíncrono (display=swap já declarado); fallback métrico definido inline abaixo -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -506,7 +524,16 @@
         <p class="hs-modal-subtitle">Preencha o formulário e nossa equipe entrará em contato em breve.</p>
       </div>
       <div id="hsFormContainer">
-        <div class="hs-form-frame" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
+        <!--
+          hs-form-html (embed "developer") em vez de hs-form-frame (embed padrão).
+          O embed padrão renderiza o formulário DENTRO DE UM IFRAME de outra origem, e por
+          isso nenhum script da página alcança os campos ocultos — era a causa de as UTMs
+          nunca chegarem ao HubSpot. A variante developer busca a definição SSR e injeta o
+          HTML inline, deixando os inputs acessíveis a js/utm-capture.js.
+          Atenção: se o fetch da definição falhar, o próprio embed faz fallback para
+          hs-form-frame (iframe) — utm-capture.js detecta e avisa no console.
+        -->
+        <div class="hs-form-html" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
           data-portal-id="50388221"></div>
       </div>
     </div>
@@ -527,6 +554,16 @@
 
   <!-- Captura de UTMs → campos ocultos do formulário HubSpot -->
   <script src="js/utm-capture.js" defer></script>
+
+  <!--
+    Tracking code do HubSpot. Sem ele o portal não tem sessão, e por consequência:
+    todo lead de formulário entra como OFFLINE, as propriedades nativas de click id
+    (hs_google_click_id, hs_facebook_click_id, hs_linkedin_click_id) nunca são
+    preenchidas, o "local de conversão" não é registrado e a submissão chega sem o
+    cookie hubspotutk — um dos sinais que levam a proteção anti-spam a descartar o lead.
+    async + defer: não bloqueia render; o consentimento já foi definido no <head>.
+  -->
+  <script id="hs-script-loader" async defer src="https://js.hs-scripts.com/50388221.js"></script>
 
   <!-- HubSpot: carregado sob demanda ao abrir o modal (ver initHubspotModal) -->
 
@@ -561,15 +598,24 @@
       function stored(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
       function open(){banner.classList.add('is-visible');}
       function close(){banner.classList.remove('is-visible');}
-      window.setCookieConsent=function(status){
-        try{localStorage.setItem(KEY,status);}catch(e){}
+      function apply(status){
+        var granted = status === 'granted';
         window.dataLayer=window.dataLayer||[];
         window.dataLayer.push({event:'cookie_consent',cookie_consent_status:status});
-        if(window._hsp){window._hsp.push(['setHubSpotConsent',status==='granted'?{analytics:true,advertisement:true}:{analytics:false,advertisement:false}]);}
+        window._hsp=window._hsp||[];
+        window._hsp.push(['setHubSpotConsent',{analytics:granted,advertisement:granted,functionality:granted}]);
+      }
+      window.setCookieConsent=function(status){
+        try{localStorage.setItem(KEY,status);}catch(e){}
+        apply(status);
         close();
       };
       window.showCookieBanner=function(e){if(e)e.preventDefault();open();};
-      if(!stored()){setTimeout(open,600);}
+      // Reaplica a escolha já registrada. Antes, o consentimento só era enviado no
+      // clique do banner: quem já tinha decidido voltava sem sinal nenhum, e o GTM
+      // nunca recebia cookie_consent nas visitas seguintes.
+      var s=stored();
+      if(s){apply(s);}else{setTimeout(open,600);}
     })();
   </script>
 
