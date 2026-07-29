@@ -62,8 +62,12 @@
     });
   }
 
+  var filled = false;
+
   function fillAll() {
-    scope.querySelectorAll('form').forEach(function (f) {
+    var forms = scope.querySelectorAll('form');
+    if (forms.length) filled = true;
+    forms.forEach(function (f) {
       fill(f);
       if (!f._attrBound) {
         f._attrBound = true;
@@ -72,7 +76,30 @@
     });
   }
 
+  /**
+   * Detecção de degradação — não deixa a falha ser silenciosa.
+   *
+   * O embed "developer" (.hs-form-html) injeta o formulário inline e tudo funciona.
+   * Mas se a definição SSR falhar, o próprio embed troca a classe para .hs-form-frame
+   * e cai para IFRAME de outra origem. Nesse caso nenhum querySelector daqui alcança
+   * os campos, e as UTMs param de chegar ao HubSpot — exatamente a falha que esta
+   * página teve por meses, sem nenhum sinal visível.
+   */
+  function verificarDegradacao() {
+    if (filled) return;
+    var alvo = scope === document ? document : scope;
+    if (alvo.querySelector('iframe') && !alvo.querySelector('form')) {
+      console.warn(
+        '[utm-capture] O formulário HubSpot renderizou em IFRAME (fallback do embed). ' +
+        'Os campos ocultos NÃO serão preenchidos por esta página. ' +
+        'Verifique se o script carregado é o /forms/embed/developer/ e se o container ' +
+        'usa a classe hs-form-html.'
+      );
+    }
+  }
+
   new MutationObserver(fillAll).observe(scope === document ? document.body : scope,
     { childList: true, subtree: true });
   [300, 800, 1500, 3000, 5000].forEach(function (t) { setTimeout(fillAll, t); });
+  setTimeout(verificarDegradacao, 6000);
 })();

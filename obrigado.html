@@ -13,6 +13,19 @@
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="preconnect" href="https://www.clarity.ms" />
   <link rel="dns-prefetch" href="https://www.clarity.ms" />
+  <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
+
+  <!-- Consentimento do HubSpot — antes do tracking code. Ver LP para o racional. -->
+  <script>
+    window._hsp = window._hsp || [];
+    (function () {
+      var granted = false;
+      try { granted = localStorage.getItem('ixcprovedor_cookie_consent') === 'granted'; } catch (e) { }
+      window._hsp.push(['setHubSpotConsent', {
+        analytics: granted, advertisement: granted, functionality: granted
+      }]);
+    })();
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
@@ -314,6 +327,13 @@
           'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-TZ73W9RN');</script>
   <!-- End Google Tag Manager -->
+
+  <!--
+    Tracking code do HubSpot. Nesta página ele é o que registra o "local de conversão"
+    e fecha a sessão do visitante no CRM — sem ele o HubSpot nunca vê a página de
+    obrigado e o contato fica sem origem.
+  -->
+  <script id="hs-script-loader" async defer src="https://js.hs-scripts.com/50388221.js"></script>
 </head>
 
 <body>
