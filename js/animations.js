@@ -108,10 +108,7 @@ function initHubspotModal() {
     if (hsLoaded) return;
     hsLoaded = true;
     const s = document.createElement('script');
-    // Variante "developer": renderiza o form inline (innerHTML) em .hs-form-html.
-    // O embed padrão (sem /developer/) usa iframe cross-origin e torna impossível
-    // preencher campo oculto pela página — ver comentário no HTML do #hsFormContainer.
-    s.src = 'https://js.hsforms.net/forms/embed/developer/50388221.js';
+    s.src = 'https://js.hsforms.net/forms/embed/50388221.js';
     document.head.appendChild(s);
   }
 
