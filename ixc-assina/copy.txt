@@ -1,0 +1,53 @@
+[ SEÇÃO 1: HERO (Dobra Principal) ] 
+Título (Headline):Ative clientes mais rápido com assinatura digital 
+Subtítulo: Crie, envie e acompanhe contratos digitais com validade jurídica. 
+Botão (CTA): Comece agora mesmo
+
+[ SEÇÃO 2:] 
+Título: Menos papel. Menos espera. Mais contratos concluídos
+item 1: Contratação mais rápida. 
+Envie contratos por WhatsApp ou e-mail e permita que o cliente assine pelo celular, computador ou tablet.
+item 2: Mais produtividade. 
+Elimine impressão, deslocamentos e coleta manual de assinaturas.
+item 3: Tudo rastreado. 
+Acompanhe cada documento em tempo real e saiba exatamente em que etapa ele está.
+
+[ SEÇÃO 3: ] 
+Título: Assinar um contrato leva poucos minutos
+Item 1: Crie o documento
+Direto na plataforma ou integrado ao IXC Provedor. 
+Item 2: Envie o link
+Compartilhe o documento por WhatsApp ou e-mail
+Item 3: Receba a assinatura
+A assinatura pode ser feita pelo celular, computador ou tablet.
+Item 4: Acompanhe o andamento
+Visualize o histórico completo das atividades através do painel.
+Item 5: Cliente ativado
+
+[ SEÇÃO 4: ] 
+Título: Integrado ao IXC Provedor. Do contrato à ativação sem retrabalho
+Descrição: Quando integrado ao IXC Provedor, o IXC Assina automatiza a etapa seguinte da contratação. Assim que o contrato é assinado, o processo de ativação pode seguir automaticamente, reduzindo tarefas manuais e acelerando a instalação do cliente.
+Botão (CTA): Testar agora
+
+[ SEÇÃO 5: ] 
+Título: Todos os documentos organizados em um único painel
+Descrição: Visualize documentos por status, acompanhe históricos completos, filtre informações por período ou origem e organize permissões por equipes e usuários.
+Item 1: Histórico completo
+Item 2: Dashboard em tempo real
+Item 3: Controle de usuários
+Item 4: Workspace centralizado
+Item 5: Filtros inteligentes
+
+[ SEÇÃO 6: ] 
+Título: Segurança para você. Confiança para o seu cliente
+Descrição: Cada assinatura reúne evidências que comprovam autenticidade, integridade e rastreabilidade do processo, seguindo os requisitos da Lei nº 14.063/2020 para assinaturas eletrônicas avançadas.
+Item 1: Certificado ICP-Brasil
+Item 2: Selfie com detecção facial
+Item 3: Comparação facial
+Item 4: Geolocalização, IP e dispositivo
+Item 5: Armazenamento seguro
+
+[ SEÇÃO 7: ] 
+Título: Simplifique a contratação de clientes do seu provedor
+Descrição: Crie contratos digitais, acompanhe assinaturas em tempo real e automatize etapas da contratação com integração ao IXC Provedor.
+Botão (CTA): Comece agora mesmo

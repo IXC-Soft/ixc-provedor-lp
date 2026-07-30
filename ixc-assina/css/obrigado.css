@@ -1,0 +1,321 @@
+/* -------------------------------------------------------------
+   ASSINA - THANK YOU PAGE CSS SPECIFIC STYLES
+   ------------------------------------------------------------- */
+
+.thankyou-section {
+    padding: 5rem 0 7rem;
+    background-color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background glow sutil para transmitir sofisticação tecnológica */
+.thankyou-section::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 161, 154, 0.08) 0%, transparent 70%);
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.thankyou-section .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ícone de Sucesso Premium e Animado */
+.success-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(135deg, rgba(0, 161, 154, 0.15) 0%, rgba(33, 71, 132, 0.05) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    box-shadow: 0 10px 30px -10px rgba(0, 161, 154, 0.3);
+    animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.success-icon-wrapper::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    border: 2px dashed rgba(0, 161, 154, 0.3);
+    animation: rotateSlow 25s linear infinite;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes rotateSlow {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.thankyou-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.thankyou-title span {
+    color: var(--color-primary);
+}
+
+.thankyou-desc {
+    font-size: 1.15rem;
+    color: var(--color-text);
+    margin-bottom: 4rem;
+    max-width: 720px;
+    line-height: 1.7;
+}
+
+/* Grid de Próximos Passos */
+.steps-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-primary);
+    margin-bottom: 2.25rem;
+}
+
+.thankyou-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    width: 100%;
+    margin-bottom: 4.5rem;
+    text-align: left;
+}
+
+.thankyou-step-card {
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2.25rem;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.thankyou-step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: transparent;
+    transition: var(--transition-smooth);
+}
+
+.thankyou-step-card:hover {
+    transform: translateY(-6px);
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(0, 161, 154, 0.2);
+}
+
+.thankyou-step-card:hover::before {
+    background-color: var(--color-primary);
+}
+
+.thankyou-step-card:nth-child(even):hover::before {
+    background-color: var(--color-secondary);
+}
+
+.thankyou-step-card .step-card-num {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(33, 71, 132, 0.04);
+    line-height: 1;
+    transition: var(--transition-smooth);
+    user-select: none;
+}
+
+.thankyou-step-card:hover .step-card-num {
+    color: rgba(0, 161, 154, 0.08);
+}
+
+.step-card-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-md);
+    background-color: rgba(0, 161, 154, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-size: 1.85rem;
+    margin-bottom: 2rem;
+    transition: var(--transition-smooth);
+}
+
+.thankyou-step-card:nth-child(even) .step-card-icon-wrapper {
+    background-color: rgba(33, 71, 132, 0.05);
+    color: var(--color-secondary);
+}
+
+.thankyou-step-card:hover .step-card-icon-wrapper {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: var(--shadow-primary);
+}
+
+.thankyou-step-card:nth-child(even):hover .step-card-icon-wrapper {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    box-shadow: 0 8px 24px -6px rgba(33, 71, 132, 0.3);
+}
+
+.thankyou-step-card h3 {
+    font-size: 1.25rem;
+    color: var(--color-secondary);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.thankyou-step-card p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+.thankyou-cta-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* RESPONSIVIDADE ADICIONAL */
+@media (max-width: 1024px) {
+    .thankyou-title {
+        font-size: 2.5rem;
+    }
+    
+    .thankyou-steps-grid {
+        gap: 1.5rem;
+    }
+    
+    .thankyou-step-card {
+        padding: 2.25rem 1.75rem;
+    }
+}
+
+@media (max-width: 810px) {
+    .thankyou-section {
+        padding: 4rem 0 5rem;
+    }
+    
+    .thankyou-steps-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 520px;
+    }
+    
+    .thankyou-step-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.75rem;
+        padding: 2rem;
+    }
+    
+    .step-card-icon-wrapper {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+    
+    .thankyou-step-card h3 {
+        margin-bottom: 0.25rem;
+    }
+    
+    .thankyou-step-card .step-card-num {
+        top: 50%;
+        transform: translateY(-50%);
+        right: 2rem;
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .thankyou-title {
+        font-size: 2.15rem;
+    }
+    
+    .thankyou-desc {
+        font-size: 1rem;
+        margin-bottom: 3rem;
+    }
+    
+    .thankyou-step-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.75rem 1.5rem;
+        gap: 0;
+    }
+    
+    .thankyou-step-card .step-card-num {
+        display: none;
+    }
+    
+    .step-card-icon-wrapper {
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+        border-radius: var(--radius-sm);
+        margin-bottom: 1.25rem;
+    }
+    
+    .thankyou-step-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .thankyou-step-card p {
+        font-size: 0.85rem;
+        width: 100%;
+    }
+}
