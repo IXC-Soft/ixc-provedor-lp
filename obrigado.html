@@ -13,6 +13,19 @@
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="preconnect" href="https://www.clarity.ms" />
   <link rel="dns-prefetch" href="https://www.clarity.ms" />
+  <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
+
+  <!-- Consentimento do HubSpot — antes do tracking code. Ver LP para o racional. -->
+  <script>
+    window._hsp = window._hsp || [];
+    (function () {
+      var granted = false;
+      try { granted = localStorage.getItem('ixcprovedor_cookie_consent') === 'granted'; } catch (e) { }
+      window._hsp.push(['setHubSpotConsent', {
+        analytics: granted, advertisement: granted, functionality: granted
+      }]);
+    })();
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
@@ -304,6 +317,53 @@
     })(window, document, "clarity", "script", "xpdrvrdas4");</script>
   <!-- End Microsoft Clarity -->
 
+  <!--
+    Google Consent Mode v2 — padrão NEGADO.
+
+    Tem de rodar AQUI, antes do GTM. Definir o padrão por tag de container é
+    tarde: o GTM avalia algumas tags antes de processar o comando empurrado no
+    dataLayer, elas leem "sem estado" e passam. O Preview acusa isso como
+    "estado de consentimento lido antes de um padrão ser definido".
+
+    O `setHubSpotConsent` é outra coisa: consentimento do HubSpot, API própria,
+    sem efeito nenhum sobre o Consent Mode do Google.
+  -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
+    // Visitante que já decidiu não é indeciso: reaplica antes do GTM, senão a
+    // conversão desta página fica retida em quem já havia aceitado.
+    (function () {
+      try {
+        if (localStorage.getItem('ixcprovedor_cookie_consent') === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted'
+          });
+        }
+      } catch (e) { }
+    })();
+  </script>
+
+  <!--
+    Coleta própria (server-side da casa). Mesma origem, sem plataforma externa.
+    Precisa vir ANTES do GTM: é este arquivo que cria o event_id compartilhado,
+    e é o que faz o Meta desduplicar o par Pixel + CAPI nesta página, que é onde
+    a conversão acontece.
+  -->
+  <script src="js/collect.js"></script>
+
   <!-- Google Tag Manager -->
   <script>(function (w, d, s, l, i) {
       w[l] = w[l] || []; w[l].push({
@@ -314,6 +374,13 @@
           'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-TZ73W9RN');</script>
   <!-- End Google Tag Manager -->
+
+  <!--
+    Tracking code do HubSpot. Nesta página ele é o que registra o "local de conversão"
+    e fecha a sessão do visitante no CRM — sem ele o HubSpot nunca vê a página de
+    obrigado e o contato fica sem origem.
+  -->
+  <script id="hs-script-loader" async defer src="https://js.hs-scripts.com/50388221.js"></script>
 </head>
 
 <body>

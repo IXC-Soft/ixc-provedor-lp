@@ -16,6 +16,24 @@
   <link rel="dns-prefetch" href="https://www.clarity.ms" />
   <link rel="dns-prefetch" href="https://unpkg.com" />
   <link rel="dns-prefetch" href="https://js.hsforms.net" />
+  <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
+
+  <!--
+    Consentimento do HubSpot — DEVE vir antes do tracking code.
+    Default negado: sem escolha registrada, nada de analytics/anúncio.
+    Também reaplica a escolha já persistida, que antes só era enviada no clique do
+    banner e se perdia nas visitas seguintes.
+  -->
+  <script>
+    window._hsp = window._hsp || [];
+    (function () {
+      var granted = false;
+      try { granted = localStorage.getItem('ixcprovedor_cookie_consent') === 'granted'; } catch (e) { }
+      window._hsp.push(['setHubSpotConsent', {
+        analytics: granted, advertisement: granted, functionality: granted
+      }]);
+    })();
+  </script>
 
   <!-- Fontes: assíncrono (display=swap já declarado); fallback métrico definido inline abaixo -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -118,6 +136,61 @@
   <meta property="og:description"
     content="Gerencie financeiro, estoque, atendimento, rede e mobilidade em uma única plataforma." />
   <meta property="og:type" content="website" />
+
+  <!--
+    Google Consent Mode v2 — padrão NEGADO.
+
+    Precisa rodar AQUI, antes do GTM, e não pode ser feito por tag dentro do
+    container: `gtag('consent','default')` só tem efeito se chegar antes do
+    container carregar. Uma tag de container que faça isso dispara, aparece como
+    "disparou" no Preview, e não produz efeito nenhum.
+
+    E o bloco de `setHubSpotConsent` acima NÃO cobre isto: aquele é o consentimento
+    do HubSpot, API própria, sem relação com o Consent Mode do Google. Sem o bloco
+    abaixo, o GTM não tem estado de consentimento declarado — e para o GTM
+    "não declarado" não é "negado": ele não retém tag nenhuma.
+  -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
+    // Visitante que já decidiu não pode ser tratado como indeciso: reaplica a
+    // escolha aqui mesmo, antes do GTM, senão as tags ficam retidas na volta.
+    (function () {
+      try {
+        if (localStorage.getItem('ixcprovedor_cookie_consent') === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted'
+          });
+        }
+      } catch (e) { }
+    })();
+  </script>
+
+  <!--
+    Coleta própria (server-side da casa). Mesma origem, sem plataforma externa.
+
+    Carrega ANTES do GTM e sem esperar interação, de propósito:
+      1. é este arquivo que cria o event_id que o GTM depois reutiliza — é o que
+         faz o Meta desduplicar o par Pixel + CAPI em vez de contar duas vezes;
+      2. não depende de googletagmanager.com, então sobrevive a bloqueador. Se o
+         disparo morasse dentro do GTM, morreria junto com ele e o server-side
+         não serviria para nada;
+      3. o GTM abaixo só carrega na primeira interação — quem sai antes não é
+         medido por ele. A coleta própria mede esse visitante.
+  -->
+  <script src="js/collect.js"></script>
 
   <!-- Analytics: GTM + Clarity carregam apenas na primeira interação do usuário -->
   <script>!function () { var f = false; function load() { if (f) return; f = true; (function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var a = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; a.parentNode.insertBefore(j, a); })(window, document, 'script', 'dataLayer', 'GTM-TZ73W9RN'); (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', 'xpdrvrdas4'); } ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function (e) { window.addEventListener(e, load, { once: true, passive: true }); }); setTimeout(load, 5000); }();</script>
@@ -506,7 +579,28 @@
         <p class="hs-modal-subtitle">Preencha o formulário e nossa equipe entrará em contato em breve.</p>
       </div>
       <div id="hsFormContainer">
-        <div class="hs-form-frame" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
+        <!--
+          Embed INLINE (hs-form-html, "developer").
+
+          Por que inline e nao o iframe: o iframe e cross-origin, entao o
+          js/utm-capture.js NAO alcanca os campos ocultos e nenhuma UTM chega ao
+          HubSpot. Inline, os campos existem no DOM desta pagina — verificado na
+          definicao do formulario: 0-1/var_utm_source, _medium, _campaign,
+          _content, _term e 0-1/var_ad_id sao <input type="hidden"> reais.
+
+          O CSS para as classes hsfc-* que este embed gera esta em css/styles.css
+          (secao "EMBED INLINE"), escrito pelas 106 variaveis --hsf-* que o
+          HubSpot expoe como API de estilo. As regras hs-* antigas foram MANTIDAS
+          de proposito: se a definicao SSR falhar, este mesmo script troca a
+          classe para hs-form-frame e carrega o embed classico — as regras
+          antigas sao o caminho de contingencia.
+
+          Ainda faltam, e sao trabalho no editor do HubSpot (nao aqui):
+          os campos ocultos var_gads_keyword, var_gads_ad_id e var_gads_campaign
+          (o utm-capture.js ja captura os valores e as propriedades ja existem no
+          portal); e definir quem preenche 0-1/criativo_url, hoje orfao.
+        -->
+        <div class="hs-form-html" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
           data-portal-id="50388221"></div>
       </div>
     </div>
@@ -527,6 +621,16 @@
 
   <!-- Captura de UTMs → campos ocultos do formulário HubSpot -->
   <script src="js/utm-capture.js" defer></script>
+
+  <!--
+    Tracking code do HubSpot. Sem ele o portal não tem sessão, e por consequência:
+    todo lead de formulário entra como OFFLINE, as propriedades nativas de click id
+    (hs_google_click_id, hs_facebook_click_id, hs_linkedin_click_id) nunca são
+    preenchidas, o "local de conversão" não é registrado e a submissão chega sem o
+    cookie hubspotutk — um dos sinais que levam a proteção anti-spam a descartar o lead.
+    async + defer: não bloqueia render; o consentimento já foi definido no <head>.
+  -->
+  <script id="hs-script-loader" async defer src="https://js.hs-scripts.com/50388221.js"></script>
 
   <!-- HubSpot: carregado sob demanda ao abrir o modal (ver initHubspotModal) -->
 
@@ -561,15 +665,38 @@
       function stored(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
       function open(){banner.classList.add('is-visible');}
       function close(){banner.classList.remove('is-visible');}
+      function apply(status){
+        var granted = status === 'granted';
+        window.dataLayer=window.dataLayer||[];
+
+        // Consent Mode do Google. É ISTO que libera as tags de Meta, Google Ads e
+        // GA4 — o `cookie_consent` abaixo é só sinal informativo, e o
+        // `setHubSpotConsent` cobre apenas o HubSpot. Sem esta chamada, o padrão
+        // negado definido no <head> nunca é atualizado e as tags ficam retidas.
+        if (typeof gtag === 'function') {
+          gtag('consent','update',{
+            ad_storage: granted ? 'granted' : 'denied',
+            ad_user_data: granted ? 'granted' : 'denied',
+            ad_personalization: granted ? 'granted' : 'denied',
+            analytics_storage: granted ? 'granted' : 'denied'
+          });
+        }
+
+        window.dataLayer.push({event:'cookie_consent',cookie_consent_status:status});
+        window._hsp=window._hsp||[];
+        window._hsp.push(['setHubSpotConsent',{analytics:granted,advertisement:granted,functionality:granted}]);
+      }
       window.setCookieConsent=function(status){
         try{localStorage.setItem(KEY,status);}catch(e){}
-        window.dataLayer=window.dataLayer||[];
-        window.dataLayer.push({event:'cookie_consent',cookie_consent_status:status});
-        if(window._hsp){window._hsp.push(['setHubSpotConsent',status==='granted'?{analytics:true,advertisement:true}:{analytics:false,advertisement:false}]);}
+        apply(status);
         close();
       };
       window.showCookieBanner=function(e){if(e)e.preventDefault();open();};
-      if(!stored()){setTimeout(open,600);}
+      // Reaplica a escolha já registrada. Antes, o consentimento só era enviado no
+      // clique do banner: quem já tinha decidido voltava sem sinal nenhum, e o GTM
+      // nunca recebia cookie_consent nas visitas seguintes.
+      var s=stored();
+      if(s){apply(s);}else{setTimeout(open,600);}
     })();
   </script>
 

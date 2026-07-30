@@ -1,0 +1,14 @@
+# O que NÃO deve ser servido publicamente pela LP.
+# `assets.directory` é ".", então sem esta lista o código do Worker e os
+# arquivos de configuração ficariam acessíveis por URL.
+worker/
+node_modules/
+wrangler.jsonc
+package.json
+package-lock.json
+.assetsignore
+.gitignore
+.git/
+.wrangler/
+.dev.vars*
+.env*

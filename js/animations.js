@@ -108,7 +108,14 @@ function initHubspotModal() {
     if (hsLoaded) return;
     hsLoaded = true;
     const s = document.createElement('script');
-    s.src = 'https://js.hsforms.net/forms/embed/50388221.js';
+    // Embed INLINE ("developer"): renderiza no DOM desta pagina, o que permite ao
+    // js/utm-capture.js preencher os campos ocultos de UTM. Com o iframe isso e
+    // impossivel (cross-origin) e nenhuma UTM chega ao HubSpot.
+    //
+    // Este script tem fallback proprio: se a definicao SSR do formulario falhar,
+    // ele troca a classe de hs-form-html para hs-form-frame e carrega o embed
+    // classico. E por isso que as regras hs-* seguem em css/styles.css.
+    s.src = 'https://js.hsforms.net/forms/embed/developer/50388221.js';
     document.head.appendChild(s);
   }
 
