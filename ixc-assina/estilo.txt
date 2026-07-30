@@ -1,0 +1,12 @@
+[ GUIA DE ESTILO ]
+
+1. CORES (Brand Colors)
+- Cor Primária: #00A19A
+- Cor Secundária: #214784
+- Branco: #FFFFFF
+- Preto: #000000
+- Cor dos textos e informações: #4B5563
+
+2. TIPOGRAFIA (Fontes)
+- Fonte para Títulos (Headings): Montserrat Bold
+- Fonte para Textos (Body): Montserrat Regular
