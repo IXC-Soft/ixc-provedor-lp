@@ -17,6 +17,10 @@
   <link rel="dns-prefetch" href="https://unpkg.com" />
   <link rel="dns-prefetch" href="https://js.hsforms.net" />
   <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
+  <!-- Origem do POST do formulário: resolve o DNS antes do envio, sem custo de conexão.
+       A conexão com js.hsforms.net é aberta na INTENÇÃO (hover/toque no CTA), em
+       animations.js — não aqui, para não gastar uma das 3 origens de preconnect. -->
+  <link rel="dns-prefetch" href="https://forms.hsforms.com" />
 
   <!--
     Consentimento do HubSpot — DEVE vir antes do tracking code.
@@ -572,6 +576,14 @@
           <line x1="13" y1="1" x2="1" y2="13" />
         </svg>
       </button>
+
+      <!-- Container de scroll separado do #hsModal.
+           Motivo: o #hsModal recebe transform do GSAP ao abrir, e transform em elemento
+           com overflow quebra o scroll interno no iOS e em parte dos Android. Com o
+           scroll aqui dentro, o botão de fechar também para de rolar junto com o
+           formulário em tela pequena. #hsFormContainer segue intacto — é o escopo do
+           MutationObserver do js/utm-capture.js. -->
+      <div class="hs-modal-scroll">
       <div class="hs-modal-header">
         <img src="assets/Logo-ixc-provedor.svg" alt="IXC Provedor" class="hs-modal-logo" width="104" height="26"
           loading="lazy" decoding="async" />
@@ -603,6 +615,7 @@
         <div class="hs-form-html" data-region="na1" data-form-id="2415bdc0-4749-4623-a60f-01cb79d369d4"
           data-portal-id="50388221"></div>
       </div>
+      </div><!-- /.hs-modal-scroll -->
     </div>
   </div>
 

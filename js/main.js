@@ -12,6 +12,9 @@ function initLenis(isTouch) {
   });
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
+  // Exposto para o modal do HubSpot pausar o scroll suavizado enquanto está aberto.
+  // Sem isso o Lenis captura o wheel e rola a página atrás em vez do formulário.
+  window.lpLenis = lenis;
 }
 
 function initHeader() {
@@ -76,6 +79,16 @@ function initVideo() {
   video.play().catch(() => {});
 }
 
+/* ── CTA do formulário: ligado ANTES do window.load ───────────────
+   O window.load desta página leva ~18s em 4G lento (o vídeo do hero tem 1,9 MB).
+   Enquanto os handlers ficavam dentro do load, clicar em "Solicitar demo" não
+   fazia nada nesse intervalo inteiro — medido: modal não abria. Este script é
+   `defer`, então roda com o DOM já completo: dá para ligar o modal aqui e o
+   botão passa a funcionar assim que o HTML termina de ser lido.
+   O download do script do HubSpot continua fora do caminho crítico — quem
+   controla isso é o armPreload() em animations.js. */
+window.LPAnimations.initHubspotModal();
+
 window.addEventListener('load', () => {
   const loader = document.getElementById('pageLoader');
   if (loader) setTimeout(() => loader.classList.add('hidden'), 400);
@@ -96,7 +109,7 @@ window.addEventListener('load', () => {
     function initBelowFold() {
       anim.initBelowFoldObservers();
       if (!isTouch) anim.initBentoMouseGlow();
-      anim.initHubspotModal();
+      // initHubspotModal saiu daqui: agora roda no topo deste arquivo, antes do load.
     }
 
     'requestIdleCallback' in window

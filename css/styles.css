@@ -1220,21 +1220,46 @@ p {
     padding: var(--space-8);
     max-width: 660px;
     width: 100%;
+    /* 90vh é o fallback. No iOS/Android, vh usa o viewport MAIOR (sem a barra do
+       navegador), então o modal ficava mais alto que a área visível e o fim do
+       formulário — inclusive o botão de enviar — saía da tela. dvh acompanha a
+       barra e resolve. */
     max-height: 90vh;
-    overflow-y: auto;
+    max-height: 90dvh;
+    /* O scroll saiu daqui e foi para .hs-modal-scroll: este elemento recebe
+       transform do GSAP, e transform + overflow quebra o scroll interno no iOS. */
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
     position: relative;
     opacity: 0;
     box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 254, 228, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.04)
 }
 
+.hs-modal-scroll {
+    overflow-y: auto;
+    /* impede o scroll de "vazar" para a página atrás quando chega ao fim (iOS) */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    /* min-height:0 é obrigatório: sem isso o filho flex não encolhe e o overflow
+       nunca ativa. É a causa clássica de "o scroll não funciona". */
+    flex: 1 1 auto;
+    min-height: 0;
+    /* evita o salto de layout quando a barra de rolagem aparece */
+    scrollbar-gutter: stable
+}
+
+.hs-modal-scroll::-webkit-scrollbar,
 .hs-modal::-webkit-scrollbar {
     width: 4px
 }
 
+.hs-modal-scroll::-webkit-scrollbar-track,
 .hs-modal::-webkit-scrollbar-track {
     background: transparent
 }
 
+.hs-modal-scroll::-webkit-scrollbar-thumb,
 .hs-modal::-webkit-scrollbar-thumb {
     background: rgba(0, 254, 228, 0.2);
     border-radius: 2px
