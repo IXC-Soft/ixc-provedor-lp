@@ -360,14 +360,33 @@ p {
     font-weight: 800;
     letter-spacing: -0.03em;
     margin-bottom: var(--space-4);
-    overflow: hidden;
-    background: linear-gradient(160deg, #fff 40%, rgba(255, 255, 255, 0.5));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text
+    /* `overflow: hidden` foi REMOVIDO daqui de propósito.
+       No iOS Safari, `overflow: hidden` no mesmo elemento que tem
+       `background-clip: text` faz o texto ser pintado totalmente transparente —
+       ou seja, título invisível sobre fundo escuro. Era o caso aqui.
+       A máscara da animação não depende deste overflow: quem clipa a linha que
+       sobe é `.line-wrap`, logo abaixo. Este era redundante. */
+
+    /* Cor sólida primeiro: se qualquer coisa impedir o gradiente de pintar,
+       o título aparece em branco em vez de desaparecer. Falhar visível. */
+    color: #fff
+}
+
+/* O recorte do gradiente só é aplicado quando o navegador declara suporte.
+   Sem o @supports, `-webkit-text-fill-color: transparent` valia sempre — e em
+   qualquer falha de pintura o texto sumia sem fallback. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .hero-title {
+        background: linear-gradient(160deg, #fff 40%, rgba(255, 255, 255, 0.5));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent
+    }
 }
 
 .hero-title .line-wrap {
+    /* É AQUI que a máscara da revelação vive: clipa o .line-inner enquanto ele
+       sobe de translateY(100%) até 0. Não mover para o pai. */
     overflow: hidden
 }
 
