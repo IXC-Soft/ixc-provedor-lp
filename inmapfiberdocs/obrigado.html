@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TTLSFL7R');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Obrigado | Inmap Fiberdocs</title>
+  <meta name="description" content="Sua solicitação foi enviada com sucesso. Em breve nossa equipe entrará em contato.">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Estilos e Fontes -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Iconify Icon Web Component -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js" defer></script>
+
+  <style>
+    html {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    body {
+      background-color: var(--color-bg-light-1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.25rem;
+      box-sizing: border-box;
+      position: relative;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* Fundo com efeito radial brilhante similar ao Hero da LP */
+    .bg-gradient-radial {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 189, 210, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .thank-you-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 580px;
+      text-align: center;
+      z-index: 1;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .logo-container {
+      margin-bottom: 3rem;
+    }
+
+    .logo-container img {
+      height: 42px;
+      width: auto;
+    }
+
+    .thank-you-card {
+      background-color: var(--color-bg-light-2);
+      border: var(--border-dark);
+      border-radius: var(--border-radius-lg);
+      padding: 4rem 3rem;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 50px rgba(0, 189, 210, 0.02);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Brilho interno do card */
+    .thank-you-card::before {
+      content: "";
+      position: absolute;
+      top: -20%;
+      right: -20%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(0, 189, 210, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .success-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(0, 189, 210, 0.08);
+      border: 1px solid rgba(0, 189, 210, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      color: var(--color-primary);
+      animation: wrapperEntrancePulse 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation-delay: 0.2s;
+    }
+
+    .success-icon-wrapper svg {
+      width: 3.25rem;
+      height: 3.25rem;
+      display: block;
+      color: var(--color-primary);
+    }
+
+    .success-icon-wrapper .check-mark {
+      stroke-dasharray: 22;
+      stroke-dashoffset: 22;
+      animation: drawCheck 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation-delay: 0.2s;
+    }
+
+    @keyframes wrapperEntrancePulse {
+      0% {
+        opacity: 0;
+        transform: scale(0.6);
+        box-shadow: 0 0 0 0 rgba(0, 189, 210, 0);
+        background: rgba(0, 189, 210, 0.08);
+        border-color: rgba(0, 189, 210, 0.2);
+      }
+      /* 0.6s do ciclo (12%): Entrada completada */
+      12% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 189, 210, 0);
+        background: rgba(0, 189, 210, 0.08);
+        border-color: rgba(0, 189, 210, 0.2);
+      }
+      /* 1.2s do ciclo (24%): Aguarda enquanto o checkmark desenha */
+      24% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 189, 210, 0);
+        background: rgba(0, 189, 210, 0.08);
+        border-color: rgba(0, 189, 210, 0.2);
+      }
+      /* 1.5s do ciclo (30%): Pico do pulso sutil e brilho */
+      30% {
+        opacity: 1;
+        transform: scale(1.08);
+        box-shadow: 0 0 20px rgba(0, 189, 210, 0.25);
+        background: rgba(0, 189, 210, 0.15);
+        border-color: rgba(0, 189, 210, 0.4);
+      }
+      /* 1.8s do ciclo (36%): Retorno ao estado estável */
+      36% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 189, 210, 0);
+        background: rgba(0, 189, 210, 0.08);
+        border-color: rgba(0, 189, 210, 0.2);
+      }
+      /* 4.0s do ciclo (80%): Início do fade out */
+      80% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 189, 210, 0);
+        background: rgba(0, 189, 210, 0.08);
+        border-color: rgba(0, 189, 210, 0.2);
+      }
+      /* 4.4s do ciclo (88%): Ocultado totalmente */
+      88% {
+        opacity: 0;
+        transform: scale(0.6);
+        box-shadow: 0 0 0 0 rgba(0, 189, 210, 0);
+        background: rgba(0, 189, 210, 0.08);
+        border-color: rgba(0, 189, 210, 0.2);
+      }
+      /* 5.0s do ciclo (100%): Intervalo final antes do restart */
+      100% {
+        opacity: 0;
+        transform: scale(0.6);
+        box-shadow: 0 0 0 0 rgba(0, 189, 210, 0);
+        background: rgba(0, 189, 210, 0.08);
+        border-color: rgba(0, 189, 210, 0.2);
+      }
+    }
+
+    @keyframes drawCheck {
+      /* 0s a 0.6s: Oculto durante scale-in */
+      0%, 12% {
+        stroke-dashoffset: 22;
+        opacity: 0;
+      }
+      /* 0.6s a 1.2s: Desenho progressivo do checkmark */
+      24% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+      /* 1.2s a 4.0s: Permanece desenhado e visível */
+      80% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+      /* 4.0s a 4.4s: Desaparece suavemente junto com o wrapper */
+      88% {
+        stroke-dashoffset: 0;
+        opacity: 0;
+      }
+      /* 4.4s a 5.0s: Reset final e aguarda o reinício do ciclo */
+      100% {
+        stroke-dashoffset: 22;
+        opacity: 0;
+      }
+    }
+
+    /* Respeita a preferência por redução de movimento */
+    @media (prefers-reduced-motion: reduce) {
+      .success-icon-wrapper {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: scale(1) !important;
+        box-shadow: none !important;
+      }
+      .success-icon-wrapper .check-mark {
+        animation: none !important;
+        stroke-dashoffset: 0 !important;
+      }
+    }
+
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      line-height: 1.3;
+      color: var(--color-text-white);
+      letter-spacing: -0.02em;
+    }
+
+    .description {
+      font-size: 16px;
+      color: var(--color-text-muted-light);
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      max-width: 440px;
+    }
+
+    .btn-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-container .btn {
+      width: auto;
+      min-width: 240px;
+    }
+
+    /* Animações */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.6);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Responsividade */
+    @media (max-width: 1024px) {
+      .thank-you-card {
+        padding: 3.5rem 2.5rem;
+      }
+    }
+
+    @media (max-width: 810px) {
+      .logo-container {
+        margin-bottom: 2.5rem;
+      }
+      .thank-you-card {
+        padding: 3rem 2rem;
+      }
+      .success-icon-wrapper {
+        width: 72px;
+        height: 72px;
+        margin-bottom: 1.75rem;
+      }
+      .success-icon-wrapper svg {
+        width: 2.875rem;
+        height: 2.875rem;
+      }
+      .description {
+        margin-bottom: 2.25rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      h1 {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .logo-container {
+        margin-bottom: 2rem;
+      }
+      .logo-container img {
+        height: 36px;
+      }
+      .thank-you-card {
+        padding: 2.5rem 1.5rem;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      .description {
+        font-size: 16px;
+        margin-bottom: 2rem;
+      }
+      .success-icon-wrapper {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 1.5rem;
+      }
+      .success-icon-wrapper svg {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+      .btn-container .btn {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TTLSFL7R"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Gradiente radial de fundo -->
+  <div class="bg-gradient-radial"></div>
+
+  <div class="thank-you-container">
+    
+    <!-- Logo do Inmap Fiberdocs -->
+    <div class="logo-container">
+      <img src="assets/Logo Inmap Fiberdocs - Branco 1.svg" alt="Inmap Fiberdocs">
+    </div>
+
+    <!-- Card de Confirmação -->
+    <div class="thank-you-card">
+      <div class="card-content">
+        
+        <!-- Ícone de Confirmação -->
+        <div class="success-icon-wrapper">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2.2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            class="success-check-svg"
+          >
+            <!-- Círculo externo do ícone (Lucide circle-check-big) -->
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <!-- Checkmark animado (desenhado da esquerda para a direita) -->
+            <path d="m9 11 3 3L22 4" class="check-mark"></path>
+          </svg>
+        </div>
+
+        <!-- Título principal -->
+        <h1>Solicitação enviada com&nbsp;sucesso!</h1>
+
+        <!-- Descrição -->
+        <p class="description">
+          Agradecemos o seu contato. Nossa equipe de especialistas analisará as suas informações e entrará em contato em breve para apresentar a melhor solução de documentação de rede para o seu provedor.
+        </p>
+
+        <!-- Botão de Retorno -->
+        <div class="btn-container">
+          <a href="index.html" class="btn btn-primary">
+            Voltar para a página principal
+            <iconify-icon icon="lucide:arrow-up-right"></iconify-icon>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

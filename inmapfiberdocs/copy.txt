@@ -1,0 +1,136 @@
+COPY LP INMAP FIBERDOCS
+
+Título da Página (Title Tag):Software para Documentação de Rede FTTH | Inmap Fiberdocs
+Meta Description: Documente toda a infraestrutura da sua rede FTTH, visualize cabos, CTOs, caixas, fusões e monitore alertas em um único mapa com o Inmap Fiberdocs.
+
+
+[ SEÇÃO 1: HERO (Dobra Principal) ] 
+Título (Headline): Tenha controle total da sua rede. Do mapa ao ponto de fusão.
+Descrição do título: Sua equipe visualiza toda a infraestrutura da rede em um único mapa, acompanha alertas e toma decisões com muito mais velocidade.
+Botão (CTA): Quero ver o Fiberdocs
+
+[ SEÇÃO 2:] 
+Título: Sua equipe sem depender da memória de quem construiu a rede.
+Descrição do título:Sem uma documentação confiável, qualquer manutenção vira uma investigação e cada minuto de indisponibilidade custa mais para o provedor.
+ 
+
+[ SEÇÃO 3: ] 
+
+Título:
+Quando um cliente cai, sua equipe já sabe onde procurar.
+
+Descrição do título:
+Com o recurso Iluminar Fibra, basta selecionar um cliente para visualizar todo o caminho físico da conexão:
+
+Item 1: Cabos
+Item 2: Caixas
+Item 3: CTOs
+Item 4: Splitters
+Item 5: Fusões
+Item 6: Conexões
+
+Texto complementar:
+Tudo diretamente no mapa.
+
+Título dos benefícios:
+Sua operação ganha
+
+Benefício 1:
+Técnicos saem para o local certo logo na primeira visita.
+
+Benefício 2:
+O diagnóstico começa antes mesmo do deslocamento.
+
+Benefício 3:
+Ativações e manutenções acontecem com muito mais segurança.
+
+Benefício 4:
+Novos técnicos trabalham com a mesma confiança dos mais experientes.
+
+
+[ SEÇÃO 4: ] 
+
+Título:
+Priorize os problemas certos antes que eles afetem mais clientes.
+
+Descrição do título:
+O dashboard de monitoramento do Fiberdocs transforma alertas dispersos em leitura clara da operação.
+
+Comparativo:
+
+Título da Coluna 1:
+O que você vê
+
+Título da Coluna 2:
+O que isso muda
+
+Comparativo 1:
+O que você vê: Histórico de alertas
+O que isso muda: Padrões de falha ficam visíveis e mensuráveis.
+
+Comparativo 2:
+O que você vê: CTOs com mais alertas
+O que isso muda: Você sabe quais pontos da rede exigem atenção primeiro.
+
+Comparativo 3:
+O que você vê: Logins com problema
+O que isso muda: Impacto no cliente identificado em segundos.
+
+Comparativo 4:
+O que você vê: Caixas com maior incidência
+O que isso muda: Manutenção preventiva com base em dados, não em intuição.
+
+Texto complementar:
+Em uma queda massiva, cada minuto conta. Com priorização clara, sua equipe age onde o impacto é maior e a operação deixa de ser só reação.
+
+[ SEÇÃO 5: ] 
+Título:
+Tudo o que sua equipe precisa para documentar, analisar e evoluir a rede.
+
+Descrição do título:
+Conheça os principais recursos do Fiberdocs para documentar a infraestrutura, antecipar impactos e planejar a expansão da rede com mais eficiência.
+
+Recurso 1:
+Editor de Fusão
+
+Descrição do Recurso 1:
+Documente caixas, portas e conexões de forma visual.
+
+Recurso 2:
+Simulação de Impacto
+
+Descrição do Recurso 2:
+Descubra quais clientes seriam afetados antes de executar qualquer intervenção.
+
+Recurso 3:
+Projetos de Expansão
+
+Descrição do Recurso 3:
+Planeje novas redes com organização e padronização.
+
+Recurso 4:
+Mapa Inteligente
+
+Descrição do Recurso 4:
+Desenhe a infraestrutura diretamente sobre mapas com salvamento automático da posição. 
+
+[ SEÇÃO 6: ] 
+
+Título:
+Veja como sua rede passa a ser visualizada.
+
+Descrição do título:
+É assim que sua operação enxerga a rede com o Fiberdocs: tudo documentado, tudo visível, tudo em um só lugar.
+
+Imagem principal:
+Screenshot do sistema Fiberdocs mostrando a visualização completa da rede.
+
+[ SEÇÃO 7: ] 
+Título:
+Menos tempo procurando o problema. Mais tempo resolvendo.
+
+Descrição do título:
+Veja como o Inmap Fiberdocs ajuda sua equipe a localizar falhas mais rapidamente, reduzir deslocamentos, documentar a rede com precisão e tomar decisões com muito mais segurança.
+
+CTA Primário:
+Agendar demonstração
