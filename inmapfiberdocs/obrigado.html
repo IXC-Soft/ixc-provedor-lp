@@ -1,6 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <!-- Consent Mode v2 — padrão negado. Deve ficar antes do GTM. -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
+
+    (function () {
+      try {
+        if (
+          localStorage.getItem('ixcprovedor_cookie_consent') ===
+          'granted'
+        ) {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted'
+          });
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Consentimento do HubSpot — separado do consentimento do Google -->
+  <script>
+    window._hsp = window._hsp || [];
+
+    (function () {
+      var granted = false;
+
+      try {
+        granted =
+          localStorage.getItem('ixcprovedor_cookie_consent') ===
+          'granted';
+      } catch (e) {}
+
+      window._hsp.push([
+        'setHubSpotConsent',
+        {
+          analytics: granted,
+          advertisement: granted,
+          functionality: granted
+        }
+      ]);
+    })();
+  </script>
+
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -418,10 +477,215 @@
           </a>
         </div>
 
+        <div style="margin-top: 1.5rem; text-align: center;">
+          <a href="#" onclick="showCookieBanner(event)" style="color: rgba(255, 255, 255, 0.6); font-size: 0.875rem; text-decoration: underline;">
+            Configurações de cookies
+          </a>
+        </div>
+
       </div>
     </div>
 
   </div>
 
+  <!-- Captura de origem de campanha — LP InMap Fiberdocs -->
+  <script>
+  /* Captura de origem de campanha — LP InMap Fiberdocs
+     Guarda os parâmetros da URL e preenche os campos ocultos do formulário HubSpot.
+     Precisa rodar nas duas páginas. */
+  (function () {
+    var CAMPOS = [
+      'utm_source',
+      'utm_medium',
+      'utm_campaign',
+      'utm_content',
+      'utm_term',
+      'gclid',
+      'fbclid'
+    ];
+
+    // Lê os parâmetros da URL e guarda na sessão.
+    try {
+      var u = new URLSearchParams(location.search);
+
+      CAMPOS.forEach(function (c) {
+        var v = u.get(c);
+
+        if (v) {
+          sessionStorage.setItem('ixc_' + c, v);
+        }
+      });
+    } catch (e) {}
+
+    function valor(c) {
+      try {
+        return sessionStorage.getItem('ixc_' + c) || '';
+      } catch (e) {
+        return '';
+      }
+    }
+
+    // Preenche os campos ocultos do formulário quando eles aparecerem.
+    function preencher() {
+      var forms = document.querySelectorAll('form');
+
+      if (!forms.length) {
+        return false;
+      }
+
+      forms.forEach(function (f) {
+        CAMPOS.forEach(function (c) {
+          var el = f.querySelector(
+            '[name="' + c + '"], [name="var_' + c + '"]'
+          );
+
+          if (el && !el.value) {
+            el.value = valor(c);
+
+            el.dispatchEvent(
+              new Event('input', { bubbles: true })
+            );
+
+            el.dispatchEvent(
+              new Event('change', { bubbles: true })
+            );
+          }
+        });
+      });
+
+      return true;
+    }
+
+    preencher();
+
+    new MutationObserver(preencher).observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  })();
+  </script>
+
+  <!-- Banner de Consentimento de Cookies -->
+  <div
+    id="cookie-banner"
+    role="dialog"
+    aria-live="polite"
+    aria-label="Aviso de cookies"
+  >
+    <div class="cookie-inner">
+      <p>
+        Utilizamos cookies para melhorar sua experiência, analisar o tráfego
+        e personalizar conteúdo. Ao continuar navegando, você concorda com nossa
+        <a
+          href="https://ixcsoft.com/politica-de-privacidade/"
+          target="_blank"
+          rel="noopener"
+        >
+          Política de Privacidade
+        </a>.
+      </p>
+
+      <div class="cookie-actions">
+        <button
+          type="button"
+          class="cookie-reject"
+          onclick="setCookieConsent('denied')"
+        >
+          Rejeitar
+        </button>
+
+        <button
+          type="button"
+          class="cookie-accept"
+          onclick="setCookieConsent('granted')"
+        >
+          Aceitar cookies
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var KEY = 'ixcprovedor_cookie_consent';
+    var banner = document.getElementById('cookie-banner');
+
+    function stored() {
+      try {
+        return localStorage.getItem(KEY);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function abrir() {
+      if (banner) {
+        banner.classList.add('is-visible');
+      }
+    }
+
+    function fechar() {
+      if (banner) {
+        banner.classList.remove('is-visible');
+      }
+    }
+
+    function aplicar(status) {
+      var granted = status === 'granted';
+
+      window.dataLayer = window.dataLayer || [];
+
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          ad_storage: granted ? 'granted' : 'denied',
+          ad_user_data: granted ? 'granted' : 'denied',
+          ad_personalization: granted ? 'granted' : 'denied',
+          analytics_storage: granted ? 'granted' : 'denied'
+        });
+      }
+
+      window.dataLayer.push({
+        event: 'cookie_consent',
+        cookie_consent_status: status
+      });
+
+      window._hsp = window._hsp || [];
+
+      window._hsp.push([
+        'setHubSpotConsent',
+        {
+          analytics: granted,
+          advertisement: granted,
+          functionality: granted
+        }
+      ]);
+    }
+
+    window.setCookieConsent = function (status) {
+      try {
+        localStorage.setItem(KEY, status);
+      } catch (e) {}
+
+      aplicar(status);
+      fechar();
+    };
+
+    window.showCookieBanner = function (event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      abrir();
+    };
+
+    var statusSalvo = stored();
+
+    if (statusSalvo) {
+      aplicar(statusSalvo);
+    } else {
+      setTimeout(abrir, 600);
+    }
+  })();
+  </script>
 </body>
 </html>
