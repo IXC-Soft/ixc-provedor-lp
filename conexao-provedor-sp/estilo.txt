@@ -1,0 +1,12 @@
+[ GUIA DE ESTILO ]
+
+1. CORES (Brand Colors)
+- Cor Primária 1: #253EF5
+- Cor Primária 2: #B4EF0C
+- Branco: #FFFFFF
+- Preto: #000000 
+
+
+2. TIPOGRAFIA (Fontes)
+- Fonte para Títulos (Headings): Plus Jakarta Sans
+- Fonte para Textos (Body): Plus Jakarta Sans

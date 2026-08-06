@@ -1,0 +1,210 @@
+# [1ª Dobra — Hero]
+
+[Título]
+Conexão Provedor
+
+[Subtítulo]
+16 e 17 de setembro | São Paulo - SP
+
+[Informação]
+Em breve:
+Conexão Provedor
+Campina Grande - PB
+
+[Botão]
+Garantir ingresso
+
+---
+
+# [2ª Dobra]
+
+[Título]
+O encontro que impulsiona a evolução dos seus resultados.
+
+[Descrição]
+Ajudar provedores de internet a organizar suas operações sempre foi a essência dos nossos treinamentos.
+
+Agora, o Conexão Provedor evoluiu para oferecer uma nova forma de pensar a gestão, transformando desafios operacionais em decisões estratégicas e resultados financeiros consistentes.
+
+[Subtítulo]
+O conteúdo que te espera
+
+[Item 1]
+Reduza a inadimplência com estratégias de prevenção, cobrança e renegociação que preservam o relacionamento com o cliente.
+
+[Item 2]
+Diminua o churn identificando sinais de cancelamento e agindo rapidamente para aumentar a retenção.
+
+[Item 3]
+Prepare sua operação para a Reforma Tributária com segurança e adaptação aos novos impactos fiscais.
+
+---
+
+# [3ª Dobra]
+
+[Título]
+Garanta sua vaga no Conexão Provedor
+
+[Descrição]
+Escolha seu passaporte e aproveite.
+
+## [Card 1]
+
+[Título do Card]
+Passaporte Insider
+
+[Preço]
+R$ XXX,XX
+
+[Local]
+São Paulo
+
+[Descrição do Card]
+Ingresso exclusivo para clientes IXC Soft.
+
+[Benefícios]
+
+Item 1
+2 dias de conteúdos e treinamentos ao vivo.
+
+Item 2
+Conexão direta com outros provedores de todo o Brasil.
+
+Item 3
+Acesso direto ao time IXC para tirar dúvidas sobre o sistema.
+
+[Benefício Extra]
+Bônus exclusivo:
+Treinamento fechado de financeiro e fiscal do sistema IXC Provedor no dia 17/09.
+
+[Botão]
+Comprar Insider
+
+---
+
+## [Card 2]
+
+[Título do Card]
+Passaporte Starter
+
+[Preço]
+R$ XXX,XX
+
+[Local]
+São Paulo
+
+[Descrição do Card]
+Ideal para quem deseja participar do evento principal.
+
+[Benefícios]
+
+Item 1
+1 tarde de palestras ao vivo.
+
+Item 2
+Conexão direta com outros provedores de todo o Brasil.
+
+Item 3
+Acesso direto ao time IXC para tirar dúvidas sobre o sistema.
+
+[Botão]
+Comprar Starter
+
+---
+
+## [Card 3]
+
+[Título do Card]
+Campina Grande
+
+[Descrição do Card]
+Viva a experiência completa.
+
+Conecte-se com os provedores.
+
+[Informação]
+Em breve: Pré-venda.
+
+[Botão]
+Pré-venda
+
+---
+
+# [4ª Dobra]
+
+[Título]
+Veja como foi a última edição
+
+[Descrição]
+Um evento repleto de conteúdo, inovação e networking.
+
+[Vídeo]
+
+[Galeria]
+
+[Foto 1]
+Conteúdo voltado para a realidade do provedor.
+
+[Foto 2]
+Conexão real com o mercado.
+
+[Foto 3]
+Conversa com especialistas.
+
+[Foto 4]
+Inovações que impulsionam o mercado.
+
+---
+
+# [5ª Dobra]
+
+[Título]
+Marque na agenda
+
+[Local]
+
+[Título]
+Onde
+
+[Descrição]
+Edifício K1
+
+R. Conselheiro Saraiva, 207
+
+Santana
+
+São Paulo - SP
+
+[Data]
+
+[Título]
+Quando
+
+[Descrição]
+16 de setembro
+das 13h às 19h
+
+17 de setembro
+das 8h às 17h
+
+(Exclusivo para clientes IXC Soft)
+
+---
+
+# [6ª Dobra]
+
+[Título]
+Acompanhe nossas redes sociais
+
+[Descrição]
+Não perca nenhuma novidade.
+
+[Redes Sociais]
+
+Instagram
+
+Facebook
+
+LinkedIn
+
+YouTube
