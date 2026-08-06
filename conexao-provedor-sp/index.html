@@ -2,6 +2,36 @@
 <html lang="pt-BR">
 
 <head>
+    <!-- IXC · Consent Mode v2 — DEVE vir ANTES do snippet do GTM -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'granted',
+        'functionality_storage': 'granted',
+        'security_storage': 'granted',
+        'wait_for_update': 500
+      });
+
+      // Restaura a escolha já feita em visita anterior
+      try {
+        if (localStorage.getItem('cpsp_consent') === 'aceito') {
+          gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted'
+          });
+        }
+      } catch (e) {}
+    </script>
+
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
             w[l] = w[l] || []; w[l].push({
@@ -64,7 +94,7 @@
                     <a href="#ingressos" class="nav-link">INGRESSOS</a>
                     <a href="#local" class="nav-link">LOCAL</a>
                 </nav>
-                <a href="#ingressos" class="btn-primary header-cta">
+                <a href="#ingressos" class="btn-primary header-cta" data-cta="header">
                     GARANTIR VAGA
                     <img src="assets/star.svg" class="cta-icon" alt="">
                 </a>
@@ -102,7 +132,7 @@
 
                     <!-- Botões -->
                     <div class="hero-actions">
-                        <a href="#ingressos" class="btn-primary primary-cta">
+                        <a href="#ingressos" class="btn-primary primary-cta" data-cta="hero">
                             Garantir vaga
                             <img src="assets/star.svg" class="cta-icon" alt="">
                         </a>
@@ -344,7 +374,7 @@
                         </div>
 
                         <a href="https://www.sympla.com.br/evento/conexao-provedor-sao-paulo/3483858" target="_blank"
-                            rel="noopener noreferrer" class="btn-secondary ticket-cta">Comprar 1 dia</a>
+                            rel="noopener noreferrer" class="btn-secondary ticket-cta" data-cta="card-1-dia" data-ticket="1_dia">Comprar 1 dia</a>
                     </div>
 
                     <!-- Card 2: Passaporte Insider (Featured) -->
@@ -409,7 +439,7 @@
                         </div>
 
                         <a href="https://www.sympla.com.br/evento/conexao-provedor-sao-paulo/3483858" target="_blank"
-                            rel="noopener noreferrer" class="btn-primary ticket-cta">
+                            rel="noopener noreferrer" class="btn-primary ticket-cta" data-cta="card-2-dias" data-ticket="2_dias">
                             Comprar 2 dias
                             <img src="assets/star.svg" class="cta-icon" alt="">
                         </a>
@@ -442,7 +472,7 @@
                         </div>
 
                         <a href="https://www.sympla.com.br/evento/conexao-provedor-campina-grande/3513885" target="_blank"
-                            rel="noopener noreferrer" class="btn-secondary ticket-cta">Pré-venda</a>
+                            rel="noopener noreferrer" class="btn-secondary ticket-cta" data-cta="card-campina" data-ticket="campina_pre_venda">Pré-venda</a>
                     </div>
                 </div>
             </div>
@@ -792,6 +822,7 @@
                     card.setAttribute('role', 'button');
                     card.setAttribute('tabindex', groupIndex === 0 ? '0' : '-1');
                     card.setAttribute('data-index', index);
+                    card.setAttribute('data-track', 'gallery');
                     const desc = `Foto ${index + 1} da última edição do Conexão Provedor SP`;
                     card.setAttribute('aria-label', `Ampliar ${desc}`);
 
@@ -933,6 +964,395 @@
         bindCarouselPauseEvents(marqueeWrapper);
 
         initCarousel();
+    </script>
+
+    <!-- IXC · Banner de consentimento -->
+    <style>
+      #cpsp-consent {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        right: 24px;
+        max-width: 540px;
+        margin: 0 auto;
+        background: #0E131F;
+        border: 1px solid rgba(180, 239, 12, 0.25);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(180, 239, 12, 0.08);
+        border-radius: 16px;
+        padding: 20px 24px;
+        z-index: 99999;
+        color: #E2E8F0;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      #cpsp-consent[hidden] {
+        display: none !important;
+      }
+
+      #cpsp-consent p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: #94A3B8;
+      }
+
+      #cpsp-consent .cpsp-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      #cpsp-consent button[data-consent="aceito"] {
+        background: #B4EF0C;
+        color: #070A0F;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+      }
+
+      #cpsp-consent button[data-consent="aceito"]:hover {
+        background: #c3f528;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(180, 239, 12, 0.3);
+      }
+
+      #cpsp-consent button[data-consent="recusado"] {
+        background: transparent;
+        color: #94A3B8;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+      }
+
+      #cpsp-consent button[data-consent="recusado"]:hover {
+        color: #FFFFFF;
+        border-color: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      @media (max-width: 576px) {
+        #cpsp-consent {
+          bottom: 16px;
+          left: 16px;
+          right: 16px;
+          padding: 16px;
+          border-radius: 12px;
+        }
+
+        #cpsp-consent .cpsp-actions {
+          flex-direction: column-reverse;
+          width: 100%;
+        }
+
+        #cpsp-consent button {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+
+    <div id="cpsp-consent" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
+      <p>
+        Usamos cookies para medir o desempenho da página e personalizar anúncios.
+        Você pode recusar os de publicidade sem perder nenhuma funcionalidade.
+      </p>
+
+      <div class="cpsp-actions">
+        <button type="button" data-consent="recusado">Recusar</button>
+        <button type="button" data-consent="aceito">Aceitar</button>
+      </div>
+    </div>
+
+    <script>
+    (function () {
+      var el = document.getElementById('cpsp-consent');
+      var escolha = null;
+
+      try {
+        escolha = localStorage.getItem('cpsp_consent');
+      } catch (e) {}
+
+      if (!escolha) {
+        el.hidden = false;
+      }
+
+      el.addEventListener('click', function (ev) {
+        var b = ev.target.closest('[data-consent]');
+
+        if (!b) {
+          return;
+        }
+
+        var v = b.getAttribute('data-consent');
+
+        try {
+          localStorage.setItem('cpsp_consent', v);
+        } catch (e) {}
+
+        if (v === 'aceito' && window.gtag) {
+          gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted'
+          });
+        }
+
+        el.hidden = true;
+      });
+    })();
+    </script>
+
+    <!-- IXC · Conexão Provedor SP — camada de mensuração. NÃO REMOVER. -->
+    <script>
+    (function () {
+      'use strict';
+
+      var KEY = 'cpsp_attrib';
+
+      var CAMPOS = [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_content',
+        'utm_term',
+        'gclid',
+        'fbclid'
+      ];
+
+      var dl = window.dataLayer = window.dataLayer || [];
+
+      /* 1. Captura e persistência da origem durante a sessão */
+
+      var gravado = {};
+
+      try {
+        gravado = JSON.parse(sessionStorage.getItem(KEY)) || {};
+      } catch (e) {}
+
+      var q = new URLSearchParams(location.search);
+      var naUrl = {};
+
+      CAMPOS.forEach(function (campo) {
+        var valor = q.get(campo);
+
+        if (valor) {
+          naUrl[campo] = valor;
+        }
+      });
+
+      // Só substitui a origem anterior quando a URL realmente traz parâmetros.
+      var attrib = Object.keys(naUrl).length ? naUrl : gravado;
+
+      // Define uma origem padrão para acessos sem UTM.
+      if (!attrib.utm_source) {
+        var host = '';
+
+        try {
+          host = document.referrer
+            ? new URL(document.referrer).hostname
+            : '';
+        } catch (e) {}
+
+        attrib.utm_source = host || 'direto';
+        attrib.utm_medium = host ? 'referral' : 'none';
+      }
+
+      attrib.utm_campaign =
+        attrib.utm_campaign || 'conexao-provedor-sp';
+
+      try {
+        sessionStorage.setItem(KEY, JSON.stringify(attrib));
+      } catch (e) {}
+
+      /* 2. Adiciona a origem aos links do Sympla */
+
+      function carimbar() {
+        var links =
+          document.querySelectorAll('a[href*="sympla.com.br"]');
+
+        for (var i = 0; i < links.length; i++) {
+          var link = links[i];
+          var url;
+
+          try {
+            url = new URL(link.href);
+          } catch (e) {
+            continue;
+          }
+
+          [
+            'utm_source',
+            'utm_medium',
+            'utm_campaign',
+            'utm_content'
+          ].forEach(function (campo) {
+            if (attrib[campo]) {
+              url.searchParams.set(campo, attrib[campo]);
+            }
+          });
+
+          var cta =
+            link.getAttribute('data-cta') || 'sem-id';
+
+          url.searchParams.set(
+            'utm_term',
+            attrib.utm_term
+              ? attrib.utm_term + '__' + cta
+              : cta
+          );
+
+          link.href = url.toString();
+        }
+      }
+
+      /* 3. Eventos enviados ao dataLayer */
+
+      function novoId() {
+        return (
+          'sel-' +
+          Date.now().toString(36) +
+          '-' +
+          Math.random().toString(36).slice(2, 10)
+        );
+      }
+
+      function ligar() {
+        /*
+         * Use delegação no document em fase de captura.
+         * Não altere nem integre este código aos listeners existentes.
+         */
+        document.addEventListener(
+          'click',
+          function (ev) {
+            if (!ev.target.closest) {
+              return;
+            }
+
+            /* Clique em uma miniatura da galeria */
+            if (
+              ev.target.closest('[data-track="gallery"]')
+            ) {
+              dl.push({
+                event: 'view_gallery'
+              });
+
+              return;
+            }
+
+            var alvo = ev.target.closest('a, button');
+
+            if (!alvo) {
+              return;
+            }
+
+            /* Clique em link externo do Sympla */
+            if (
+              alvo.href &&
+              alvo.href.indexOf('sympla.com.br') !== -1
+            ) {
+              dl.push({
+                event: 'select_ticket',
+                cta_location:
+                  alvo.getAttribute('data-cta') || 'sem-id',
+                ticket_type:
+                  alvo.getAttribute('data-ticket') ||
+                  'generico',
+                event_id: novoId()
+              });
+            }
+
+            /* Clique no botão do vídeo */
+            else if (
+              alvo.classList &&
+              alvo.classList.contains('play-button')
+            ) {
+              dl.push({
+                event: 'video_play',
+                video_id: 'l8YZTs-yokI'
+              });
+            }
+          },
+          true
+        );
+
+        /*
+         * Registra intenção quando 50% da seção de ingressos
+         * permanece visível por pelo menos 1 segundo.
+         */
+        var secao =
+          document.getElementById('ingressos');
+
+        if (
+          secao &&
+          'IntersectionObserver' in window
+        ) {
+          var temporizador = null;
+
+          var observador =
+            new IntersectionObserver(
+              function (entradas) {
+                entradas.forEach(function (entrada) {
+                  if (
+                    entrada.isIntersecting &&
+                    !temporizador
+                  ) {
+                    temporizador = setTimeout(
+                      function () {
+                        dl.push({
+                          event: 'view_ticket_section'
+                        });
+
+                        observador.disconnect();
+                      },
+                      1000
+                    );
+                  } else if (
+                    !entrada.isIntersecting &&
+                    temporizador
+                  ) {
+                    clearTimeout(temporizador);
+                    temporizador = null;
+                  }
+                });
+              },
+              {
+                threshold: 0.5
+              }
+            );
+
+          observador.observe(secao);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener(
+          'DOMContentLoaded',
+          function () {
+            carimbar();
+            ligar();
+          }
+        );
+      } else {
+        carimbar();
+        ligar();
+      }
+    })();
     </script>
 </body>
 
