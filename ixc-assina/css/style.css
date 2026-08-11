@@ -1751,3 +1751,193 @@ a {
         font-size: 1.5rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FORMULÁRIO HUBSPOT — EMBED INLINE (v4, classes hsfc-*)
+   ═══════════════════════════════════════════════════════════════════════
+
+   Por que este bloco existe
+   -------------------------
+   O formulário saiu do embed clássico (iframe, `hs-form-frame`) para o embed
+   inline (`hs-form-html`). Só inline o js/utm-capture.js alcança os campos
+   ocultos e a UTM chega ao HubSpot — no iframe é cross-origin, impossível.
+
+   O preço da troca: o iframe trazia o estilo próprio do HubSpot junto. Inline,
+   o formulário renderiza no DOM desta página e herda o CSS daqui — que não
+   tinha regra nenhuma para ele. Sem este bloco, o formulário sobe SEM ESTILO.
+
+   Por que variáveis CSS e não sobrescrita de classe
+   -------------------------------------------------
+   O HubSpot v4 expõe variáveis `--hsf-*` como API de estilo, consumidas no
+   padrão `var(--hsf-X, var(--hsf-default-X))`. Definir a variável é a forma
+   documentada e estável; sobrescrever `.hsfc-*` depende de nome de classe
+   interna, que muda sem aviso. Abaixo: variável para tudo que ela cobre, e
+   sobrescrita de classe só para o que não é exposto (foco, painel do
+   dropdown, altura do textarea).
+
+   Tema CLARO — ao contrário da LP do IXC Provedor, este modal é branco.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+#hsFormContainer .hs-form-html,
+#hsFormContainer [data-hsfc-id="Renderer"] {
+    /* Base */
+    --hsf-global__font-family: var(--font-body);
+    --hsf-global__font-size: 0.95rem;
+    --hsf-global__color: var(--color-text);
+    --hsf-global__error-color: #dc2626;
+
+    /* O formulário vive dentro do modal, que já tem fundo e padding.
+       O padrão do HubSpot traz fundo opaco + 40px — daria caixa na caixa. */
+    --hsf-background__background-color: transparent;
+    --hsf-background__background-image: none;
+    --hsf-background__border-style: none;
+    --hsf-background__border-width: 0;
+    --hsf-background__border-radius: 0;
+    --hsf-background__padding: 0;
+
+    /* Espaçamento entre linhas e módulos */
+    --hsf-row__horizontal-spacing: 1rem;
+    --hsf-row__vertical-spacing: 1rem;
+    --hsf-module__vertical-spacing: 6px;
+
+    /* Rótulos */
+    --hsf-field-label__color: var(--color-secondary);
+    --hsf-field-label__font-size: 0.85rem;
+    --hsf-field-label__font-weight: 600;
+    --hsf-field-label-requiredindicator__color: var(--color-primary);
+
+    /* Campos de texto */
+    --hsf-field-input__background-color: var(--color-white);
+    --hsf-field-input__border-color: #E2E8F0;
+    --hsf-field-input__border-style: solid;
+    --hsf-field-input__border-width: 1px;
+    --hsf-field-input__border-radius: var(--radius-sm);
+    --hsf-field-input__color: var(--color-text-dark);
+    --hsf-field-input__padding: 11px 14px;
+    --hsf-field-input__placeholder-color: #94A3B8;
+
+    /* Textarea espelha o campo de texto */
+    --hsf-field-textarea__background-color: var(--color-white);
+    --hsf-field-textarea__border-color: #E2E8F0;
+    --hsf-field-textarea__border-style: solid;
+    --hsf-field-textarea__border-width: 1px;
+    --hsf-field-textarea__border-radius: var(--radius-sm);
+    --hsf-field-textarea__color: var(--color-text-dark);
+    --hsf-field-textarea__padding: 11px 14px;
+    --hsf-field-textarea__placeholder-color: #94A3B8;
+
+    /* Caixas de seleção e rádio */
+    --hsf-field-checkbox__background-color: var(--color-white);
+    --hsf-field-checkbox__border-color: #CBD5E1;
+    --hsf-field-checkbox__border-style: solid;
+    --hsf-field-checkbox__border-width: 1px;
+    --hsf-field-checkbox__color: var(--color-primary);
+    --hsf-field-radio__background-color: var(--color-white);
+    --hsf-field-radio__border-color: #CBD5E1;
+    --hsf-field-radio__border-style: solid;
+    --hsf-field-radio__border-width: 1px;
+    --hsf-field-radio__color: var(--color-primary);
+
+    /* Botão — espelha o .btn-primary da página */
+    --hsf-button__background-color: var(--color-primary);
+    --hsf-button__background-image: none;
+    --hsf-button__color: var(--color-white);
+    --hsf-button__border-style: none;
+    --hsf-button__border-width: 0;
+    --hsf-button__border-radius: var(--radius-full);
+    --hsf-button__padding: 0.85rem 2rem;
+    --hsf-button__font-weight: 600;
+    --hsf-button__font-size: 0.95rem;
+    --hsf-button__width: 100%;
+    --hsf-button--hover__background-color: #008B85;
+    --hsf-button--hover__color: var(--color-white);
+    --hsf-button--focus__background-color: #008B85;
+    --hsf-button--focus__color: var(--color-white);
+
+    /* Textos auxiliares */
+    --hsf-erroralert__color: #dc2626;
+    --hsf-erroralert__font-size: 0.78rem;
+    --hsf-infoalert__color: var(--color-primary);
+    --hsf-richtext__color: var(--color-text-muted);
+    --hsf-richtext__font-size: 0.78rem;
+    --hsf-field-description__color: var(--color-text-muted);
+    --hsf-field-description__font-size: 0.78rem;
+    --hsf-field-footer__color: var(--color-text-muted);
+    --hsf-field-footer__font-size: 0.78rem;
+    --hsf-heading__color: var(--color-secondary);
+    --hsf-heading__text-shadow: none;
+    --hsf-field-dropdown-options__border-radius: var(--radius-sm);
+}
+
+/* ── Abaixo: só o que as variáveis não expõem ────────────────────────── */
+
+/* Foco. Não há variável `--hsf-field-input--focus__*`, e o anel de foco é
+   requisito de acessibilidade, não enfeite. */
+#hsFormContainer .hsfc-TextInput:focus,
+#hsFormContainer .hsfc-TextareaInput:focus,
+#hsFormContainer .hsfc-DropdownInput:focus,
+#hsFormContainer .hsfc-PhoneInput:focus,
+#hsFormContainer .hsfc-DateInput:focus,
+#hsFormContainer .hsfc-FileInput:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.15);
+    outline: none;
+}
+
+/* Altura mínima do textarea — sem variável equivalente */
+#hsFormContainer .hsfc-TextareaInput {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Painel do dropdown: só o raio é exposto por variável */
+#hsFormContainer .hsfc-DropdownOptions,
+#hsFormContainer .hsfc-DropdownOptions__List {
+    background: var(--color-white);
+    border: 1px solid #E2E8F0;
+    color: var(--color-text-dark);
+    box-shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.25);
+}
+
+#hsFormContainer .hsfc-DropdownOptions__List__ListItem {
+    color: var(--color-text);
+}
+
+#hsFormContainer .hsfc-DropdownOptions__List__ListItem--selected,
+#hsFormContainer .hsfc-DropdownOptions__List__ListItem:hover {
+    background: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-secondary);
+}
+
+/* Seta do dropdown e bandeira do telefone */
+#hsFormContainer .hsfc-DropdownInput__Caret svg,
+#hsFormContainer .hsfc-PhoneInput__FlagAndCaret__Caret svg {
+    fill: var(--color-primary);
+    stroke: var(--color-primary);
+}
+
+/* Botão: variáveis dão cor, raio e largura; o realce de interação não é exposto */
+#hsFormContainer .hsfc-Button {
+    font-family: var(--font-headings);
+    transition: all 0.25s ease;
+}
+
+#hsFormContainer .hsfc-Button:hover:not(:disabled) {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-primary);
+}
+
+#hsFormContainer .hsfc-Button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* A linha de navegação usa flex; `--hsf-button__width` sozinho não vence o flex */
+#hsFormContainer .hsfc-NavigationRow__Buttons {
+    width: 100%;
+}
+
+#hsFormContainer .hsfc-NavigationRow__Buttons .hsfc-Button {
+    flex: 1 1 auto;
+}

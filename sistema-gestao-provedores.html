@@ -649,6 +649,19 @@
   <script src="js/utm-capture.js?v=20260803-2" defer></script>
 
   <!--
+    Identidade do lead (e-mail, telefone, nome) → localStorage, para o Advanced
+    Matching do Meta e o Enhanced Conversions do Google na página de obrigado.
+
+    Saiu da tag 245 do GTM (HTML personalizado) porque a API do Tag Manager
+    recusa escrita nesse tipo — aqui o código fica versionado e corrigível.
+
+    A tag 245 continua responsável pelo `dataLayer.push` de hubspot_form_submit.
+    Este arquivo NÃO empurra nada: se os dois empurrassem, o evento de formulário
+    contaria em dobro.
+  -->
+  <script src="js/hubspot-listener.js?v=20260810" defer></script>
+
+  <!--
     Tracking code do HubSpot. Sem ele o portal não tem sessão, e por consequência:
     todo lead de formulário entra como OFFLINE, as propriedades nativas de click id
     (hs_google_click_id, hs_facebook_click_id, hs_linkedin_click_id) nunca são

@@ -12,3 +12,7 @@ package-lock.json
 .wrangler/
 .dev.vars*
 .env*
+
+# Arquivo de trabalho, 1,2 MB, sem referência em nenhuma página.
+# Sem esta linha ele seria servido publicamente sem ser usado.
+hero-MOBILEFIX.png
