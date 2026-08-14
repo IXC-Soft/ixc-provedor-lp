@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <!-- Consent + HubSpot pixel + UTM capture -->
+  <script>
+  (function () {
+    'use strict';
+
+    var KEY = 'ixcprovedor_cookie_consent';
+    var POLITICA = 'https://ixcsoft.com/politica-de-privacidade/';
+
+    function guardado() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag !== 'function') {
+      window.gtag = function () { window.dataLayer.push(arguments); };
+    }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
+
+    window._hsp = window._hsp || [];
+
+    function aplicar(status) {
+      var ok = status === 'granted';
+      gtag('consent', 'update', {
+        ad_storage: ok ? 'granted' : 'denied',
+        ad_user_data: ok ? 'granted' : 'denied',
+        ad_personalization: ok ? 'granted' : 'denied',
+        analytics_storage: ok ? 'granted' : 'denied'
+      });
+      window._hsp.push(['setHubSpotConsent',
+        { analytics: ok, advertisement: ok, functionality: ok }]);
+      window.dataLayer.push({ event: 'cookie_consent', cookie_consent_status: status });
+    }
+
+    var escolha = guardado();
+    if (escolha) {
+      aplicar(escolha);
+    } else {
+      window._hsp.push(['setHubSpotConsent',
+        { analytics: false, advertisement: false, functionality: false }]);
+    }
+
+    window.setCookieConsent = function (status) {
+      try { localStorage.setItem(KEY, status); } catch (e) {}
+      aplicar(status);
+      var el = document.getElementById('cookie-banner');
+      if (el) el.classList.remove('is-visible');
+    };
+
+    if (escolha) return;
+
+    function montar() {
+      if (document.getElementById('cookie-banner')) return;
+
+      var css = document.createElement('style');
+      css.textContent =
+        '#cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;' +
+        'background:#0f1115;border-top:1px solid rgba(255,255,255,.14);' +
+        'box-shadow:0 -8px 30px -18px rgba(0,0,0,.8);transform:translateY(110%);' +
+        'transition:transform .4s ease;font:inherit}' +
+        '#cookie-banner.is-visible{transform:translateY(0)}' +
+        '#cookie-banner .ci{max-width:1200px;margin:0 auto;padding:20px 24px;display:flex;' +
+        'flex-direction:column;gap:16px;align-items:flex-start}' +
+        '#cookie-banner p{margin:0;color:#e6e6e6;font-size:14px;line-height:1.55;font-family:inherit}' +
+        '#cookie-banner a{color:#fff;text-decoration:underline}' +
+        '#cookie-banner .ca{display:flex;gap:12px;flex-wrap:wrap;width:100%}' +
+        '#cookie-banner button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;' +
+        'padding:14px 26px;cursor:pointer;border:1px solid transparent;transition:opacity .2s ease}' +
+        '#cookie-banner .ok{background:#fff;color:#0f1115}' +
+        '#cookie-banner .ok:hover{opacity:.88}' +
+        '#cookie-banner .no{background:transparent;color:#e6e6e6;border-color:rgba(255,255,255,.28)}' +
+        '#cookie-banner .no:hover{background:rgba(255,255,255,.08)}' +
+        '#cookie-banner button:focus-visible{outline:2px solid #fff;outline-offset:2px}' +
+        '@media(min-width:768px){#cookie-banner .ci{flex-direction:row;align-items:center;' +
+        'justify-content:space-between;gap:32px}#cookie-banner .ca{width:auto;flex-shrink:0}}';
+      document.head.appendChild(css);
+
+      var el = document.createElement('div');
+      el.id = 'cookie-banner';
+      el.setAttribute('role', 'dialog');
+      el.setAttribute('aria-live', 'polite');
+      el.setAttribute('aria-label', 'Aviso de cookies');
+      el.innerHTML =
+        '<div class="ci"><p>Utilizamos cookies para melhorar sua experiência, analisar o tráfego e ' +
+        'personalizar conteúdo. Ao continuar navegando, você concorda com nossa ' +
+        '<a href="' + POLITICA + '" target="_blank" rel="noopener">Política de Privacidade</a>.</p>' +
+        '<div class="ca"><button type="button" class="no">Rejeitar</button>' +
+        '<button type="button" class="ok">Aceitar cookies</button></div></div>';
+      document.body.appendChild(el);
+
+      el.querySelector('.ok').addEventListener('click', function () { setCookieConsent('granted'); });
+      el.querySelector('.no').addEventListener('click', function () { setCookieConsent('denied'); });
+      setTimeout(function () { el.classList.add('is-visible'); }, 600);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', montar);
+    } else {
+      montar();
+    }
+  })();
+  </script>
+  <script async defer src="https://js.hs-scripts.com/50388221.js"></script>
+  <script>
+  (function () {
+    var KEYS = [
+      'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+      'gclid', 'fbclid', 'ad_id',
+      'gads_keyword', 'gads_ad_id', 'gads_campaign'
+    ];
+    var COOKIE = 'ixcprovedor_attribution';
+    var COOKIE_DAYS = 30;
+    var SCOPE_SELECTOR = '#hsFormContainer';
+
+    var scope = null;
+
+    function aoCarregar(fn) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fn);
+      } else { fn(); }
+    }
+
+    function readCookie() {
+      var m = document.cookie.match(new RegExp('(?:^|; )' + COOKIE + '=([^;]*)'));
+      if (!m) return {};
+      try { return JSON.parse(decodeURIComponent(m[1])); } catch (e) { return {}; }
+    }
+    function writeCookie(obj) {
+      var d = new Date(); d.setTime(d.getTime() + COOKIE_DAYS * 864e5);
+      document.cookie = COOKIE + '=' + encodeURIComponent(JSON.stringify(obj)) +
+        ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var stored = readCookie();
+    var data = {};
+    KEYS.forEach(function (k) {
+      var v = params.get(k);
+      if (v) { data[k] = v; } else if (stored[k]) { data[k] = stored[k]; }
+    });
+    if (Object.keys(data).length) writeCookie(data);
+
+    function fieldKey(name) {
+      if (!name) return name;
+      var k = name.indexOf('/') !== -1 ? name.split('/').pop() : name;
+      return k.replace(/^var_/, '');
+    }
+
+    function setNativeValue(el, value) {
+      var proto = el.tagName === 'TEXTAREA'
+        ? window.HTMLTextAreaElement.prototype
+        : window.HTMLInputElement.prototype;
+      var setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
+      setter.call(el, value);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function fill(form) {
+      if (!Object.keys(data).length) return;
+      form.querySelectorAll('input,select,textarea').forEach(function (el) {
+        var k = fieldKey(el.name);
+        if (k && data[k] && el.value !== data[k]) setNativeValue(el, data[k]);
+      });
+    }
+
+    function fillAll() {
+      if (!scope) return;
+      scope.querySelectorAll('form').forEach(function (f) {
+        fill(f);
+        if (!f._attrBound) {
+          f._attrBound = true;
+          f.addEventListener('submit', function () { fill(f); }, true);
+        }
+      });
+    }
+
+    aoCarregar(function () {
+      scope = (SCOPE_SELECTOR && document.querySelector(SCOPE_SELECTOR)) || document.body;
+      if (!scope) return;
+      new MutationObserver(fillAll).observe(scope, { childList: true, subtree: true });
+      [300, 800, 1500, 3000, 5000].forEach(function (t) { setTimeout(fillAll, t); });
+    });
+  })();
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-526KSCV2');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","xtiuowzjjf");</script>
+  <!-- End Microsoft Clarity -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM para Provedores de Internet | Descubra Onde Estão Suas Próximas Vendas</title>
+  <meta name="description"
+    content="Descubra onde estão as melhores oportunidades de venda da sua rede. O Inmap Sales reúne mapa de cobertura, CRM, funil comercial, leads e indicadores em uma única plataforma para provedores de internet." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <link rel="icon" type="image/png" href="assets/favicon-inmap-sales.png" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://js.hsforms.net/forms/embed/developer/50388221.js" defer></script>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-526KSCV2"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar" role="banner">
+    <a href="#" class="navbar__logo" aria-label="Inmap Sales — Página inicial">
+      <img src="assets/logo-inmap-sales-principal.svg" alt="Inmap Sales" width="183" height="32" />
+    </a>
+    <div class="navbar__right">
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="#cobertura" class="btn-ghost-nav">Cobertura</a>
+        <a href="#funcionalidades" class="btn-ghost-nav">Funcionalidades</a>
+      </nav>
+      <div class="navbar__actions">
+        <a href="#" class="btn-cta-primary" id="navbar-cta">
+          Quero ver no mapa
+          <span class="arrow-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+        <button class="navbar__hamburger" id="nav-hamburger" type="button" aria-label="Abrir menu de navegação"
+          aria-expanded="false" aria-controls="nav-drawer">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- DRAWER OVERLAY -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+  <!-- DRAWER LATERAL -->
+  <div class="nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Menu de navegação"
+    aria-hidden="true">
+    <div class="nav-drawer__header">
+      <a href="#" class="nav-drawer__logo" aria-label="Inmap Sales — Página inicial">
+        <img src="assets/logo-inmap-sales-principal.svg" alt="Inmap Sales" width="140" height="24" />
+      </a>
+      <button class="nav-drawer__close" id="nav-drawer-close" type="button" aria-label="Fechar menu">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+    <nav class="nav-drawer__links" aria-label="Links de navegação">
+      <a href="#cobertura" class="nav-drawer__link">Cobertura</a>
+      <a href="#funcionalidades" class="nav-drawer__link">Funcionalidades</a>
+    </nav>
+    <div class="nav-drawer__footer">
+      <a href="#" class="btn-cta-primary nav-drawer__cta">
+        Quero ver no mapa
+        <span class="arrow-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero" id="hero" aria-label="Apresentação do Inmap Sales">
+      <div class="hero__container">
+
+        <!-- LEFT: Letreiro -->
+        <div class="hero__left">
+
+          <div class="hero__badge" aria-label="CRM Geoinformado para Provedores">
+            <span class="hero__badge-dot" aria-hidden="true"></span>
+            CRM Geoinformado
+          </div>
+
+          <h1 class="hero__title">
+            Localize as<br />
+            próximas <mark>vendas</mark><br />
+            do seu provedor
+          </h1>
+
+          <p class="hero__desc">
+            O Inmap Sales cruza cobertura, clientes, leads e infraestrutura para acompanhar toda a operação comercial em
+            tempo real e mostrar onde sua equipe deve atuar primeiro.
+          </p>
+
+          <div class="hero__cta-row">
+            <a href="#" class="btn-cta-primary" id="cta-hero-primary">
+              Quero ver no mapa
+              <span class="arrow-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M3.5 9h11M10 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+
+        </div><!-- /hero__left -->
+
+        <!-- RIGHT: Vídeo + Cards -->
+        <div class="hero__right" id="hero-right">
+
+          <div class="hero__video-wrapper" id="video-wrapper">
+            <video class="hero__video" id="hero-video" autoplay muted loop playsinline aria-hidden="true"
+              preload="auto">
+              <source src="hero-video.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <!-- Card 1: Leads -->
+          <div class="float-card float-card--leads" aria-hidden="true" data-depth="0.06" id="fc-leads">
+            <div class="fc-icon fc-icon--orange">📍</div>
+            <div>
+              <div class="fc-label">Leads no mapa</div>
+              <div class="fc-value fc-value--orange">Boa concentração</div>
+            </div>
+          </div>
+
+          <!-- Card 2: Cobertura -->
+          <div class="float-card float-card--coverage" aria-hidden="true" data-depth="0.04" id="fc-coverage">
+            <div class="fc-icon fc-icon--navy">🗺️</div>
+            <div>
+              <div class="fc-label">Cobertura mapeada</div>
+              <div class="fc-value">Ampla cobertura</div>
+            </div>
+          </div>
+
+          <!-- Card 3: Live -->
+          <div class="float-card float-card--live" aria-hidden="true" data-depth="0.08" id="fc-live">
+            <div class="fc-live-row">
+              <span class="fc-live-dot"></span>
+              <span class="fc-live-text">Ao vivo</span>
+            </div>
+            <div class="fc-metric-row">
+              <span class="fc-metric-num">↑</span>
+              <span class="fc-metric-unit">Vendas da semana</span>
+            </div>
+            <div class="fc-trend">Em alta</div>
+          </div>
+
+        </div><!-- /hero__right -->
+
+      </div>
+    </section>
+
+    <!-- DOBRA 2 — Benefícios de operação (Bento Grid) -->
+    <section class="bento-section" id="cobertura" aria-label="Benefícios de operação do Inmap Sales">
+      <div class="bento-container">
+
+        <!-- Header da Seção -->
+        <div class="bento-header">
+          <div class="bento-header__left">
+            <h2 class="bento-title">
+              Descubra novas vendas nas <mark>ruas da sua cobertura</mark>
+            </h2>
+          </div>
+          <div class="bento-header__right">
+            <p class="bento-subtitle">
+              Reúna informações comerciais e técnicas em visualização única para ajudar sua equipe a decidir onde
+              prospectar e quais clientes desenvolver.
+            </p>
+          </div>
+        </div>
+
+        <!-- Grid Bento Layout (Espelhado da Referência Visual) -->
+        <div class="bento-grid">
+
+          <!-- Card 1: Concentração e Oportunidades (Top-Left) -->
+          <div class="bento-card bento-card--md">
+            <div class="bento-card__content">
+              <h3 class="bento-card__title">Concentração de clientes</h3>
+              <p class="bento-card__desc">Seu mapa de oportunidades.</p>
+            </div>
+            <div class="bento-card__visual bento-card__visual--map-dots">
+              <div class="map-grid-bg"></div>
+              <div class="map-hotspot map-hotspot--1"></div>
+              <div class="map-hotspot map-hotspot--2"></div>
+              <div class="map-hotspot map-hotspot--3"></div>
+              <div class="map-hotspot map-hotspot--4"></div>
+              <div class="map-hotspot map-hotspot--5"></div>
+            </div>
+          </div>
+
+          <!-- Card 2: Potencial para Upgrades (Top-Center Tall / Feature) -->
+          <div class="bento-card bento-card--tall">
+            <div class="bento-card__visual bento-card__visual--3d-stack">
+              <div class="stack-layer stack-layer--1">
+                <div class="stack-badge">Plano atual</div>
+                <div class="stack-meter">
+                  <div class="stack-fill" style="width: 45%;"></div>
+                </div>
+              </div>
+              <div class="stack-layer stack-layer--2">
+                <div class="stack-badge">Oportunidade detectada</div>
+                <div class="stack-value">Plano Turbo</div>
+              </div>
+              <div class="stack-layer stack-layer--3">
+                <div class="stack-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="bento-card__content">
+              <div class="bento-card__icon-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <h3 class="bento-card__title">Potencial de upgrade</h3>
+              <p class="bento-card__desc">Receita escondida na sua base.</p>
+            </div>
+          </div>
+
+          <!-- Card 3: Priorização de Bairros (Top-Right Stat) -->
+          <div class="bento-card bento-card--stat">
+            <h3 class="bento-card__title">Priorização de bairros</h3>
+            <p class="bento-card__desc" style="margin-bottom: 20px;">Foco onde vale a pena.</p>
+            <div class="bento-card__stat-header">
+              <span class="bento-card__stat-tag">Conversão</span>
+            </div>
+            <div class="bento-card__chart">
+              <div class="chart-bar" style="--h: 40%;"></div>
+              <div class="chart-bar" style="--h: 55%;"></div>
+              <div class="chart-bar" style="--h: 35%;"></div>
+              <div class="chart-bar" style="--h: 70%;"></div>
+              <div class="chart-bar chart-bar--active" style="--h: 95%;">
+                <span class="chart-bar__label">Alta</span>
+                <span class="chart-glow"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Consulta de Viabilidade (Bottom-Left) -->
+          <div class="bento-card bento-card--sm">
+            <div class="bento-card__icon-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="bento-card__title">Viabilidade antes da negociação</h3>
+            <p class="bento-card__desc">Zero surpresa técnica.</p>
+          </div>
+
+          <!-- Card 5: Planejamento de Expansão (Bottom-Right) -->
+          <div class="bento-card bento-card--cta">
+            <div class="bento-card__icon-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="5" cy="12" r="2" stroke="currentColor" stroke-width="2" />
+                <circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="2" />
+                <circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="2" />
+                <path d="M7 12h4l4-5M11 12l4 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="bento-card__title text-white">Planejamento de expansão</h3>
+            <p class="bento-card__desc text-white-80">Expansão com dados de verdade.</p>
+          </div>
+
+        </div><!-- /bento-grid -->
+
+        <p class="bento-disclaimer" aria-hidden="true">Interface ilustrativa — dados de exemplo</p>
+
+      </div>
+    </section>
+
+    <!-- DOBRA 3 — Conexão (Banner de Impacto com Grid Overlay) -->
+    <section class="connection-section" id="conexao" aria-label="Visibilidade operacional da rede">
+      <div class="connection-grid-lines" aria-hidden="true">
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+      </div>
+      <div class="connection-container">
+
+        <!-- Esquerda: Chip + Título Impactante -->
+        <div class="connection__left">
+          <h2 class="connection__title">
+            Sua rede cresce,<br />
+            mas sua <mark>visão sobre ela não?</mark>
+          </h2>
+        </div>
+
+        <!-- Direita: Descrição + Botão CTA -->
+        <div class="connection__right">
+          <p class="connection__desc">
+            Sem visibilidade real da operação, oportunidades de venda passam despercebidas e decisões comerciais viram
+            achismo.
+          </p>
+          <div class="connection__cta-wrapper">
+            <a href="#" class="btn-cta-primary connection__btn" id="cta-conexao">
+              Quero ver com clareza
+              <span class="arrow-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M3.5 9h11M10 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DOBRA 4 — Funcionalidade Comercial (Diagrama Orbital de Integração) -->
+    <section class="overview-section" id="overview-comercial" aria-label="Acompanhe a operação comercial em tempo real">
+      <div class="overview-container">
+
+        <div class="commercial-layout">
+
+          <!-- Texto: badge + título + descrição + tópicos -->
+          <div class="commercial-text">
+            <h2 class="overview-title">
+              Acompanhe toda a operação comercial <mark>em tempo real</mark>
+            </h2>
+            <p class="overview-desc">
+              Saiba quais vendedores estão performando melhor e quais negociações precisam de atenção. Tudo atualizado
+              automaticamente <strong>em um único painel</strong>.
+            </p>
+
+            <ul class="commercial-topics">
+              <li class="commercial-topic">
+                <span class="commercial-topic__check" aria-hidden="true">✓</span>
+                <span class="commercial-topic__label">Funil atualizado</span>
+              </li>
+              <li class="commercial-topic">
+                <span class="commercial-topic__check" aria-hidden="true">✓</span>
+                <span class="commercial-topic__label">Indicadores</span>
+              </li>
+              <li class="commercial-topic">
+                <span class="commercial-topic__check" aria-hidden="true">✓</span>
+                <span class="commercial-topic__label">Histórico</span>
+              </li>
+              <li class="commercial-topic">
+                <span class="commercial-topic__check" aria-hidden="true">✓</span>
+                <span class="commercial-topic__label">Gestão da equipe</span>
+              </li>
+            </ul>
+          </div><!-- /commercial-text -->
+
+          <!-- Visual: radar de sincronização -->
+          <div class="commercial-visual">
+            <div class="radar" aria-hidden="true">
+
+              <div class="radar__ring radar__ring--1"></div>
+              <div class="radar__ring radar__ring--2"></div>
+              <div class="radar__ring radar__ring--3"></div>
+
+              <svg class="radar__svg" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+                <!-- Linhas tracejadas do centro (180,180) a cada nó -->
+                <line x1="180" y1="180" x2="180" y2="28" stroke="rgba(200,105,0,0.22)" stroke-width="1"
+                  stroke-dasharray="4 5" />
+                <line x1="180" y1="180" x2="332" y2="180" stroke="rgba(200,105,0,0.22)" stroke-width="1"
+                  stroke-dasharray="4 5" />
+                <line x1="180" y1="180" x2="180" y2="332" stroke="rgba(200,105,0,0.22)" stroke-width="1"
+                  stroke-dasharray="4 5" />
+                <line x1="180" y1="180" x2="28" y2="180" stroke="rgba(200,105,0,0.22)" stroke-width="1"
+                  stroke-dasharray="4 5" />
+                <!-- Ponto central -->
+                <circle cx="180" cy="180" r="14" fill="rgba(200,105,0,0.07)" />
+                <circle cx="180" cy="180" r="5" fill="rgba(200,105,0,0.5)" />
+              </svg>
+
+              <!-- Funil atualizado — topo -->
+              <div class="radar__node radar__node--top">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <!-- Indicadores — direita -->
+              <div class="radar__node radar__node--right">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <!-- Histórico — baixo -->
+              <div class="radar__node radar__node--bottom">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <!-- Gestão da equipe — esquerda -->
+              <div class="radar__node radar__node--left">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm14 10v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+
+            </div><!-- /radar -->
+          </div><!-- /commercial-visual -->
+
+        </div><!-- /commercial-layout -->
+
+      </div>
+    </section>
+
+    <!-- DOBRA 5 — Mobilidade Comercial -->
+    <section class="overview-section" id="funcionalidades" aria-label="Seu time vendendo em qualquer lugar">
+      <div class="overview-container">
+
+        <div class="overview-header">
+          <span class="overview-badge">FUNCIONALIDADE COMERCIAL</span>
+          <h2 class="overview-title">
+            Seu time vende em <mark>qualquer lugar</mark>
+          </h2>
+          <p class="overview-desc">
+            Do Kanban ao aplicativo de campo, cada etapa da venda se conecta. Sua equipe prospecta, negocia e fecha sem
+            trocar de ferramenta e sem perder o ritmo.
+          </p>
+        </div>
+
+        <div class="overview-content">
+
+          <div class="overview-tabs" role="tablist" aria-label="Funcionalidades de mobilidade">
+
+            <button class="overview-tab active" id="tab-kanban" role="tab" aria-selected="true"
+              aria-controls="panel-kanban" data-tab="kanban">
+              <div class="tab-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="4" width="6" height="16" rx="1.5" stroke="currentColor" stroke-width="2" />
+                  <rect x="9.5" y="4" width="6" height="10" rx="1.5" stroke="currentColor" stroke-width="2" />
+                  <rect x="16" y="4" width="6" height="13" rx="1.5" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </div>
+              <span class="tab-label">Negociações</span>
+              <span class="tab-dot" aria-hidden="true"></span>
+            </button>
+
+            <button class="overview-tab" id="tab-app" role="tab" aria-selected="false" aria-controls="panel-app"
+              data-tab="app">
+              <div class="tab-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <rect x="6" y="2" width="12" height="20" rx="2.5" stroke="currentColor" stroke-width="2" />
+                  <path d="M11 18h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <span class="tab-label">App de vendas</span>
+              <span class="tab-dot" aria-hidden="true"></span>
+            </button>
+
+            <button class="overview-tab" id="tab-campanhas" role="tab" aria-selected="false"
+              aria-controls="panel-campanhas" data-tab="campanhas">
+              <div class="tab-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 11v2a2 2 0 002 2h1l3 5 1-5h1l7 3V6l-7 3H6a2 2 0 00-2 2z" stroke="currentColor"
+                    stroke-width="2" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <span class="tab-label">Campanhas</span>
+              <span class="tab-dot" aria-hidden="true"></span>
+            </button>
+
+            <button class="overview-tab" id="tab-importacao" role="tab" aria-selected="false"
+              aria-controls="panel-importacao" data-tab="importacao">
+              <div class="tab-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 16V4m0 0L7 9m5-5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" />
+                </svg>
+              </div>
+              <span class="tab-label">Importação de Leads</span>
+              <span class="tab-dot" aria-hidden="true"></span>
+            </button>
+
+          </div>
+
+          <div class="overview-panel-card">
+
+            <div class="tab-panel active" id="panel-kanban" role="tabpanel" aria-labelledby="tab-kanban">
+              <div class="panel-header">
+                <span class="panel-tag">FUNIL VISUAL</span>
+                <h3 class="panel-title">Organize as negociações</h3>
+                <ul class="panel-checklist">
+                  <li><span class="check-icon">✓</span> Acompanhe cada oportunidade via Kanban</li>
+                  <li><span class="check-icon">✓</span> Identifique gargalos no funil</li>
+                  <li><span class="check-icon">✓</span> Visualize todas as etapas de cada negociação</li>
+                </ul>
+              </div>
+              <div class="panel-visual">
+                <video class="panel-screenshot" muted loop playsinline preload="none"
+                  poster="assets/system-image-placeholder.png" aria-label="Kanban de negociações no Inmap Sales">
+                  <source src="assets/negociacoes.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="panel-app" role="tabpanel" aria-labelledby="tab-app">
+              <div class="panel-header">
+                <span class="panel-tag">VENDAS NO CAMPO</span>
+                <h3 class="panel-title">Aplicativo para vendedores PAP</h3>
+                <ul class="panel-checklist">
+                  <li><span class="check-icon">✓</span> Registre leads e consulte viabilidade pelo celular</li>
+                  <li><span class="check-icon">✓</span> Atualize negociações em tempo real no campo</li>
+                  <li><span class="check-icon">✓</span> Conclua vendas sem precisar voltar ao escritório</li>
+                </ul>
+              </div>
+              <div class="panel-visual">
+                <video class="panel-screenshot" muted loop playsinline preload="none"
+                  poster="assets/system-image-placeholder.png" aria-label="Aplicativo de vendas Inmap Sales">
+                  <source src="assets/app-vendas.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="panel-campanhas" role="tabpanel" aria-labelledby="tab-campanhas">
+              <div class="panel-header">
+                <span class="panel-tag">PROSPECÇÃO ATIVA</span>
+                <h3 class="panel-title">Alcance mais clientes</h3>
+                <ul class="panel-checklist">
+                  <li><span class="check-icon">✓</span> Crie campanhas segmentadas por região e perfil</li>
+                  <li><span class="check-icon">✓</span> Reaproveite oportunidades que ficariam esquecidas</li>
+                  <li><span class="check-icon">✓</span> Acompanhe os resultados de cada campanha</li>
+                </ul>
+              </div>
+              <div class="panel-visual">
+                <video class="panel-screenshot" muted loop playsinline preload="none"
+                  poster="assets/system-image-placeholder.png" aria-label="Campanhas de prospecção no Inmap Sales">
+                  <source src="assets/campanhas.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="panel-importacao" role="tabpanel" aria-labelledby="tab-importacao">
+              <div class="panel-header">
+                <span class="panel-tag">CENTRALIZAÇÃO DE LEADS</span>
+                <h3 class="panel-title">Transforme </br>listas em oportunidades</h3>
+                <ul class="panel-checklist">
+                  <li><span class="check-icon">✓</span> Importe bases externas de leads com facilidade</li>
+                  <li><span class="check-icon">✓</span> Centralize todos os contatos em um único lugar</li>
+                  <li><span class="check-icon">✓</span> Inicie novas negociações com mais organização</li>
+                </ul>
+              </div>
+              <div class="panel-visual">
+                <video class="panel-screenshot" muted loop playsinline preload="none"
+                  poster="assets/system-image-placeholder.png" aria-label="Importação de leads no Inmap Sales">
+                  <source src="assets/leads.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+          </div><!-- /overview-panel-card -->
+
+        </div><!-- /overview-content -->
+
+        <div class="overview-section-cta">
+          <a href="#" class="btn-cta-primary" id="cta-mobilidade">
+            Quero ver na prática
+            <span class="arrow-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3.5 9h11M10 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DOBRA 6 — CTA Final -->
+    <section class="final-cta-section" id="cta-final" aria-label="Chamada final para ação">
+      <div class="final-cta-container">
+        <div class="final-cta-box">
+          <h2 class="final-cta-title">
+            Sua próxima venda já está <mark>no mapa!</mark>
+          </h2>
+          <p class="final-cta-desc">
+            Centralize clientes, leads, vendedores e negociações em uma única plataforma e tome decisões comerciais com
+            mais clareza durante o crescimento do seu provedor.
+          </p>
+          <a href="#" class="btn-cta-primary final-cta-btn" id="cta-final-btn">
+            Agendar demo
+            <span class="arrow-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3.5 9h11M10 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <a href="https://ixcsoft.com/">
+        <img src="assets/logo-um-produto-ixc-soft.svg" alt="IXCsoft" class="footer-logo" width="120" height="32"
+          loading="lazy" decoding="async">
+      </a>
+      <p class="footer-copy">© 2026 IXC Soft. Todos os direitos reservados.</p>
+      <nav class="footer-links" aria-label="Links do rodapé">
+        <a href="https://ixcsoft.com/politica-de-privacidade/">Privacidade e Termos de Uso</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- MODAL — HubSpot Form -->
+  <div id="hs-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+    aria-describedby="modal-subtitle" aria-hidden="true">
+    <div class="modal-panel" id="modal-panel">
+      <button class="modal-close" id="modal-close" aria-label="Fechar modal" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="modal-panel__scroll">
+        <div class="modal-header">
+          <img src="assets/logo-inmap-sales-principal.svg" alt="Inmap Sales" class="modal-logo" width="140"
+            height="24" />
+          <h2 class="modal-title" id="modal-title">Agende sua demonstração</h2>
+          <p class="modal-subtitle" id="modal-subtitle">Fale com um especialista e veja o Inmap Sales na prática.</p>
+        </div>
+        <div class="modal-body" id="hsFormContainer">
+          <!-- HubSpot form injetado na primeira abertura (lazy load) -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Mouse parallax nos cards flutuantes
+    const heroRight = document.getElementById('hero-right');
+    const floatCards = document.querySelectorAll('.float-card[data-depth]');
+    const mq = window.matchMedia('(pointer: fine) and (min-width: 1024px)');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Vídeo acelerado — pausado se prefers-reduced-motion estiver ativo
+    const video = document.getElementById('hero-video');
+    if (video) {
+      if (prefersReduced.matches) {
+        video.pause();
+      } else {
+        const setSpeed = () => { video.playbackRate = 2.5; };
+        video.addEventListener('loadedmetadata', setSpeed);
+        video.addEventListener('play', setSpeed);
+        if (video.readyState >= 1) setSpeed();
+      }
+    }
+
+    let bounds = null;
+    let rafId = null;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function tick() {
+      currentX = lerp(currentX, targetX, 0.07);
+      currentY = lerp(currentY, targetY, 0.07);
+
+      floatCards.forEach(card => {
+        const depth = parseFloat(card.dataset.depth) || 0.05;
+        const tx = currentX * depth * 100;
+        const ty = currentY * depth * 70;
+        card.style.setProperty('--mx', tx + 'px');
+        card.style.setProperty('--my', ty + 'px');
+      });
+
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function onMouseMove(e) {
+      if (!bounds || prefersReduced.matches) return;
+      const cx = bounds.left + bounds.width / 2;
+      const cy = bounds.top + bounds.height / 2;
+      targetX = (e.clientX - cx) / (bounds.width / 2);
+      targetY = (e.clientY - cy) / (bounds.height / 2);
+    }
+
+    function onMouseLeave() {
+      targetX = 0;
+      targetY = 0;
+    }
+
+    function initParallax() {
+      if (!mq.matches || prefersReduced.matches || !heroRight) return;
+      bounds = heroRight.getBoundingClientRect();
+      window.addEventListener('resize', () => {
+        bounds = heroRight.getBoundingClientRect();
+      }, { passive: true });
+      document.addEventListener('mousemove', onMouseMove, { passive: true });
+      heroRight.addEventListener('mouseleave', onMouseLeave, { passive: true });
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    initParallax();
+    mq.addEventListener('change', initParallax);
+
+    // Poster overlay — crossfade entre placeholder e vídeo real
+    document.querySelectorAll('.panel-screenshot').forEach(function (vid) {
+      var overlay = document.createElement('div');
+      overlay.className = 'panel-poster-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      vid.parentNode.appendChild(overlay);
+
+      vid.addEventListener('canplay', function () {
+        overlay.classList.add('fade-out');
+        overlay.addEventListener('transitionend', function () {
+          overlay.remove();
+        }, { once: true });
+      }, { once: true });
+    });
+
+    // Tab switching — scoped por seção para que dobra 4 e dobra 5 funcionem independentemente
+    document.querySelectorAll('.overview-content').forEach(section => {
+      const tabs = section.querySelectorAll('.overview-tab');
+      const panels = section.querySelectorAll('.tab-panel');
+
+      function playPanelVideo(panel) {
+        if (prefersReduced.matches) return;
+        var video = panel.querySelector('video');
+        if (video) video.play().catch(function () { });
+      }
+
+      function pausePanelVideo(panel) {
+        var video = panel.querySelector('video');
+        if (video) { video.pause(); video.currentTime = 0; }
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const targetTab = tab.dataset.tab;
+
+          tabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+
+          panels.forEach(panel => {
+            if (panel.id === `panel-${targetTab}`) {
+              panel.classList.add('active');
+              playPanelVideo(panel);
+            } else {
+              panel.classList.remove('active');
+              pausePanelVideo(panel);
+            }
+          });
+        });
+      });
+
+      // Autoplay da aba inicial ao entrar em viewport
+      var initialPanel = section.querySelector('.tab-panel.active');
+      if (initialPanel && initialPanel.querySelector('video')) {
+        var overviewSection = section.closest('section');
+        var sectionObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              playPanelVideo(initialPanel);
+              sectionObs.disconnect();
+            }
+          });
+        }, { threshold: 0.25 });
+        if (overviewSection) sectionObs.observe(overviewSection);
+      }
+    });
+
+    // DOBRA 4 — Diagrama orbital: sincroniza tópicos com os nós em órbita
+    const commercialTopics = document.querySelectorAll('.commercial-topic');
+    const orbitNodes = document.querySelectorAll('.orbit__node');
+
+    function setActiveNode(key) {
+      commercialTopics.forEach(t => t.classList.toggle('is-active', t.dataset.node === key));
+      orbitNodes.forEach(n => n.classList.toggle('is-active', n.dataset.node === key));
+    }
+
+    commercialTopics.forEach(topic => {
+      topic.addEventListener('mouseenter', () => setActiveNode(topic.dataset.node));
+      topic.addEventListener('focus', () => setActiveNode(topic.dataset.node));
+      topic.addEventListener('click', () => setActiveNode(topic.dataset.node));
+    });
+
+    orbitNodes.forEach(node => {
+      node.addEventListener('mouseenter', () => setActiveNode(node.dataset.node));
+    });
+
+    // =============================================
+    // MODAL — HubSpot Form
+    // =============================================
+    (function () {
+      'use strict';
+
+      var PORTAL_ID = '50388221';
+      var FORM_ID = 'acfaa81f-2596-4d6e-9910-16c179913417';
+      var REGION = 'na1';
+      var EXIT_MS = 200;
+      var REVEAL_MS = 2000; // tempo fixo antes de esconder o skeleton
+
+      var modal = document.getElementById('hs-modal');
+      var panel = document.getElementById('modal-panel');
+      var closeBtn = document.getElementById('modal-close');
+      var formContainer = document.getElementById('hsFormContainer');
+
+      var formInjected = false;
+      var formRevealed = false;
+      var revealTimer = null;
+      var openerEl = null;
+      var exitTimer = null;
+
+      var pageRegions = [
+        document.querySelector('header.navbar'),
+        document.querySelector('main'),
+        document.querySelector('footer.site-footer'),
+      ].filter(Boolean);
+
+      var triggers = document.querySelectorAll('.btn-cta-primary, .bento-cta-btn');
+
+      // ---- Skeleton ----
+      function buildSkeleton() {
+        var sk = document.createElement('div');
+        sk.id = 'hs-skeleton';
+        sk.setAttribute('aria-hidden', 'true');
+        var labelWidths = ['30%', '24%', '38%', '26%'];
+        labelWidths.forEach(function (w) {
+          var field = document.createElement('div');
+          field.className = 'sk-field';
+          var lbl = document.createElement('div');
+          lbl.className = 'sk-bar sk-label';
+          lbl.style.width = w;
+          var inp = document.createElement('div');
+          inp.className = 'sk-bar sk-input';
+          field.appendChild(lbl);
+          field.appendChild(inp);
+          sk.appendChild(field);
+        });
+        var btn = document.createElement('div');
+        btn.className = 'sk-bar sk-button';
+        sk.appendChild(btn);
+        return sk;
+      }
+
+      function showSkeleton() {
+        if (document.getElementById('hs-skeleton')) return;
+        formContainer.insertBefore(buildSkeleton(), formContainer.firstChild);
+      }
+
+      // ---- Form reveal (disparado pelo timer fixo) ----
+      function revealForm() {
+        if (formRevealed) return;
+        formRevealed = true;
+        var sk = document.getElementById('hs-skeleton');
+        var inline = formContainer.querySelector('.hs-form-html');
+        var fallbackFrame = formContainer.querySelector('.hs-form-frame');
+        // warn se caiu no iframe (SSR falhou) ou se nada renderizou
+        if (fallbackFrame || (inline && inline.children.length === 0)) {
+          console.warn('[HubSpot] form não renderizou, possível fallback pra iframe');
+        }
+        var el = inline || fallbackFrame;
+        if (el) {
+          el.removeAttribute('inert');
+          el.classList.add('hs-frame-ready');
+        }
+        if (sk) {
+          sk.classList.add('sk-out');
+          setTimeout(function () {
+            if (sk.parentNode) sk.parentNode.removeChild(sk);
+          }, 210);
+        }
+      }
+
+      // ---- Injeção / preload ----
+      function preloadForm() {
+        if (formInjected) return;
+        var frame = document.createElement('div');
+        frame.className = 'hs-form-html';
+        frame.setAttribute('data-region', REGION);
+        frame.setAttribute('data-form-id', FORM_ID);
+        frame.setAttribute('data-portal-id', PORTAL_ID);
+        frame.setAttribute('inert', '');
+        formContainer.appendChild(frame);
+        formInjected = true;
+        revealTimer = setTimeout(revealForm, REVEAL_MS);
+      }
+
+      // Preload no hover/focus — antes do clique
+      triggers.forEach(function (trigger) {
+        trigger.addEventListener('mouseenter', preloadForm, { once: true });
+        trigger.addEventListener('focus', preloadForm, { once: true });
+      });
+
+      // ---- Modal abrir/fechar ----
+      function openModal(trigger) {
+        if (exitTimer) { clearTimeout(exitTimer); exitTimer = null; modal.classList.remove('is-closing'); }
+        openerEl = trigger || document.activeElement;
+        preloadForm();
+        if (!formRevealed) showSkeleton();
+        pageRegions.forEach(function (el) {
+          el.setAttribute('aria-hidden', 'true');
+          el.setAttribute('inert', '');
+        });
+        modal.removeAttribute('aria-hidden');
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(function () { closeBtn.focus(); });
+      }
+
+      function closeModal() {
+        if (!modal.classList.contains('is-open') && !modal.classList.contains('is-closing')) return;
+        modal.classList.remove('is-open');
+        modal.classList.add('is-closing');
+        document.body.style.overflow = '';
+        exitTimer = setTimeout(function () {
+          modal.setAttribute('aria-hidden', 'true');
+          modal.classList.remove('is-closing');
+          exitTimer = null;
+          pageRegions.forEach(function (el) { el.removeAttribute('aria-hidden'); el.removeAttribute('inert'); });
+          if (openerEl) { openerEl.focus(); openerEl = null; }
+        }, EXIT_MS);
+      }
+
+      function trapFocus(e) {
+        if (e.key !== 'Tab') return;
+        var sel = 'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+        var els = Array.prototype.slice.call(panel.querySelectorAll(sel));
+        if (!els.length) return;
+        var first = els[0], last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+        else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+      }
+
+      function onKeydown(e) {
+        if (!modal.classList.contains('is-open')) return;
+        if (e.key === 'Escape') { closeModal(); return; }
+        trapFocus(e);
+      }
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', onKeydown);
+      triggers.forEach(function (trigger) {
+        trigger.addEventListener('click', function (e) { e.preventDefault(); openModal(this); });
+      });
+    })();
+  </script>
+
+  <!-- DRAWER — Navegação lateral mobile -->
+  <script>
+    (function () {
+      'use strict';
+
+      var hamburger = document.getElementById('nav-hamburger');
+      var overlay = document.getElementById('nav-overlay');
+      var drawer = document.getElementById('nav-drawer');
+      var closeBtn = document.getElementById('nav-drawer-close');
+
+      function openDrawer() {
+        drawer.classList.add('is-open');
+        overlay.classList.add('is-open');
+        drawer.removeAttribute('aria-hidden');
+        hamburger.setAttribute('aria-expanded', 'true');
+        hamburger.setAttribute('aria-label', 'Fechar menu de navegação');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      }
+
+      function closeDrawer() {
+        drawer.classList.remove('is-open');
+        overlay.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Abrir menu de navegação');
+        document.body.style.overflow = '';
+        hamburger.focus();
+      }
+
+      hamburger.addEventListener('click', openDrawer);
+      closeBtn.addEventListener('click', closeDrawer);
+      overlay.addEventListener('click', closeDrawer);
+
+      // Fechar com Esc
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+          closeDrawer();
+        }
+      });
+
+      // Fechar ao clicar em qualquer link âncora dentro do drawer
+      drawer.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          closeDrawer();
+        });
+      });
+
+      // Focus trap
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        var focusables = Array.from(
+          drawer.querySelectorAll('a[href], button:not([disabled])')
+        );
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
