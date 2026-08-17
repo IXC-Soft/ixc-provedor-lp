@@ -1,0 +1,264 @@
+<!-- ══════════════════════════════════════════════════════════════════════
+     IXC · MENSURAÇÃO DA LANDING PAGE — bloco padrão
+     Colar no <head>, IMEDIATAMENTE ANTES do snippet do Google Tag Manager.
+
+     NADA A CONFIGURAR. Sem cor, sem chave, sem parâmetro. Colar e seguir.
+
+     SEM `defer` e SEM `async`, de propósito: `gtag('consent','default')` só
+     tem efeito se chegar ANTES do container do GTM carregar. Com defer o GTM
+     sobe primeiro, a tag dispara, aparece como "disparou" no Preview e não
+     produz efeito nenhum — o erro mais caro desta lista, porque não deixa
+     rastro.
+
+     Gerado de ixc-provedor-lp/js/ixc-tracking.js + js/utm-capture.js.
+     Editar lá, nunca aqui.
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<script>
+/**
+ * IXC — camada de consentimento. ZERO CONFIGURAÇÃO.
+ * ─────────────────────────────────────────────────────────────────────────
+ * Colar/carregar SÍNCRONO no <head>, ANTES do snippet do GTM. Nada a ajustar:
+ * sem cor, sem chave, sem parâmetro. Se um dia precisar decidir alguma coisa
+ * para instalar, deixou de ser padrão e virou configuração.
+ *
+ *   carregar com uma tag script simples apontando para /js/ixc-tracking.js,
+ *   e só então o snippet do GTM.
+ *
+ * NUNCA escreva a sequência de fechamento de script neste arquivo, nem dentro
+ * de comentário: ele também é colado inline em LPs de terceiros, e o parser de
+ * HTML encerra o bloco na primeira ocorrência — quebra a página inteira, sem
+ * dó e sem erro que aponte para cá.
+ *
+ * SEM `defer` e SEM `async`, de propósito: `gtag('consent','default')` só tem
+ * efeito se chegar ANTES do container carregar. Com defer o GTM sobe primeiro,
+ * a tag dispara, aparece como "disparou" no Preview e não produz efeito
+ * nenhum — o erro mais caro desta lista, porque não deixa rastro.
+ *
+ * O BANNER é neutro de propósito: barra escura, tipografia herdada da página
+ * (`font: inherit`). Não pede decisão de marca para ser instalado. Quem quiser
+ * marcar sobrescreve `#cookie-banner` no CSS da LP — opcional, nunca requisito.
+ *
+ * A CHAVE é fixa. `localStorage` já é isolado por origem: páginas do mesmo
+ * domínio compartilham automaticamente (quem aceitou numa não é perguntado na
+ * outra) e domínios diferentes não se enxergam, mesmo com o nome igual. Não há
+ * nada a configurar.
+ *
+ * ÚNICO comportamento condicional, e ele é automático: o banner só aparece se
+ * ainda não houver escolha registrada. Na página de obrigado o visitante já
+ * respondeu na anterior, então nada aparece — sem precisar de flag.
+ * ───────────────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  var KEY = 'ixcprovedor_cookie_consent';
+  var POLITICA = 'https://ixcsoft.com/politica-de-privacidade/';
+
+  function guardado() {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  }
+
+  /* ── 1. Consent Mode v2 do Google — padrão NEGADO ───────────────────────
+     Não pode ser tag de container: precisa existir antes do GTM carregar.
+     E "não declarado" não é "negado" — sem isto o GTM não retém tag nenhuma. */
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== 'function') {
+    window.gtag = function () { window.dataLayer.push(arguments); };
+  }
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+
+  /* ── 2. Consentimento do HubSpot ────────────────────────────────────────
+     API própria do HubSpot, sem relação nenhuma com o Consent Mode do Google.
+     São dois sistemas separados: precisa dos dois. */
+  window._hsp = window._hsp || [];
+
+  function aplicar(status) {
+    var ok = status === 'granted';
+    gtag('consent', 'update', {
+      ad_storage: ok ? 'granted' : 'denied',
+      ad_user_data: ok ? 'granted' : 'denied',
+      ad_personalization: ok ? 'granted' : 'denied',
+      analytics_storage: ok ? 'granted' : 'denied'
+    });
+    window._hsp.push(['setHubSpotConsent',
+      { analytics: ok, advertisement: ok, functionality: ok }]);
+    window.dataLayer.push({ event: 'cookie_consent', cookie_consent_status: status });
+  }
+
+  /* Reaplica a escolha já registrada. Sem isto, quem já decidiu volta como
+     indeciso e as tags ficam retidas em toda visita seguinte. */
+  var escolha = guardado();
+  if (escolha) {
+    aplicar(escolha);
+  } else {
+    window._hsp.push(['setHubSpotConsent',
+      { analytics: false, advertisement: false, functionality: false }]);
+  }
+
+  /* Exposto para o banner e para um link "gerenciar cookies" no rodapé. */
+  window.setCookieConsent = function (status) {
+    try { localStorage.setItem(KEY, status); } catch (e) {}
+    aplicar(status);
+    var el = document.getElementById('cookie-banner');
+    if (el) el.classList.remove('is-visible');
+  };
+
+  /* ── 3. Banner ────────────────────────────────────────────────────────── */
+  if (escolha) return;
+
+  function montar() {
+    if (document.getElementById('cookie-banner')) return;
+
+    var css = document.createElement('style');
+    css.textContent =
+      '#cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;' +
+      'background:#0f1115;border-top:1px solid rgba(255,255,255,.14);' +
+      'box-shadow:0 -8px 30px -18px rgba(0,0,0,.8);transform:translateY(110%);' +
+      'transition:transform .4s ease;font:inherit}' +
+      '#cookie-banner.is-visible{transform:translateY(0)}' +
+      '#cookie-banner .ci{max-width:1200px;margin:0 auto;padding:20px 24px;display:flex;' +
+      'flex-direction:column;gap:16px;align-items:flex-start}' +
+      '#cookie-banner p{margin:0;color:#e6e6e6;font-size:14px;line-height:1.55;font-family:inherit}' +
+      '#cookie-banner a{color:#fff;text-decoration:underline}' +
+      '#cookie-banner .ca{display:flex;gap:12px;flex-wrap:wrap;width:100%}' +
+      '#cookie-banner button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;' +
+      'padding:11px 26px;cursor:pointer;border:1px solid transparent;transition:opacity .2s ease}' +
+      '#cookie-banner .ok{background:#fff;color:#0f1115}' +
+      '#cookie-banner .ok:hover{opacity:.88}' +
+      '#cookie-banner .no{background:transparent;color:#e6e6e6;border-color:rgba(255,255,255,.28)}' +
+      '#cookie-banner .no:hover{background:rgba(255,255,255,.08)}' +
+      '#cookie-banner button:focus-visible{outline:2px solid #fff;outline-offset:2px}' +
+      '@media(min-width:768px){#cookie-banner .ci{flex-direction:row;align-items:center;' +
+      'justify-content:space-between;gap:32px}#cookie-banner .ca{width:auto;flex-shrink:0}}';
+    document.head.appendChild(css);
+
+    var el = document.createElement('div');
+    el.id = 'cookie-banner';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-live', 'polite');
+    el.setAttribute('aria-label', 'Aviso de cookies');
+    el.innerHTML =
+      '<div class="ci"><p>Utilizamos cookies para melhorar sua experiência, analisar o tráfego e ' +
+      'personalizar conteúdo. Ao continuar navegando, você concorda com nossa ' +
+      '<a href="' + POLITICA + '" target="_blank" rel="noopener">Política de Privacidade</a>.</p>' +
+      '<div class="ca"><button type="button" class="no">Rejeitar</button>' +
+      '<button type="button" class="ok">Aceitar cookies</button></div></div>';
+    document.body.appendChild(el);
+
+    el.querySelector('.ok').addEventListener('click', function () { setCookieConsent('granted'); });
+    el.querySelector('.no').addEventListener('click', function () { setCookieConsent('denied'); });
+    setTimeout(function () { el.classList.add('is-visible'); }, 600);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', montar);
+  } else {
+    montar();
+  }
+})();
+
+/* ═════════════════════════════════════════════════════════════ */
+
+/**
+ * Captura de UTMs / click IDs → campos ocultos do formulário HubSpot (embed React).
+ * O form é injetado em #hsFormContainer quando o modal "Agende sua demonstração" abre;
+ * o MutationObserver persiste e preenche assim que o form aparece (mesmo tarde).
+ *
+ * PRÉ-REQUISITO no HubSpot: o formulário (2415bdc0-...) precisa ter os campos ocultos
+ * com nome igual às chaves abaixo (aceita também o prefixo "var_", normalizado).
+ */
+(function () {
+  var KEYS = [
+    'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+    'gclid', 'fbclid', 'ad_id',
+    'gads_keyword', 'gads_ad_id', 'gads_campaign'
+  ];
+  var COOKIE = 'ixcprovedor_attribution';
+  var COOKIE_DAYS = 30;
+  var SCOPE_SELECTOR = '#hsFormContainer';
+
+  /* Resolvido só quando o DOM existe. Antes era resolvido na carga, o que
+     quebrava se o arquivo fosse colado inline no <head>: `#hsFormContainer`
+     ainda não existe, o escopo caía para `document`, e `observe(document.body)`
+     estourava porque o body também não existe ainda. */
+  var scope = null;
+
+  function aoCarregar(fn) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn);
+    } else { fn(); }
+  }
+
+  function readCookie() {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + COOKIE + '=([^;]*)'));
+    if (!m) return {};
+    try { return JSON.parse(decodeURIComponent(m[1])); } catch (e) { return {}; }
+  }
+  function writeCookie(obj) {
+    var d = new Date(); d.setTime(d.getTime() + COOKIE_DAYS * 864e5);
+    document.cookie = COOKIE + '=' + encodeURIComponent(JSON.stringify(obj)) +
+      ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var stored = readCookie();
+  var data = {};
+  KEYS.forEach(function (k) {
+    var v = params.get(k);
+    if (v) { data[k] = v; } else if (stored[k]) { data[k] = stored[k]; }
+  });
+  if (Object.keys(data).length) writeCookie(data);
+
+  function fieldKey(name) {
+    if (!name) return name;
+    var k = name.indexOf('/') !== -1 ? name.split('/').pop() : name;
+    return k.replace(/^var_/, '');
+  }
+
+  function setNativeValue(el, value) {
+    var proto = el.tagName === 'TEXTAREA'
+      ? window.HTMLTextAreaElement.prototype
+      : window.HTMLInputElement.prototype;
+    var setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
+    setter.call(el, value);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  function fill(form) {
+    if (!Object.keys(data).length) return;
+    form.querySelectorAll('input,select,textarea').forEach(function (el) {
+      var k = fieldKey(el.name);
+      if (k && data[k] && el.value !== data[k]) setNativeValue(el, data[k]);
+    });
+  }
+
+  function fillAll() {
+    if (!scope) return;
+    scope.querySelectorAll('form').forEach(function (f) {
+      fill(f);
+      if (!f._attrBound) {
+        f._attrBound = true;
+        f.addEventListener('submit', function () { fill(f); }, true);
+      }
+    });
+  }
+
+  aoCarregar(function () {
+    scope = (SCOPE_SELECTOR && document.querySelector(SCOPE_SELECTOR)) || document.body;
+    if (!scope) return;
+    /* O formulário é injetado tarde, e de novo se o modal reabrir. */
+    new MutationObserver(fillAll).observe(scope, { childList: true, subtree: true });
+    [300, 800, 1500, 3000, 5000].forEach(function (t) { setTimeout(fillAll, t); });
+  });
+})();
+</script>
+<!-- ═══ FIM · o snippet do GTM vem DEPOIS deste bloco ═══ -->
