@@ -1,0 +1,29 @@
+/* ==========================================================================
+   OLLI — DESIGN TOKENS (fonte única de verdade)
+   Consumido por index.html (produção) e design-system-olli.html (doc).
+   Qualquer mudança de marca (cor, fonte, scrollbar) começa e termina aqui —
+   nunca redeclare estes valores localmente nos arquivos que importam este CSS.
+   ========================================================================== */
+
+:root {
+  --primary: #903BFF;
+  --primary-dark: #7029CC;
+  --primary-light: #A35CFF;
+  --secondary: #212121;
+  --neutral: #FCFBFF;
+  --surface-dark: #2C2C2C;
+  --text-muted: #AFAFB1;
+  --text-faint: #79787A;
+  --border-dark: #333233;
+  --card-light: #FCFBFF;
+  --card-border: #E6E5E9;
+  --text-card-muted: #6E6D6F;
+  --success: #4ADE80;
+
+  --font-display: "Barlow", "Bahnschrift", "Arial Narrow", sans-serif;
+  --font-body: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --scrollbar-track: #F4F2F6;
+  --scrollbar-thumb: #8C33FF;
+  --scrollbar-thumb-hover: #7029CC;
+}
