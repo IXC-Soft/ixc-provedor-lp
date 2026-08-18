@@ -90,9 +90,6 @@ function initVideo() {
 window.LPAnimations.initHubspotModal();
 
 window.addEventListener('load', () => {
-  const loader = document.getElementById('pageLoader');
-  if (loader) setTimeout(() => loader.classList.add('hidden'), 400);
-
   requestAnimationFrame(() => {
     const isTouch = window.matchMedia('(hover:none) and (pointer:coarse)').matches;
 

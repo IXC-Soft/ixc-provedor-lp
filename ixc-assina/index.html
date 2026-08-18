@@ -2,6 +2,15 @@
 <html lang="pt-BR">
 
 <head>
+    <!--
+      Consentimento — Consent Mode v2 do Google + API do HubSpot.
+      SÍNCRONO e ANTES do GTM de propósito: `gtag('consent','default')` só tem
+      efeito se chegar antes do container carregar. Com `defer` o GTM sobe
+      primeiro e o consentimento não vale nada.
+      Arquivo compartilhado por todas as LPs do domínio. ZERO configuração.
+    -->
+    <script src="/js/ixc-tracking.js"></script>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -419,13 +428,53 @@
             </div>
             <div class="lead-modal-body">
                 <script src="https://js.hsforms.net/forms/embed/50388221.js" defer></script>
-                <div class="hs-form-frame" data-region="na1" data-form-id="40687ba2-91cc-4ef6-a000-8810e7c8fd1d" data-portal-id="50388221"></div>
+                <!--
+                  IFRAME (hs-form-frame), e NÃO inline — medido em navegador em
+                  2026-08-10: este formulário (40687ba2) NÃO suporta o embed inline.
+                  Com `hs-form-html` o container fica VAZIO, sem erro no console e sem
+                  fallback: o formulário simplesmente não aparece. Com `hs-form-frame`
+                  renderiza normalmente. O formulário da LP do IXC Provedor (2415bdc0)
+                  suporta inline; este não.
+
+                  CONSEQUÊNCIA ACEITA: num iframe os campos ocultos ficam em outra
+                  origem, então o js/utm-capture.js NÃO os alcança e o lead chega ao
+                  HubSpot sem utm_source, utm_campaign e afins. A IDENTIDADE (e-mail,
+                  telefone) continua sendo capturada — pelo caminho postMessage do
+                  js/hubspot-listener.js, que existe exatamente para este caso.
+
+                  PARA DESTRAVAR A UTM: migrar o formulário no editor do HubSpot para
+                  uma versão que suporte embed inline. Feito isso, é trocar a classe
+                  para hs-form-html e mais nada — o #hsFormContainer e o CSS do embed
+                  inline (seção "EMBED INLINE" no style.css) já estão prontos.
+
+                  #hsFormContainer é o ESCOPO do MutationObserver do utm-capture.js.
+                  Mantido de propósito, para a migração ser uma linha só.
+                -->
+                <div id="hsFormContainer">
+                    <div class="hs-form-frame" data-region="na1" data-form-id="40687ba2-91cc-4ef6-a000-8810e7c8fd1d" data-portal-id="50388221"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="js/main.js"></script>
+
+    <!--
+      Captura de UTM / gclid / fbclid → campos ocultos do formulário HubSpot.
+      Compartilhado com a LP do IXC Provedor, na raiz do domínio.
+      No IXC Assina o formulário é iframe, então os campos ocultos não são
+      alcançáveis — ver o comentário no modal. O arquivo fica para quando o
+      formulário for migrado, e serve à identidade via postMessage.
+    -->
+    <script src="/js/utm-capture.js" defer></script>
+
+    <!--
+      Identidade do lead → localStorage, para o Advanced Matching do Meta.
+      Compartilhado com a LP do IXC Provedor, na raiz do domínio.
+      Não empurra dataLayer — esse push é da tag do GTM, para não contar em dobro.
+    -->
+    <script src="/js/hubspot-listener.js" defer></script>
 </body>
 
 </html>

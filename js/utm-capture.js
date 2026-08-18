@@ -16,7 +16,17 @@
   var COOKIE_DAYS = 30;
   var SCOPE_SELECTOR = '#hsFormContainer';
 
-  var scope = (SCOPE_SELECTOR && document.querySelector(SCOPE_SELECTOR)) || document;
+  /* Resolvido só quando o DOM existe. Antes era resolvido na carga, o que
+     quebrava se o arquivo fosse colado inline no <head>: `#hsFormContainer`
+     ainda não existe, o escopo caía para `document`, e `observe(document.body)`
+     estourava porque o body também não existe ainda. */
+  var scope = null;
+
+  function aoCarregar(fn) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn);
+    } else { fn(); }
+  }
 
   function readCookie() {
     var m = document.cookie.match(new RegExp('(?:^|; )' + COOKIE + '=([^;]*)'));
@@ -63,6 +73,7 @@
   }
 
   function fillAll() {
+    if (!scope) return;
     scope.querySelectorAll('form').forEach(function (f) {
       fill(f);
       if (!f._attrBound) {
@@ -72,7 +83,11 @@
     });
   }
 
-  new MutationObserver(fillAll).observe(scope === document ? document.body : scope,
-    { childList: true, subtree: true });
-  [300, 800, 1500, 3000, 5000].forEach(function (t) { setTimeout(fillAll, t); });
+  aoCarregar(function () {
+    scope = (SCOPE_SELECTOR && document.querySelector(SCOPE_SELECTOR)) || document.body;
+    if (!scope) return;
+    /* O formulário é injetado tarde, e de novo se o modal reabrir. */
+    new MutationObserver(fillAll).observe(scope, { childList: true, subtree: true });
+    [300, 800, 1500, 3000, 5000].forEach(function (t) { setTimeout(fillAll, t); });
+  });
 })();

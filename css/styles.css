@@ -395,6 +395,47 @@ p {
     animation: heroLineReveal 0.9s cubic-bezier(0.215, 0.61, 0.355, 1) 0.15s both
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE: título sem recorte de gradiente e sem animação.
+
+   Histórico: o h1 ficava invisível no iPhone/Safari. A primeira tentativa removeu
+   apenas o `overflow: hidden` do `.hero-title` — não resolveu, porque o hero tem
+   OUTROS gatilhos de composição que quebram `background-clip: text` no WebKit:
+
+     .hero-video       mix-blend-mode + filter + will-change + transform + opacity
+     .hero-dot-grid    -webkit-mask-image
+     .hero-glow        transform
+     .hero             overflow: hidden
+     .line-inner       animation com transform
+
+   Ajustar um gatilho por vez não converge. Aqui o mecanismo inteiro é eliminado
+   no mobile: sem gradiente recortado, sem máscara, sem transform animado. Sobra
+   texto branco comum — não existe caminho pelo qual ele possa sumir.
+
+   Custo: no celular o título perde o gradiente (branco → branco 50%, diferença
+   sutil) e a animação de subida. Título visível vale mais que título animado que
+   ninguém vê. No desktop nada muda.
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .hero-title {
+        background: none;
+        -webkit-background-clip: border-box;
+        background-clip: border-box;
+        -webkit-text-fill-color: #fff;
+        color: #fff
+    }
+
+    .hero-title .line-wrap {
+        overflow: visible
+    }
+
+    .hero-title .line-inner {
+        animation: none;
+        opacity: 1;
+        transform: none
+    }
+}
+
 .hero-subtitle {
     font-size: var(--fs-p-large);
     color: rgba(255, 255, 255, 0.6);
@@ -1171,44 +1212,6 @@ p {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 254, 228, 0.3)
-}
-
-.page-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: var(--black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    transition: opacity 0.6s ease, visibility 0.6s ease;
-    will-change: opacity
-}
-
-.page-loader.hidden {
-    opacity: 0;
-    visibility: hidden
-}
-
-.loader-logo {
-    height: 40px;
-    animation: loader-pulse 1.5s ease infinite
-}
-
-@keyframes loader-pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1)
-    }
-
-    50% {
-        opacity: 0.4;
-        transform: scale(0.95)
-    }
-
 }
 
 .hs-modal-overlay {

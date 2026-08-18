@@ -93,47 +93,23 @@
     .hero {
       min-height: 100svh;
     }
-
-    .page-loader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      transition: opacity .6s ease, visibility .6s ease;
-      will-change: opacity;
-    }
-
-    .page-loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loader-logo {
-      height: 40px;
-      animation: loader-pulse 1.5s ease infinite;
-    }
-
-    @keyframes loader-pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: .4;
-        transform: scale(.95);
-      }
-    }
   </style>
 
+  <!--
+    ⚠ MANUTENÇÃO: o `?v=` de css/ e js/ TEM de ser atualizado a cada publicação
+    que altere esses arquivos.
+
+    Motivo: `_headers` serve /css/* e /js/* com `max-age=604800` (7 dias) e o HTML
+    com `no-cache`. Sem versão na URL, o navegador recebe o HTML novo e continua
+    usando o CSS/JS antigo do cache local por até uma semana — foi exatamente o que
+    aconteceu quando a correção do título do hero foi publicada e o iPhone seguiu
+    exibindo a versão quebrada. Trocar o `?v=` muda a URL e força o download.
+
+    Convenção: data da publicação, AAAAMMDD. Se houver mais de uma no mesmo dia,
+    acrescente sufixo (ex.: 20260803-2).
+  -->
   <!-- Styles: bloqueante (arquivo local pequeno; custo de bloqueio < CLS causado pelo async) -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=20260818" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="IXC Provedor — Um único sistema para seu provedor" />
@@ -194,7 +170,7 @@
       3. o GTM abaixo só carrega na primeira interação — quem sai antes não é
          medido por ele. A coleta própria mede esse visitante.
   -->
-  <script src="js/collect.js"></script>
+  <script src="js/collect.js?v=20260803-2"></script>
 
   <!-- Analytics: GTM + Clarity carregam apenas na primeira interação do usuário -->
   <script>!function () { var f = false; function load() { if (f) return; f = true; (function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var a = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; a.parentNode.insertBefore(j, a); })(window, document, 'script', 'dataLayer', 'GTM-TZ73W9RN'); (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', 'xpdrvrdas4'); } ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function (e) { window.addEventListener(e, load, { once: true, passive: true }); }); setTimeout(load, 5000); }();</script>
@@ -207,13 +183,6 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZ73W9RN" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-
-  <!-- ═══════════════════════════════════════════
-       PAGE LOADER
-  ════════════════════════════════════════════ -->
-  <div class="page-loader" id="pageLoader" aria-hidden="true">
-    <img src="assets/Logo-ixc-provedor.svg" alt="IXC Provedor" class="loader-logo" width="144" height="40" />
-  </div>
 
   <!-- ═══════════════════════════════════════════
        HEADER
@@ -629,11 +598,24 @@
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" defer></script>
 
   <!-- App scripts -->
-  <script src="js/animations.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/animations.js?v=20260803-2" defer></script>
+  <script src="js/main.js?v=20260818" defer></script>
 
   <!-- Captura de UTMs → campos ocultos do formulário HubSpot -->
-  <script src="js/utm-capture.js" defer></script>
+  <script src="js/utm-capture.js?v=20260803-2" defer></script>
+
+  <!--
+    Identidade do lead (e-mail, telefone, nome) → localStorage, para o Advanced
+    Matching do Meta e o Enhanced Conversions do Google na página de obrigado.
+
+    Saiu da tag 245 do GTM (HTML personalizado) porque a API do Tag Manager
+    recusa escrita nesse tipo — aqui o código fica versionado e corrigível.
+
+    A tag 245 continua responsável pelo `dataLayer.push` de hubspot_form_submit.
+    Este arquivo NÃO empurra nada: se os dois empurrassem, o evento de formulário
+    contaria em dobro.
+  -->
+  <script src="js/hubspot-listener.js?v=20260810" defer></script>
 
   <!--
     Tracking code do HubSpot. Sem ele o portal não tem sessão, e por consequência:
