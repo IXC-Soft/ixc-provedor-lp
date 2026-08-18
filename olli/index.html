@@ -4197,7 +4197,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
     /* ==========================================================================
-       SEÇÃO 08 — ENCONTRE UM PARCEIRO (.partners-locator-section) — FUNDO CLARO (#FFFFFF)
+       SEÇÃO 08 — FORMULÁRIO (.partners-locator-section) — FUNDO CLARO (#FFFFFF)
        ========================================================================== */
 
     .partners-locator-section {
@@ -4206,12 +4206,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       padding-top: 100px;
       padding-bottom: 100px;
       overflow: hidden;
+      scroll-margin-top: 64px;
     }
 
     @media (min-width: 768px) and (max-width: 1023px) {
       .partners-locator-section {
         padding-top: 100px;
         padding-bottom: 100px;
+        scroll-margin-top: 80px;
       }
     }
 
@@ -4219,6 +4221,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .partners-locator-section {
         padding-top: 120px;
         padding-bottom: 120px;
+        scroll-margin-top: 80px;
       }
     }
 
@@ -4229,6 +4232,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       margin: 0 auto;
       padding: 0 16px;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     @media (min-width: 640px) {
@@ -4249,291 +4255,342 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
     }
 
-    /* Header da Seção (Badge / Título / Descrição) — Centralizado */
-    .partners-locator-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      max-width: 640px;
-      margin: 0 auto 16px auto;
-    }
-
-    .partners-locator-badge {
-      align-self: center;
-      border: 1px solid rgba(144, 59, 255, 0.25);
-      background: rgba(144, 59, 255, 0.08);
-    }
-
-    .partners-locator-badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: #903BFF;
-      animation: pulse-dot 2s infinite ease-in-out;
-    }
-
-    .partners-locator-badge-text {
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 12px;
-      color: #903BFF;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
     .partners-locator-title {
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: 32px;
       line-height: 1.15;
-      color: #212121;
+      color: var(--secondary, #212121);
+      letter-spacing: -0.02em;
+      text-align: center;
       text-wrap: balance;
+      margin: 0 auto 32px auto;
+      max-width: 720px;
+      width: 100%;
     }
 
     @media (min-width: 768px) {
       .partners-locator-title {
         font-size: 40px;
+        line-height: 1.1;
+        margin-bottom: 40px;
       }
     }
 
     @media (min-width: 1024px) {
       .partners-locator-title {
         font-size: 44px;
-      }
-    }
-
-    .partners-locator-description {
-      color: #6E6D6F;
-      max-width: 480px;
-      text-wrap: balance;
-    }
-
-    /* Navegação por Regiões — mesmo componente base do cases-tabs (.tabs + .tab),
-       apenas com scroll horizontal para acomodar 5 opções sem quebrar o padrão visual */
-    .partners-region-tabs-wrap {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      margin-bottom: 40px;
-    }
-
-    @media (min-width: 768px) {
-      .partners-region-tabs-wrap {
         margin-bottom: 48px;
       }
     }
 
-    .partners-region-tabs {
-      max-width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-
-    @media (min-width: 768px) and (max-width: 1024px) {
-      .partners-region-tabs {
-        width: 100%;
-        max-width: 675px;
-        margin-inline: auto;
-      }
-    }
-
-    .partners-region-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .partners-region-tab {
-      min-width: 110px;
-      white-space: nowrap;
-      transition: all 0.3s ease;
-    }
-
-    .partners-region-tab-active {
-      box-shadow: none;
-    }
-
-    /* Correção exclusiva de Mobile (Solução A): alinhamento edge-to-edge com scroll
-       horizontal fluido, mantendo a estética da pílula íntegra e sem corte visual.
-       Não altera Tablet/Desktop (regra restrita a max-width: 767px). */
-    @media (max-width: 767px) {
-      .partners-region-tabs-wrap {
-        display: flex;
-        justify-content: flex-start;
-        width: calc(100% + 32px);
-        max-width: none;
-        margin-left: -16px;
-        margin-right: -16px;
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-top: 4px;
-        padding-bottom: 4px;
-        box-sizing: border-box;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-
-      .partners-region-tabs-wrap::-webkit-scrollbar {
-        display: none;
-      }
-
-      .partners-region-tabs {
-        display: inline-flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        width: auto;
-        max-width: none;
-        min-width: max-content;
-        flex-shrink: 0;
-        box-sizing: border-box;
-        padding: 5px;
-        gap: 4px;
-      }
-
-      .partners-region-tab {
-        flex-shrink: 0;
-        min-width: auto;
-        padding: 8px 16px;
-        font-size: 14px;
-        white-space: nowrap;
-      }
-    }
-
-    /* Conteúdo da Região Ativa (Mapa + Cards) */
-    .partners-region-panels {
-      position: relative;
+    .form-section-content,
+    .partners-form-container {
       width: 100%;
+      max-width: 640px;
+      margin-inline: auto;
+      box-sizing: border-box;
+      background-color: #FFFFFF;
+      border: 1px solid var(--card-border, #E6E5E9);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     }
 
-    .partners-region-content {
-      display: none;
-      grid-template-columns: 1fr;
-      gap: 32px;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .partners-region-content-active {
-      display: grid;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Cards dos Parceiros da Região Ativa — flexbox centralizado (evita colunas
-       fantasmas do grid quando a região tem poucos parceiros) */
-    .partners-cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      width: 100%;
-    }
-
-    .partner-card {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      flex: 0 1 100%;
-      max-width: 100%;
-      padding: 20px;
-      border-radius: 18px;
-      background: #FCFBFF;
-      border: 1px solid #E6E5E9;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-    }
-
-    @media (min-width: 480px) {
-      .partner-card {
-        flex: 0 1 260px;
-        max-width: 320px;
+    @media (min-width: 768px) {
+      .form-section-content,
+      .partners-form-container {
+        padding: 40px;
+        border-radius: 24px;
       }
     }
 
-    @media (min-width: 1024px) {
-      .partner-card {
-        flex: 0 1 280px;
-        max-width: 340px;
+    .partners-form-container iframe,
+    .partners-form-container .hs-form-html {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box;
+    }
+
+    /* ==========================================================================
+       ESTILO BASE DOS BOTÕES DE SUBMIT E RECAPTCHA (FORMULÁRIOS HUBSPOT OLLI)
+       Reutilizado na Seção 08 e nos Modais de Conversão
+       ========================================================================== */
+    .partners-form-container .hsfc-NavigationRow,
+    .partners-form-container .hsfc-NavigationRow__Buttons,
+    .partners-form-container .hs-submit,
+    .partners-form-container .actions,
+    .hs-form-frame .hsfc-NavigationRow,
+    .hs-form-frame .hsfc-NavigationRow__Buttons,
+    .hs-form-frame .hs-submit,
+    .hs-form-frame .actions,
+    .hs-modal-body .hsfc-NavigationRow,
+    .hs-modal-body .hsfc-NavigationRow__Buttons,
+    .hs-modal-body .hs-submit,
+    .hs-modal-body .actions,
+    .hs-modal-container .hsfc-NavigationRow,
+    .hs-modal-container .hsfc-NavigationRow__Buttons,
+    .hs-modal-container .hs-submit,
+    .hs-modal-container .actions {
+      width: 100% !important;
+      margin-top: 16px !important;
+    }
+
+    .partners-form-container input[type="submit"],
+    .partners-form-container button[type="submit"],
+    .partners-form-container .hs-button,
+    .partners-form-container .hsfc-Button,
+    .partners-form-container .hs-submit input,
+    .partners-form-container .hs-submit button,
+    .hs-form-frame input[type="submit"],
+    .hs-form-frame button[type="submit"],
+    .hs-form-frame .hs-button,
+    .hs-form-frame .hsfc-Button,
+    .hs-form-frame .hs-submit input,
+    .hs-form-frame .hs-submit button,
+    .hs-modal-body input[type="submit"],
+    .hs-modal-body button[type="submit"],
+    .hs-modal-body .hs-button,
+    .hs-modal-body .hsfc-Button,
+    .hs-modal-body .hs-submit input,
+    .hs-modal-body .hs-submit button,
+    .hs-modal-container input[type="submit"],
+    .hs-modal-container button[type="submit"],
+    .hs-modal-container .hs-button,
+    .hs-modal-container .hsfc-Button,
+    .hs-modal-container .hs-submit input,
+    .hs-modal-container .hs-submit button {
+      position: relative !important;
+      z-index: 1 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 12px 28px !important;
+      border-radius: 9999px !important;
+      background-color: #6324B5 !important;
+      background-image: linear-gradient(90deg, var(--primary, #903BFF) 0%, var(--primary-dark, #7029CC) 100%) !important;
+      color: var(--neutral, #FCFBFF) !important;
+      font-family: var(--font-body, "Noto Sans", sans-serif) !important;
+      font-weight: 600 !important;
+      font-size: 16px !important;
+      line-height: 1.5 !important;
+      letter-spacing: normal !important;
+      text-decoration: none !important;
+      box-shadow: none !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      cursor: pointer !important;
+      border: none !important;
+      outline: none !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+      min-height: 48px !important;
+    }
+
+    @media (min-width: 768px) {
+      .partners-form-container input[type="submit"],
+      .partners-form-container button[type="submit"],
+      .partners-form-container .hs-button,
+      .partners-form-container .hsfc-Button,
+      .partners-form-container .hs-submit input,
+      .partners-form-container .hs-submit button,
+      .hs-form-frame input[type="submit"],
+      .hs-form-frame button[type="submit"],
+      .hs-form-frame .hs-button,
+      .hs-form-frame .hsfc-Button,
+      .hs-form-frame .hs-submit input,
+      .hs-form-frame .hs-submit button,
+      .hs-modal-body input[type="submit"],
+      .hs-modal-body button[type="submit"],
+      .hs-modal-body .hs-button,
+      .hs-modal-body .hsfc-Button,
+      .hs-modal-body .hs-submit input,
+      .hs-modal-body .hs-submit button,
+      .hs-modal-container input[type="submit"],
+      .hs-modal-container button[type="submit"],
+      .hs-modal-container .hs-button,
+      .hs-modal-container .hsfc-Button,
+      .hs-modal-container .hs-submit input,
+      .hs-modal-container .hs-submit button {
+        font-size: 18px !important;
+        min-height: 52px !important;
       }
     }
 
-    .partner-card:hover {
-      border-color: rgba(144, 59, 255, 0.35);
-      box-shadow: 0 12px 28px -8px rgba(144, 59, 255, 0.16);
-      transform: translateY(-2px);
+    .partners-form-container input[type="submit"]::before,
+    .partners-form-container button[type="submit"]::before,
+    .partners-form-container .hs-button::before,
+    .partners-form-container .hsfc-Button::before,
+    .partners-form-container .hs-submit input::before,
+    .partners-form-container .hs-submit button::before,
+    .hs-form-frame input[type="submit"]::before,
+    .hs-form-frame button[type="submit"]::before,
+    .hs-form-frame .hs-button::before,
+    .hs-form-frame .hsfc-Button::before,
+    .hs-form-frame .hs-submit input::before,
+    .hs-form-frame .hs-submit button::before,
+    .hs-modal-body input[type="submit"]::before,
+    .hs-modal-body button[type="submit"]::before,
+    .hs-modal-body .hs-button::before,
+    .hs-modal-body .hsfc-Button::before,
+    .hs-modal-body .hs-submit input::before,
+    .hs-modal-body .hs-submit button::before,
+    .hs-modal-container input[type="submit"]::before,
+    .hs-modal-container button[type="submit"]::before,
+    .hs-modal-container .hs-button::before,
+    .hs-modal-container .hsfc-Button::before,
+    .hs-modal-container .hs-submit input::before,
+    .hs-modal-container .hs-submit button::before {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      border-radius: 9999px !important;
+      background: linear-gradient(90deg, var(--primary, #903BFF) 0%, var(--primary-dark, #7029CC) 100%) !important;
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      z-index: -1 !important;
     }
 
-    .partner-card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
+    .partners-form-container input[type="submit"]::after,
+    .partners-form-container button[type="submit"]::after,
+    .partners-form-container .hs-button::after,
+    .partners-form-container .hsfc-Button::after,
+    .partners-form-container .hs-submit input::after,
+    .partners-form-container .hs-submit button::after,
+    .hs-form-frame input[type="submit"]::after,
+    .hs-form-frame button[type="submit"]::after,
+    .hs-form-frame .hs-button::after,
+    .hs-form-frame .hsfc-Button::after,
+    .hs-form-frame .hs-submit input::after,
+    .hs-form-frame .hs-submit button::after,
+    .hs-modal-body input[type="submit"]::after,
+    .hs-modal-body button[type="submit"]::after,
+    .hs-modal-body .hs-button::after,
+    .hs-modal-body .hsfc-Button::after,
+    .hs-modal-body .hs-submit input::after,
+    .hs-modal-body .hs-submit button::after,
+    .hs-modal-container input[type="submit"]::after,
+    .hs-modal-container button[type="submit"]::after,
+    .hs-modal-container .hs-button::after,
+    .hs-modal-container .hsfc-Button::after,
+    .hs-modal-container .hs-submit input::after,
+    .hs-modal-container .hs-submit button::after {
+      content: '' !important;
+      position: absolute !important;
+      top: -50% !important;
+      left: -120% !important;
+      width: 50% !important;
+      height: 200% !important;
+      background: linear-gradient(120deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.4) 50%,
+          rgba(255, 255, 255, 0) 100%) !important;
+      transform: skewX(-25deg) !important;
+      pointer-events: none !important;
+      animation: cta-shimmer 3s ease-in-out infinite !important;
+      z-index: 2 !important;
     }
 
-    .partner-card-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(144, 59, 255, 0.1);
-      color: #903BFF;
+    .partners-form-container input[type="submit"]:hover,
+    .partners-form-container button[type="submit"]:hover,
+    .partners-form-container .hs-button:hover,
+    .partners-form-container .hsfc-Button:hover,
+    .partners-form-container .hs-submit input:hover,
+    .partners-form-container .hs-submit button:hover,
+    .hs-form-frame input[type="submit"]:hover,
+    .hs-form-frame button[type="submit"]:hover,
+    .hs-form-frame .hs-button:hover,
+    .hs-form-frame .hsfc-Button:hover,
+    .hs-form-frame .hs-submit input:hover,
+    .hs-form-frame .hs-submit button:hover,
+    .hs-modal-body input[type="submit"]:hover,
+    .hs-modal-body button[type="submit"]:hover,
+    .hs-modal-body .hs-button:hover,
+    .hs-modal-body .hsfc-Button:hover,
+    .hs-modal-body .hs-submit input:hover,
+    .hs-modal-body .hs-submit button:hover,
+    .hs-modal-container input[type="submit"]:hover,
+    .hs-modal-container button[type="submit"]:hover,
+    .hs-modal-container .hs-button:hover,
+    .hs-modal-container .hsfc-Button:hover,
+    .hs-modal-container .hs-submit input:hover,
+    .hs-modal-container .hs-submit button:hover {
+      transform: translateY(-2px) !important;
+      background-image: none !important;
+      background-color: #6324B5 !important;
     }
 
-    .partner-name {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 1.35;
-      color: #212121;
-      margin: 0;
+    .partners-form-container input[type="submit"]:hover::before,
+    .partners-form-container button[type="submit"]:hover::before,
+    .partners-form-container .hs-button:hover::before,
+    .partners-form-container .hsfc-Button:hover::before,
+    .partners-form-container .hs-submit input:hover::before,
+    .partners-form-container .hs-submit button:hover::before,
+    .hs-form-frame input[type="submit"]:hover::before,
+    .hs-form-frame button[type="submit"]:hover::before,
+    .hs-form-frame .hs-button:hover::before,
+    .hs-form-frame .hsfc-Button:hover::before,
+    .hs-form-frame .hs-submit input:hover::before,
+    .hs-form-frame .hs-submit button:hover::before,
+    .hs-modal-body input[type="submit"]:hover::before,
+    .hs-modal-body button[type="submit"]:hover::before,
+    .hs-modal-body .hs-button:hover::before,
+    .hs-modal-body .hsfc-Button:hover::before,
+    .hs-modal-body .hs-submit input:hover::before,
+    .hs-modal-body .hs-submit button:hover::before,
+    .hs-modal-container input[type="submit"]:hover::before,
+    .hs-modal-container button[type="submit"]:hover::before,
+    .hs-modal-container .hs-button:hover::before,
+    .hs-modal-container .hsfc-Button:hover::before,
+    .hs-modal-container .hs-submit input:hover::before,
+    .hs-modal-container .hs-submit button:hover::before {
+      opacity: 0 !important;
     }
 
-    .partner-location {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 14px;
-      color: #6E6D6F;
-      margin: 0;
+    /* Ocultar aviso/badge padrão do reCAPTCHA e estilizar disclaimer customizado */
+    .grecaptcha-badge,
+    .partners-form-container .hs-recaptcha,
+    .partners-form-container [data-hsfc-id="RecaptchaDisclaimer"],
+    .partners-form-container .hsfc-RecaptchaDisclaimer,
+    .hs-form-frame .hs-recaptcha,
+    .hs-form-frame [data-hsfc-id="RecaptchaDisclaimer"],
+    .hs-form-frame .hsfc-RecaptchaDisclaimer,
+    .hs-modal-body .hs-recaptcha,
+    .hs-modal-body [data-hsfc-id="RecaptchaDisclaimer"],
+    .hs-modal-body .hsfc-RecaptchaDisclaimer,
+    .hs-modal-container .hs-recaptcha,
+    .hs-modal-container [data-hsfc-id="RecaptchaDisclaimer"],
+    .hs-modal-container .hsfc-RecaptchaDisclaimer {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
     }
 
-    .partner-location-icon {
-      flex-shrink: 0;
-      color: #A35CFF;
+    .partners-form-container .recaptcha-disclaimer,
+    .hs-modal-body .recaptcha-disclaimer {
+      margin-top: 16px;
+      font-family: var(--font-body, "Noto Sans", sans-serif);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-faint, #79787A);
+      text-align: center;
     }
 
-    .partner-actions {
-      display: flex;
-      margin-top: 4px;
-    }
-
-    .partner-phone {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 9999px;
-      background: rgba(144, 59, 255, 0.08);
-      color: #903BFF;
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 14px;
+    .partners-form-container .recaptcha-disclaimer a,
+    .hs-modal-body .recaptcha-disclaimer a {
+      color: var(--primary, #903BFF);
       text-decoration: none;
-      transition: background-color 0.25s ease, color 0.25s ease;
+      font-weight: 500;
+      transition: color 0.2s ease;
     }
 
-    .partner-phone:hover {
-      background: #903BFF;
-      color: #FFFFFF;
-    }
-
-    .partner-phone:focus-visible {
-      outline: 2px solid #903BFF;
-      outline-offset: 2px;
+    .partners-form-container .recaptcha-disclaimer a:hover,
+    .hs-modal-body .recaptcha-disclaimer a:hover {
+      text-decoration: underline;
+      color: var(--primary-dark, #7029CC);
     }
 
     /* ==========================================================================
@@ -5247,6 +5304,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
              data-region="na1"
              data-form-id="5bad8072-4f9c-4373-880b-06add920316d"
              data-portal-id="50388221"></div>
+        <p class="recaptcha-disclaimer">
+          Este site é protegido pelo reCAPTCHA e aplicam-se a 
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidade</a> e os 
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Termos de Serviço</a> do Google.
+        </p>
       </div>
     </div>
   </div>
@@ -5688,444 +5750,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ========================================== -->
-  <!-- SEÇÃO 08 — ENCONTRE UM PARCEIRO            -->
+  <!-- SEÇÃO 08 — FORMULÁRIO                      -->
   <!-- ========================================== -->
   <section id="encontre" class="partners-locator-section">
     <div class="partners-locator-container">
-
-      <!-- Header da Seção (Badge, Título e Descrição — Conforme copy.txt) -->
-      <div class="partners-locator-header">
-        <div class="section-badge partners-locator-badge">
-          <span class="partners-locator-badge-dot"></span>
-          <span class="partners-locator-badge-text">Encontre a Olli</span>
+      <h2 class="section-title partners-locator-title">
+        Encontre o parceiro Olli mais próximo de você
+      </h2>
+      <div class="form-section-content partners-form-container">
+        <script src="https://js.hsforms.net/forms/embed/developer/50388221.js" defer></script>
+        <div
+          class="hs-form-html"
+          data-region="na1"
+          data-form-id="5b5065a5-99e0-44ec-813f-643b3adb5e27"
+          data-portal-id="50388221">
         </div>
-        <h2 class="section-title partners-locator-title">
-          Encontre o parceiro Olli mais próximo de você
-        </h2>
-        <p class="section-description partners-locator-description">
-          Escolha sua região.
+        <p class="recaptcha-disclaimer">
+          Este site é protegido pelo reCAPTCHA e aplicam-se a 
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidade</a> e os 
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Termos de Serviço</a> do Google.
         </p>
       </div>
-
-      <!-- Navegação por Regiões (mesmo componente base .tabs/.tab do cases-tabs) -->
-      <div class="partners-region-tabs-wrap">
-        <div class="tabs partners-region-tabs" role="tablist" aria-label="Selecionar região">
-          <button type="button" id="region-tab-sul" class="tab partners-region-tab tab-active partners-region-tab-active"
-            role="tab" aria-selected="true" aria-controls="region-panel-sul" tabindex="0">Sul</button>
-          <button type="button" id="region-tab-sudeste" class="tab partners-region-tab" role="tab"
-            aria-selected="false" aria-controls="region-panel-sudeste" tabindex="-1">Sudeste</button>
-          <button type="button" id="region-tab-centro-oeste" class="tab partners-region-tab" role="tab"
-            aria-selected="false" aria-controls="region-panel-centro-oeste" tabindex="-1">Centro-Oeste</button>
-          <button type="button" id="region-tab-nordeste" class="tab partners-region-tab" role="tab"
-            aria-selected="false" aria-controls="region-panel-nordeste" tabindex="-1">Nordeste</button>
-          <button type="button" id="region-tab-norte" class="tab partners-region-tab" role="tab"
-            aria-selected="false" aria-controls="region-panel-norte" tabindex="-1">Norte</button>
-        </div>
-      </div>
-
-      <!-- Conteúdo das Regiões (Mapa + Cards dos Parceiros) -->
-      <div class="partners-region-panels">
-
-        <!-- Região Sul (Ativa por Padrão) -->
-        <div id="region-panel-sul" class="partners-region-content partners-region-content-active" role="tabpanel"
-          aria-labelledby="region-tab-sul" tabindex="0">
-
-          <div class="partners-cards">
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Palmasnet Telecom Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Palmas (PR)</p>
-              <div class="partner-actions">
-                <a href="tel:+5546988175153" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(46) 98817-5153</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Pknet Soluções Em Conectividade Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Campo Magro (PR)</p>
-              <div class="partner-actions">
-                <a href="tel:+5541997010917" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(41) 99701-0917</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Brother Informática Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Curitiba (PR)</p>
-              <div class="partner-actions">
-                <a href="tel:+554188627227" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(41) 8862-7227</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">2net Telecom Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Chapecó (SC)</p>
-              <div class="partner-actions">
-                <a href="tel:+5549991126449" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(49) 99112-6449</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">M S Dos Santos</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Chapecó (SC)</p>
-              <div class="partner-actions">
-                <a href="tel:+5549999667566" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(49) 99966-7566</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Carvalho Soluções Elétricas Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Xaxim (SC)</p>
-              <div class="partner-actions">
-                <a href="tel:+554991204284" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(49) 9120-4284</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Star Lynk Internet E Informática Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Navegantes (SC)</p>
-              <div class="partner-actions">
-                <a href="tel:+5547997842253" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(47) 99784-2253</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">R.G. Telecomunicações Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>São Leopoldo (RS)</p>
-              <div class="partner-actions">
-                <a href="tel:+5551989607224" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(51) 98960-7224</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Eletrônica Laux Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Tabaí (RS)</p>
-              <div class="partner-actions">
-                <a href="tel:+5551996898307" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(51) 99689-8307</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Região Sudeste -->
-        <div id="region-panel-sudeste" class="partners-region-content" role="tabpanel"
-          aria-labelledby="region-tab-sudeste" tabindex="0" hidden>
-
-          <div class="partners-cards">
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Agostinho De Santana Souza Comunicações</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>São Paulo (SP)</p>
-              <div class="partner-actions">
-                <a href="tel:+5511981780448" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(11) 98178-0448</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Descalnet Provedor Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Descalvado (SP)</p>
-              <div class="partner-actions">
-                <a href="tel:+5519996725588" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(19) 99672-5588</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Dmc Infraestrutura &amp; Tecnologia Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Guarulhos (SP)</p>
-              <div class="partner-actions">
-                <a href="tel:+5511981762047" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(11) 98176-2047</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Glc Da Silva Comunicação Multimídia</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Cajamar (SP)</p>
-              <div class="partner-actions">
-                <a href="tel:+5511997813838" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(11) 99781-3838</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Ivan Lucas Defant</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Charqueada (SP)</p>
-              <div class="partner-actions">
-                <a href="tel:+5519992732748" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(19) 99273-2748</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Socialnet Internet Banda Larga Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Piquerobi (SP)</p>
-              <div class="partner-actions">
-                <a href="tel:+5518981796996" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(18) 98179-6996</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">City Net Internet Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Santa Maria Madalena (RJ)</p>
-              <div class="partner-actions">
-                <a href="tel:+5522998786367" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(22) 99878-6367</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Navegmais Telecom E Informática Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Cariacica (ES)</p>
-              <div class="partner-actions">
-                <a href="tel:+5527999357022" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(27) 99935-7022</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Net Triângulo Telecom Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Perdizes (MG)</p>
-              <div class="partner-actions">
-                <a href="tel:+5534992260694" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(34) 99226-0694</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Onelink Serviços Em Tecnologia Da Informação Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Governador Valadares (MG)</p>
-              <div class="partner-actions">
-                <a href="tel:+553399179894" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(33) 9917-9894</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Stone Telecomunicações Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Extrema (MG)</p>
-              <div class="partner-actions">
-                <a href="tel:+5535988612842" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(35) 98861-2842</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Valoriza Serviços Digitais Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Medina (MG)</p>
-              <div class="partner-actions">
-                <a href="tel:+5533984059026" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(33) 98405-9026</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Região Centro-Oeste -->
-        <div id="region-panel-centro-oeste" class="partners-region-content" role="tabpanel"
-          aria-labelledby="region-tab-centro-oeste" tabindex="0" hidden>
-
-          <div class="partners-cards">
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Gambero &amp; Vieira Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Paranaíba (MS)</p>
-              <div class="partner-actions">
-                <a href="tel:+5567981332528" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(67) 98133-2528</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">M.J. Gomes Xavier Telecomunicações</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Brasília (DF)</p>
-              <div class="partner-actions">
-                <a href="tel:+5561992757062" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(61) 99275-7062</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Ribeiro E Rios Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Aragoiânia (GO)</p>
-              <div class="partner-actions">
-                <a href="tel:+556230300145" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(62) 3030-0145</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Região Nordeste -->
-        <div id="region-panel-nordeste" class="partners-region-content" role="tabpanel"
-          aria-labelledby="region-tab-nordeste" tabindex="0" hidden>
-
-          <div class="partners-cards">
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Braga Telecomunicações E Serviços Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Ibotirama (BA)</p>
-              <div class="partner-actions">
-                <a href="tel:+5577998718803" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(77) 99871-8803</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Cas Telecomunicações Eireli</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>São Mateus do Maranhão (MA)</p>
-              <div class="partner-actions">
-                <a href="tel:+5555999841406" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(55) 99984-1406</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Linkmnet Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Capitão de Campos (PI)</p>
-              <div class="partner-actions">
-                <a href="tel:+558699986862" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(86) 9998-6862</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Reelu Net Comunicações Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Limoeiro de Anadia (AL)</p>
-              <div class="partner-actions">
-                <a href="tel:+5582982053738" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(82) 98205-3738</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Thyago Telecom Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Timon (MA)</p>
-              <div class="partner-actions">
-                <a href="tel:+5586998605176" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(86) 99860-5176</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Vision Net Telecomunicações Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Jucuruçu (BA)</p>
-              <div class="partner-actions">
-                <a href="tel:+5573981099030" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(73) 98109-9030</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Região Norte -->
-        <div id="region-panel-norte" class="partners-region-content" role="tabpanel"
-          aria-labelledby="region-tab-norte" tabindex="0" hidden>
-
-          <div class="partners-cards">
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Rmi Processamento De Dados Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Anapu (PA)</p>
-              <div class="partner-actions">
-                <a href="tel:+5591985906043" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(91) 98590-6043</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Slim Net Telecom Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Itaituba (PA)</p>
-              <div class="partner-actions">
-                <a href="tel:+5593999144631" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(93) 99914-4631</a>
-              </div>
-            </div>
-
-            <div class="partner-card">
-              <div class="partner-card-header">
-                <div class="partner-card-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg></div>
-                <p class="partner-name">Uni Serviços De Tecnologia da Informação Ltda</p>
-              </div>
-              <p class="partner-location"><svg class="partner-location-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Ji-Paraná (RO)</p>
-              <div class="partner-actions">
-                <a href="tel:+5569984040010" class="partner-phone"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>(69) 98404-0010</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
     </div>
   </section>
 
@@ -6287,64 +5932,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         });
       }
 
-      // SEÇÃO 08 — ENCONTRE UM PARCEIRO (Navegação por Regiões)
-      const regionTabs = document.querySelectorAll('.partners-region-tab');
-      const regionPanels = document.querySelectorAll('.partners-region-content');
-
-      if (regionTabs.length > 0 && regionPanels.length > 0) {
-        const switchRegionTab = (newTab) => {
-          const targetPanelId = newTab.getAttribute('aria-controls');
-
-          regionTabs.forEach(tab => {
-            const isSelected = tab === newTab;
-            tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-            tab.setAttribute('tabindex', isSelected ? '0' : '-1');
-            tab.classList.toggle('tab-active', isSelected);
-            tab.classList.toggle('partners-region-tab-active', isSelected);
-          });
-
-          regionPanels.forEach(panel => {
-            if (panel.id === targetPanelId) {
-              panel.removeAttribute('hidden');
-              // Trigger reflow for smooth fade/slide transition
-              void panel.offsetWidth;
-              panel.classList.add('partners-region-content-active');
-            } else {
-              panel.classList.remove('partners-region-content-active');
-              panel.setAttribute('hidden', '');
-            }
-          });
-        };
-
-        regionTabs.forEach(tab => {
-          tab.addEventListener('click', () => switchRegionTab(tab));
-
-          tab.addEventListener('keydown', (e) => {
-            const tabsArray = Array.from(regionTabs);
-            const index = tabsArray.indexOf(tab);
-
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-              e.preventDefault();
-              const nextIndex = (index + 1) % tabsArray.length;
-              tabsArray[nextIndex].focus();
-              switchRegionTab(tabsArray[nextIndex]);
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-              e.preventDefault();
-              const prevIndex = (index - 1 + tabsArray.length) % tabsArray.length;
-              tabsArray[prevIndex].focus();
-              switchRegionTab(tabsArray[prevIndex]);
-            } else if (e.key === 'Home') {
-              e.preventDefault();
-              tabsArray[0].focus();
-              switchRegionTab(tabsArray[0]);
-            } else if (e.key === 'End') {
-              e.preventDefault();
-              tabsArray[tabsArray.length - 1].focus();
-              switchRegionTab(tabsArray[tabsArray.length - 1]);
-            }
-          });
-        });
-      }
 
       // Video Modal Script
       const playBtn = document.getElementById('video-play-trigger');
@@ -6486,7 +6073,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const hsModal = document.getElementById('hs-conversion-modal');
       const hsModalCloseBtn = document.getElementById('hs-modal-close');
       const conversionCTAs = document.querySelectorAll(
-        '.header-primary-cta, .mobile-menu-cta, .hero-primary-cta, .partners-primary-cta, .enterprises-primary-cta, .case-secondary-cta, .ecosystem-primary-cta, a[href="#contato"]'
+        '.header-primary-cta, .mobile-menu-cta, .partners-primary-cta, .enterprises-primary-cta, .case-secondary-cta, .ecosystem-primary-cta, a[href="#contato"]'
       );
       let lastActiveElement = null;
 
