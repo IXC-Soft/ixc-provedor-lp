@@ -93,43 +93,6 @@
     .hero {
       min-height: 100svh;
     }
-
-    .page-loader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      transition: opacity .6s ease, visibility .6s ease;
-      will-change: opacity;
-    }
-
-    .page-loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loader-logo {
-      height: 40px;
-      animation: loader-pulse 1.5s ease infinite;
-    }
-
-    @keyframes loader-pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: .4;
-        transform: scale(.95);
-      }
-    }
   </style>
 
   <!--
@@ -146,7 +109,7 @@
     acrescente sufixo (ex.: 20260803-2).
   -->
   <!-- Styles: bloqueante (arquivo local pequeno; custo de bloqueio < CLS causado pelo async) -->
-  <link rel="stylesheet" href="css/styles.css?v=20260803-2" />
+  <link rel="stylesheet" href="css/styles.css?v=20260818" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="IXC Provedor — Um único sistema para seu provedor" />
@@ -220,13 +183,6 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZ73W9RN" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-
-  <!-- ═══════════════════════════════════════════
-       PAGE LOADER
-  ════════════════════════════════════════════ -->
-  <div class="page-loader" id="pageLoader" aria-hidden="true">
-    <img src="assets/Logo-ixc-provedor.svg" alt="IXC Provedor" class="loader-logo" width="144" height="40" />
-  </div>
 
   <!-- ═══════════════════════════════════════════
        HEADER
@@ -643,7 +599,7 @@
 
   <!-- App scripts -->
   <script src="js/animations.js?v=20260803-2" defer></script>
-  <script src="js/main.js?v=20260803-2" defer></script>
+  <script src="js/main.js?v=20260818" defer></script>
 
   <!-- Captura de UTMs → campos ocultos do formulário HubSpot -->
   <script src="js/utm-capture.js?v=20260803-2" defer></script>
