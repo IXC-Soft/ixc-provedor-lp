@@ -712,6 +712,18 @@
               <span class="tab-dot" aria-hidden="true"></span>
             </button>
 
+            <button class="overview-tab" id="tab-healthscore" role="tab" aria-selected="false"
+              aria-controls="panel-healthscore" data-tab="healthscore">
+              <div class="tab-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <span class="tab-label">Healthscore</span>
+              <span class="tab-dot" aria-hidden="true"></span>
+            </button>
+
           </div>
 
           <div class="overview-panel-card">
@@ -784,6 +796,24 @@
                 <video class="panel-screenshot" muted loop playsinline preload="none"
                   poster="assets/system-image-placeholder.png" aria-label="Importação de leads no Inmap Sales">
                   <source src="assets/leads.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="panel-healthscore" role="tabpanel" aria-labelledby="tab-healthscore">
+              <div class="panel-header">
+                <span class="panel-tag">RETENÇÃO DE CLIENTES</span>
+                <h3 class="panel-title">Oportunidades dentro da base</h3>
+                <ul class="panel-checklist">
+                  <li><span class="check-icon">✓</span> Identifique clientes em risco pelos sinais da operação</li>
+                  <li><span class="check-icon">✓</span> Priorize ações de retenção antes que a receita escape</li>
+                  <li><span class="check-icon">✓</span> Saiba quem tem mais chance de renovar o contrato</li>
+                </ul>
+              </div>
+              <div class="panel-visual">
+                <video class="panel-screenshot" muted loop playsinline preload="none"
+                  poster="assets/system-image-placeholder.png" aria-label="Healthscore no Inmap Sales">
+                  <source src="assets/healthscore.mp4" type="video/mp4" />
                 </video>
               </div>
             </div>
