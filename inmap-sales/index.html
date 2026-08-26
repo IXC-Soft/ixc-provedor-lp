@@ -1228,15 +1228,25 @@
         return name.indexOf('cnpj') !== -1 || id.indexOf('cnpj') !== -1 || label.indexOf('cnpj') !== -1;
       }
 
+      function formatCnpj(val) {
+        var digits = val.replace(/\D/g, '').slice(0, 14);
+        if (!digits) return '';
+        if (digits.length <= 2) return digits;
+        if (digits.length <= 5) return digits.slice(0, 2) + '.' + digits.slice(2);
+        if (digits.length <= 8) return digits.slice(0, 2) + '.' + digits.slice(2, 5) + '.' + digits.slice(5);
+        if (digits.length <= 12) return digits.slice(0, 2) + '.' + digits.slice(2, 5) + '.' + digits.slice(5, 8) + '/' + digits.slice(8);
+        return digits.slice(0, 2) + '.' + digits.slice(2, 5) + '.' + digits.slice(5, 8) + '/' + digits.slice(8, 12) + '-' + digits.slice(12);
+      }
+
       function setupCnpjField(input) {
         if (input._cnpjBound) return;
         input._cnpjBound = true;
 
         input.setAttribute('inputmode', 'numeric');
+        input.setAttribute('maxlength', '18');
 
-        // Permitir apenas dígitos, ponto, barra e hífen na digitação/teclado
+        // Permitir apenas dígitos na digitação
         input.addEventListener('keydown', function (e) {
-          // Teclas de controle permitidas (Backspace, Tab, Delete, setas, Enter, etc.)
           if (
             e.key === 'Backspace' || e.key === 'Tab' || e.key === 'Enter' ||
             e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' ||
@@ -1244,20 +1254,15 @@
           ) {
             return;
           }
-          // Permitir apenas números, '.', '/', '-'
-          var allowedPattern = /[0-9\.\/\-]/;
-          if (e.key.length === 1 && !allowedPattern.test(e.key)) {
+          if (e.key.length === 1 && !/[0-9]/.test(e.key)) {
             e.preventDefault();
           }
         });
 
-        // Limpar qualquer caractere inválido no evento de input (ex: ao colar ou preenchimento automático)
-        function sanitizeValue() {
-          var val = input.value;
-          // Remove tudo que não for número, ponto, barra ou hífen
-          var cleaned = val.replace(/[^0-9\.\/\-]/g, '');
-          if (val !== cleaned) {
-            input.value = cleaned;
+        function handleInput() {
+          var formatted = formatCnpj(input.value);
+          if (input.value !== formatted) {
+            input.value = formatted;
           }
           validateCnpj();
         }
@@ -1275,9 +1280,9 @@
           }
         }
 
-        input.addEventListener('input', sanitizeValue);
+        input.addEventListener('input', handleInput);
         input.addEventListener('paste', function () {
-          setTimeout(sanitizeValue, 0);
+          setTimeout(handleInput, 0);
         });
         input.addEventListener('blur', validateCnpj);
       }
