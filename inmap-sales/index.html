@@ -1218,6 +1218,81 @@
       triggers.forEach(function (trigger) {
         trigger.addEventListener('click', function (e) { e.preventDefault(); openModal(this); });
       });
+
+      // ---- Tratamento e Validação do Campo CNPJ ----
+      function isCnpjField(el) {
+        if (!el || el.tagName !== 'INPUT') return false;
+        var name = (el.name || '').toLowerCase();
+        var id = (el.id || '').toLowerCase();
+        var label = el.labels && el.labels[0] ? el.labels[0].textContent.toLowerCase() : '';
+        return name.indexOf('cnpj') !== -1 || id.indexOf('cnpj') !== -1 || label.indexOf('cnpj') !== -1;
+      }
+
+      function setupCnpjField(input) {
+        if (input._cnpjBound) return;
+        input._cnpjBound = true;
+
+        input.setAttribute('inputmode', 'numeric');
+
+        // Permitir apenas dígitos, ponto, barra e hífen na digitação/teclado
+        input.addEventListener('keydown', function (e) {
+          // Teclas de controle permitidas (Backspace, Tab, Delete, setas, Enter, etc.)
+          if (
+            e.key === 'Backspace' || e.key === 'Tab' || e.key === 'Enter' ||
+            e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' ||
+            e.key === 'Home' || e.key === 'End' || e.ctrlKey || e.metaKey
+          ) {
+            return;
+          }
+          // Permitir apenas números, '.', '/', '-'
+          var allowedPattern = /[0-9\.\/\-]/;
+          if (e.key.length === 1 && !allowedPattern.test(e.key)) {
+            e.preventDefault();
+          }
+        });
+
+        // Limpar qualquer caractere inválido no evento de input (ex: ao colar ou preenchimento automático)
+        function sanitizeValue() {
+          var val = input.value;
+          // Remove tudo que não for número, ponto, barra ou hífen
+          var cleaned = val.replace(/[^0-9\.\/\-]/g, '');
+          if (val !== cleaned) {
+            input.value = cleaned;
+          }
+          validateCnpj();
+        }
+
+        function validateCnpj() {
+          var digits = input.value.replace(/\D/g, '');
+          if (!input.value.trim()) {
+            input.setCustomValidity('');
+            return;
+          }
+          if (digits.length !== 14) {
+            input.setCustomValidity('O CNPJ deve conter exatamente 14 dígitos.');
+          } else {
+            input.setCustomValidity('');
+          }
+        }
+
+        input.addEventListener('input', sanitizeValue);
+        input.addEventListener('paste', function () {
+          setTimeout(sanitizeValue, 0);
+        });
+        input.addEventListener('blur', validateCnpj);
+      }
+
+      function scanCnpjFields() {
+        var inputs = formContainer.querySelectorAll('input');
+        inputs.forEach(function (inp) {
+          if (isCnpjField(inp)) {
+            setupCnpjField(inp);
+          }
+        });
+      }
+
+      var cnpjObserver = new MutationObserver(scanCnpjFields);
+      cnpjObserver.observe(formContainer, { childList: true, subtree: true });
     })();
   </script>
 
