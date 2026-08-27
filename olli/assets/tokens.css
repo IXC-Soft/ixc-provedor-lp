@@ -27,3 +27,43 @@
   --scrollbar-thumb: #8C33FF;
   --scrollbar-thumb-hover: #7029CC;
 }
+
+/* ==========================================================================
+   COMPONENTE COMPARTILHADO (.secondary-button)
+   Fonte única de verdade sincronizada com Design System
+   ========================================================================== */
+
+.secondary-button {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid #8C33FF;
+  color: #8C33FF;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .secondary-button {
+    font-size: 18px;
+  }
+}
+
+.secondary-button:hover {
+  background-color: rgba(140, 51, 255, 0.08);
+  border-color: #8C33FF;
+  color: #8C33FF;
+  transform: translateY(-2px);
+}
+
