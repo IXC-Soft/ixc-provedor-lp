@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+  <!-- ══════════════════════════════════════════════════════════════════════
+     IXC · MENSURAÇÃO DA LANDING PAGE — bloco padrão
+     Colar no <head>, IMEDIATAMENTE ANTES do snippet do Google Tag Manager.
+     ══════════════════════════════════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var KEY = 'ixcprovedor_cookie_consent';
+    var POLITICA = 'https://ixcsoft.com/politica-de-privacidade/';
+
+    function guardado() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag !== 'function') {
+      window.gtag = function () { window.dataLayer.push(arguments); };
+    }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
+
+    window._hsp = window._hsp || [];
+
+    function aplicar(status) {
+      var ok = status === 'granted';
+      gtag('consent', 'update', {
+        ad_storage: ok ? 'granted' : 'denied',
+        ad_user_data: ok ? 'granted' : 'denied',
+        ad_personalization: ok ? 'granted' : 'denied',
+        analytics_storage: ok ? 'granted' : 'denied'
+      });
+      window._hsp.push(['setHubSpotConsent',
+        { analytics: ok, advertisement: ok, functionality: ok }]);
+      window.dataLayer.push({ event: 'cookie_consent', cookie_consent_status: status });
+    }
+
+    var escolha = guardado();
+    if (escolha) {
+      aplicar(escolha);
+    } else {
+      window._hsp.push(['setHubSpotConsent',
+        { analytics: false, advertisement: false, functionality: false }]);
+    }
+
+    window.setCookieConsent = function (status) {
+      try { localStorage.setItem(KEY, status); } catch (e) {}
+      aplicar(status);
+      var el = document.getElementById('cookie-banner');
+      if (el) el.classList.remove('is-visible');
+    };
+
+    if (escolha) return;
+
+    function montar() {
+      if (document.getElementById('cookie-banner')) return;
+
+      var css = document.createElement('style');
+      css.textContent =
+        '#cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;' +
+        'background:#0f1115;border-top:1px solid rgba(255,255,255,.14);' +
+        'box-shadow:0 -8px 30px -18px rgba(0,0,0,.8);transform:translateY(110%);' +
+        'transition:transform .4s ease;font:inherit}' +
+        '#cookie-banner.is-visible{transform:translateY(0)}' +
+        '#cookie-banner .ci{max-width:1200px;margin:0 auto;padding:20px 24px;display:flex;' +
+        'flex-direction:column;gap:16px;align-items:flex-start}' +
+        '#cookie-banner p{margin:0;color:#e6e6e6;font-size:14px;line-height:1.55;font-family:inherit}' +
+        '#cookie-banner a{color:#fff;text-decoration:underline}' +
+        '#cookie-banner .ca{display:flex;gap:12px;flex-wrap:wrap;width:100%}' +
+        '#cookie-banner button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;' +
+        'padding:11px 26px;cursor:pointer;border:1px solid transparent;transition:opacity .2s ease}' +
+        '#cookie-banner .ok{background:#fff;color:#0f1115}' +
+        '#cookie-banner .ok:hover{opacity:.88}' +
+        '#cookie-banner .no{background:transparent;color:#e6e6e6;border-color:rgba(255,255,255,.28)}' +
+        '#cookie-banner .no:hover{background:rgba(255,255,255,.08)}' +
+        '#cookie-banner button:focus-visible{outline:2px solid #fff;outline-offset:2px}' +
+        '@media(min-width:768px){#cookie-banner .ci{flex-direction:row;align-items:center;' +
+        'justify-content:space-between;gap:32px}#cookie-banner .ca{width:auto;flex-shrink:0}}';
+      document.head.appendChild(css);
+
+      var el = document.createElement('div');
+      el.id = 'cookie-banner';
+      el.setAttribute('role', 'dialog');
+      el.setAttribute('aria-live', 'polite');
+      el.setAttribute('aria-label', 'Aviso de cookies');
+      el.innerHTML =
+        '<div class="ci"><p>Utilizamos cookies para melhorar sua experiência, analisar o tráfego e ' +
+        'personalizar conteúdo. Ao continuar navegando, você concorda com nossa ' +
+        '<a href="' + POLITICA + '" target="_blank" rel="noopener">Política de Privacidade</a>.</p>' +
+        '<div class="ca"><button type="button" class="no">Rejeitar</button>' +
+        '<button type="button" class="ok">Aceitar cookies</button></div></div>';
+      document.body.appendChild(el);
+
+      el.querySelector('.ok').addEventListener('click', function () { setCookieConsent('granted'); });
+      el.querySelector('.no').addEventListener('click', function () { setCookieConsent('denied'); });
+      setTimeout(function () { el.classList.add('is-visible'); }, 600);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', montar);
+    } else {
+      montar();
+    }
+  })();
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-T5DJ5B9K');</script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#903BFF">
+  
+  <title>Controle de Portão Garagem — Olli</title>
+  <meta name="description" content="Interruptor pulso inteligente WiFi ideal para automatizar portões, persianas e fechaduras eletrônicas, com funções de agendamento e monitoramento de energia em tempo real.">
+  <link rel="canonical" href="https://ollismart.com/dispositivos/olli-gar-001/">
+
+  <!-- Google Fonts: Barlow & Noto Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tokens de marca -->
+  <link rel="stylesheet" href="../../assets/tokens.css">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: #8C33FF #F4F2F6;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: #F4F2F6;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #8C33FF;
+      border-radius: 9999px;
+      border: 2px solid #F4F2F6;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #7029CC;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--secondary);
+      color: var(--neutral);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Keyframe Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(144, 59, 255, 0.2); }
+      50% { box-shadow: 0 0 40px rgba(163, 92, 255, 0.45); }
+    }
+
+    @keyframes cta-shimmer {
+      0% { left: -120%; }
+      40%, 100% { left: 180%; }
+    }
+
+    /* Helper Utilities */
+    .hidden {
+      display: none !important;
+    }
+
+    /* ==========================================================================
+       PRIMARY BUTTON COMPONENT (.primary-button)
+       ========================================================================== */
+
+    .primary-button {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 12px 28px;
+      border-radius: 9999px;
+      background-color: #6324B5;
+      color: var(--neutral);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      box-shadow: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: none;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .primary-button {
+        font-size: 18px;
+      }
+    }
+
+    .primary-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+    }
+
+    .primary-button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -120%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(120deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.4) 50%,
+          rgba(255, 255, 255, 0) 100%);
+      transform: skewX(-25deg);
+      pointer-events: none;
+      animation: cta-shimmer 3s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary-button:hover::before {
+      opacity: 0;
+    }
+
+    /* Primary Button — White Variant (.primary-button--white) */
+    .primary-button--white {
+      background-color: #F4EBFF;
+      color: var(--primary);
+    }
+
+    .primary-button--white::before {
+      background: #FFFFFF;
+    }
+
+    .primary-button--white::after {
+      background: linear-gradient(120deg,
+          rgba(144, 59, 255, 0) 0%,
+          rgba(144, 59, 255, 0.18) 50%,
+          rgba(144, 59, 255, 0) 100%);
+    }
+
+    .primary-button--white .icon-wrapper,
+    .primary-button--white [class*="-icon-wrapper"] {
+      background-color: var(--primary);
+    }
+
+    /* ==========================================================================
+       SECONDARY BUTTON COMPONENT (.secondary-button / .case-secondary-cta - SINCRONIZADO COM DESIGN SYSTEM)
+       ========================================================================== */
+
+    .secondary-button {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 28px;
+      border-radius: 9999px;
+      background: transparent;
+      border: 1px solid #8C33FF;
+      color: #8C33FF;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .secondary-button-icon {
+      flex-shrink: 0;
+      transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @media (min-width: 768px) {
+      .secondary-button {
+        font-size: 18px;
+      }
+    }
+
+    .secondary-button:hover {
+      background-color: rgba(140, 51, 255, 0.08);
+      border-color: #8C33FF;
+      color: #8C33FF;
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       APP DOWNLOAD BUTTONS COMPONENT (.app-download-buttons)
+       ========================================================================== */
+
+    .hero-actions-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .app-download-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 0;
+      width: 100%;
+    }
+
+    .app-download-link {
+      display: inline-block;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .app-download-link:hover {
+      transform: translateY(-2px);
+      opacity: 0.92;
+    }
+
+    .app-download-img {
+      display: block;
+      width: auto;
+      max-width: 181px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* ==========================================================================
+       HEADER COMPONENT (.site-header)
+       ========================================================================== */
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: 64px;
+      background: rgba(33, 33, 33, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(51, 50, 51, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 767px) {
+      .site-header {
+        position: sticky;
+        top: 0;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .site-header {
+        height: 80px;
+      }
+    }
+
+    .site-header.scrolled {
+      background: rgba(33, 33, 33, 0.95);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 16px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (min-width: 640px) {
+      .header-container {
+        padding: 0 24px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .header-container {
+        padding: 0 32px;
+      }
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 4px;
+      transition: opacity 0.2s ease;
+    }
+
+    .header-logo-img {
+      height: 28px;
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .header-logo-img {
+        height: 32px;
+      }
+    }
+
+    .header-logo:hover .header-logo-img {
+      transform: scale(1.05);
+    }
+
+    .header-center,
+    .header-nav {
+      display: none;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .header-right,
+    .header-desktop-cta-wrapper {
+      display: none;
+    }
+
+    .header-primary-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      min-height: 40px;
+      padding: 16px 24px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .header-primary-cta-text {
+      display: inline-block;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .header-right,
+      .header-desktop-cta-wrapper {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .header-left {
+        flex: 1;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .header-center,
+      .header-nav {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+      }
+
+      .header-right,
+      .header-desktop-cta-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-left: 0;
+      }
+
+      .header-actions {
+        display: none !important;
+      }
+
+      .header-mobile-toggle {
+        display: none !important;
+      }
+    }
+
+    .header-nav-link {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: rgba(252, 251, 255, 0.7);
+      text-decoration: none;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .header-nav-link:hover {
+      color: var(--primary-light);
+    }
+
+    .header-nav-link-active {
+      color: #903BFF;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-mobile-toggle {
+      background: transparent;
+      border: none;
+      color: var(--neutral);
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    @media (min-width: 1025px) {
+      .header-mobile-toggle {
+        display: none;
+      }
+    }
+
+    .header-mobile-toggle:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--primary-light);
+    }
+
+    .header-mobile-icon-bars,
+    .header-mobile-icon-close {
+      width: 24px;
+      height: 24px;
+    }
+
+    .header-mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(33, 33, 33, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-dark);
+      padding: 12px 16px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      z-index: 1010;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      max-height: 100dvh;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mobile-menu-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      padding: 4px;
+    }
+
+    .mobile-menu-close {
+      background: transparent;
+      border: none;
+      color: var(--neutral);
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, color 0.2s ease;
+      width: 44px;
+      height: 44px;
+    }
+
+    .mobile-menu-close:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--primary-light);
+    }
+
+    .mobile-navigation {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .header-mobile-link {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 16px;
+      color: rgba(252, 251, 255, 0.8);
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .header-mobile-link:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--neutral);
+    }
+
+    .header-mobile-link-active {
+      background: rgba(144, 59, 255, 0.15);
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    .mobile-menu-cta {
+      align-self: flex-start;
+      margin-top: 40px;
+      flex-shrink: 0;
+    }
+
+    /* Mobile Navigation Backdrop Blur Overlay */
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100dvh;
+      background-color: rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 250ms ease, visibility 250ms ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    html.menu-open,
+    body.menu-open {
+      overflow: hidden !important;
+    }
+
+    @media (min-width: 1025px) {
+      .mobile-menu-overlay,
+      .header-mobile-menu {
+        display: none !important;
+      }
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding-block: 80px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background: radial-gradient(circle at 80% 20%, rgba(144, 59, 255, 0.15) 0%, transparent 60%);
+    }
+
+    @media (min-width: 768px) {
+      .hero-section {
+        padding-top: 120px;
+        padding-bottom: 80px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-section {
+        padding-top: 140px;
+        padding-bottom: 100px;
+      }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* Layout exclusivo Tablet e Mobile: Reorganização vertical da Hero (< 1024px) */
+    @media (max-width: 1023px) {
+      .hero-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+        gap: 40px;
+      }
+
+      .hero-media-wrapper {
+        order: 1;
+        width: 100%;
+        max-width: 100%;
+        justify-content: flex-start;
+      }
+
+      .product-card {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .hero-content {
+        order: 2;
+        width: 100%;
+        max-width: 100%;
+        text-align: left;
+      }
+
+      .hero-title,
+      .hero-description {
+        max-width: 100%;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 80px;
+      }
+    }
+
+    .section-badge,
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 16px;
+      background: rgba(144, 59, 255, 0.1);
+      border: 1px solid rgba(144, 59, 255, 0.3);
+      border-radius: 9999px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin-bottom: 8px;
+    }
+
+    @media (min-width: 768px) {
+      .section-badge,
+      .hero-badge {
+        margin-bottom: 16px;
+      }
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--primary, #903BFF);
+      box-shadow: 0 0 10px var(--primary);
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+
+    .hero-badge-text {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-light, #A35CFF);
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 42px;
+      line-height: 1.1;
+      font-weight: 700;
+      margin: 0 0 20px 0;
+      color: var(--neutral);
+    }
+
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 64px;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .hero-title {
+        font-size: 58px;
+      }
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #FFF 30%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0 0 36px 0;
+      max-width: 580px;
+    }
+
+    /* Product Showcase Image Container */
+    .hero-media-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-media-backdrop {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      background: radial-gradient(circle, rgba(144, 59, 255, 0.2) 0%, transparent 70%);
+      filter: blur(40px);
+      z-index: -1;
+    }
+
+    .product-card {
+      position: relative;
+      border-radius: 24px;
+      border: 1px solid var(--border-dark);
+      background: rgba(44, 44, 44, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 16px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+      animation: float 6s ease-in-out infinite;
+      overflow: hidden;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .product-card::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(144, 59, 255, 0.35) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .product-img {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      display: block;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+
+
+    /* ==========================================================================
+       FOOTER COMPONENT (.footer)
+       ========================================================================== */
+
+    .footer {
+      background-color: var(--secondary);
+      border-top: 1px solid var(--border-dark);
+      padding: 16px 0;
+      width: 100%;
+    }
+
+    .footer-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 16px;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .footer-container {
+        padding: 0 24px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .footer-container {
+        padding: 0 32px;
+      }
+    }
+
+    .footer-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        text-align: left;
+      }
+    }
+
+    .footer-bottom-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom-brand {
+        justify-content: flex-start;
+      }
+    }
+
+    .footer-copyright {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-muted, #AFAFB1);
+      margin: 0;
+      text-align: center;
+      white-space: normal;
+    }
+
+    @media (min-width: 768px) {
+      .footer-copyright {
+        font-size: 14px;
+        white-space: nowrap;
+        text-align: right;
+      }
+    }
+
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 4px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .footer-brand:hover {
+      opacity: 0.85;
+    }
+
+    .footer-brand:focus-visible {
+      outline: 2px solid var(--primary-light);
+      outline-offset: 4px;
+    }
+
+    .footer-olli-logo {
+      height: 32px;
+      width: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5DJ5B9K"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Mobile Navigation Backdrop Overlay -->
+  <div id="mobile-menu-overlay" class="mobile-menu-overlay" aria-hidden="true"></div>
+
+  <!-- Mobile Navigation Drawer Menu -->
+  <div id="mobile-menu" class="header-mobile-menu hidden">
+    <!-- Header do Menu Mobile -->
+    <div class="mobile-menu-header">
+      <a href="../../index.html#home" class="mobile-menu-logo" aria-label="Home Olli">
+        <img src="../../assets/logo-olli.svg" alt="Olli" class="header-logo-img" />
+      </a>
+      <button id="mobile-menu-close" type="button" class="mobile-menu-close" aria-label="Fechar menu">
+        <svg class="header-mobile-icon-close" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navegação Mobile -->
+    <nav class="mobile-navigation" aria-label="Navegação Mobile">
+      <a href="../../index.html#home" class="header-mobile-link">Home</a>
+      <a href="../../index.html#servicos" class="header-mobile-link">Serviços</a>
+      <a href="../../index.html#encontre" class="header-mobile-link">Encontre a Olli</a>
+    </nav>
+
+    <a href="../../index.html#contato" class="primary-button header-primary-cta mobile-menu-cta">
+      <span class="header-primary-cta-text">Quero ser um parceiro</span>
+    </a>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- HEADER / NAVBAR                            -->
+  <!-- ========================================== -->
+  <header id="header" class="site-header">
+    <div class="header-container">
+
+      <!-- Left Zone: Brand Logo -->
+      <div class="header-left">
+        <a href="../../index.html#home" class="header-logo" aria-label="Home Olli">
+          <img src="../../assets/logo-olli.svg" alt="Olli" class="header-logo-img" />
+        </a>
+      </div>
+
+      <!-- Center Zone: Desktop Navigation Links -->
+      <nav class="header-center header-nav" aria-label="Navegação Principal">
+        <a href="../../index.html#home" class="header-nav-link">Home</a>
+        <a href="../../index.html#servicos" class="header-nav-link">Serviços</a>
+        <a href="../../index.html#encontre" class="header-nav-link">Encontre a Olli</a>
+      </nav>
+
+      <!-- Right Zone: Desktop CTA Primary Button -->
+      <div class="header-right header-desktop-cta-wrapper">
+        <a href="../../index.html#contato" class="primary-button header-primary-cta">
+          <span class="header-primary-cta-text">Quero ser um parceiro</span>
+        </a>
+      </div>
+
+      <!-- Mobile Toggle Action Button -->
+      <div class="header-actions">
+        <button id="mobile-menu-btn" type="button" class="header-cta header-mobile-toggle"
+          aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mobile-menu">
+          <svg id="menu-icon-bars" class="header-mobile-icon-bars" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <svg id="menu-icon-close" class="header-mobile-icon-close hidden" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <!-- Content -->
+        <div class="hero-content">
+          <div class="section-badge hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span class="hero-badge-text">ESPAÇOS INTELIGENTES</span>
+          </div>
+
+          <h1 class="hero-title">
+            Controle de Portão Garagem
+          </h1>
+
+          <p class="hero-description">
+            Interruptor pulso inteligente WiFi ideal para automatizar portões, persianas e fechaduras eletrônicas, com funções de agendamento e monitoramento de energia em tempo real.
+          </p>
+
+          <div class="hero-actions-group">
+            <div class="app-download-buttons">
+              <a href="https://play.google.com/store/apps/details?id=com.iot_app&pli=1" target="_blank" rel="noopener noreferrer" class="app-download-link" aria-label="Baixar no Google Play">
+                <img src="../../assets-dispositivos/assets-share-dispositivos/button-google-play.png" alt="Google Play" class="app-download-img" width="181" height="49" />
+              </a>
+              <a href="https://apps.apple.com/br/app/olli/id6447080564" target="_blank" rel="noopener noreferrer" class="app-download-link" aria-label="Baixar na App Store">
+                <img src="../../assets-dispositivos/assets-share-dispositivos/button-app-store.png" alt="App Store" class="app-download-img" width="181" height="49" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Render Showcase -->
+        <div class="hero-media-wrapper">
+          <div class="hero-media-backdrop"></div>
+          <div class="product-card">
+            <img src="../../assets-dispositivos/assets-olli-gar-001/photo-olli-controle-portao-garagem.webp" alt="Controle de Portão Garagem" class="product-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- FOOTER COMPONENT                           -->
+  <!-- ========================================== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <div class="footer-bottom-brand">
+          <a href="../../index.html" class="footer-brand" aria-label="Home Olli">
+            <img src="../../assets/logo-olli.svg" alt="Olli" class="footer-olli-logo" width="82" height="35" />
+          </a>
+        </div>
+
+        <p class="footer-copyright">
+          &copy; 2026 Olli. Todos os direitos reservados.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script for Interactive Header & Mobile Navigation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileMenuCloseBtn = document.getElementById('mobile-menu-close');
+      const mobileMenuLogo = document.querySelector('.mobile-menu-logo');
+      const iconBars = document.getElementById('menu-icon-bars');
+      const iconClose = document.getElementById('menu-icon-close');
+      const mobileLinks = document.querySelectorAll('.header-mobile-link, .mobile-menu-cta');
+      const header = document.getElementById('header');
+      const overlay = document.getElementById('mobile-menu-overlay');
+
+      // Toggle Mobile Navigation
+      const openMobileMenu = () => {
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
+        if (mobileMenu) mobileMenu.classList.remove('hidden');
+        if (iconBars) iconBars.classList.add('hidden');
+        if (iconClose) iconClose.classList.remove('hidden');
+        if (overlay) overlay.classList.add('active');
+        document.body.classList.add('menu-open');
+        document.documentElement.classList.add('menu-open');
+      };
+
+      const closeMobileMenu = () => {
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        if (iconBars) iconBars.classList.remove('hidden');
+        if (iconClose) iconClose.classList.add('hidden');
+        if (overlay) overlay.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        document.documentElement.classList.remove('menu-open');
+      };
+
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+          if (isExpanded) {
+            closeMobileMenu();
+          } else {
+            openMobileMenu();
+          }
+        });
+
+        if (mobileMenuCloseBtn) {
+          mobileMenuCloseBtn.addEventListener('click', () => {
+            closeMobileMenu();
+          });
+        }
+
+        if (mobileMenuLogo) {
+          mobileMenuLogo.addEventListener('click', () => {
+            closeMobileMenu();
+          });
+        }
+
+        // Close menu on clicking any link
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            closeMobileMenu();
+          });
+        });
+
+        // Close menu on clicking overlay
+        if (overlay) {
+          overlay.addEventListener('click', () => {
+            closeMobileMenu();
+          });
+        }
+
+        // Close menu if window resizes to desktop view
+        window.addEventListener('resize', () => {
+          if (window.innerWidth >= 768 && menuBtn.getAttribute('aria-expanded') === 'true') {
+            closeMobileMenu();
+          }
+        });
+      }
+
+      // Add dynamic background shadow/effect on scroll
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
