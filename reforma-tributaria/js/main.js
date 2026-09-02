@@ -192,7 +192,8 @@ const COUNTDOWN_TARGET = "2026-09-14T23:59:59-03:00";
   const triggers = explorer.querySelectorAll(".curriculum__trigger");
   const stagePanels = explorer.querySelectorAll(".curriculum__stage-panel");
 
-  function setActiveTab(index, shouldFocus = false) {
+  // Desktop: Comportamento de abas exclusivas com troca de painel à direita
+  function setActiveTabDesktop(index, shouldFocus = false) {
     if (index < 0 || index >= tabs.length) return;
 
     tabs.forEach((tab, i) => {
@@ -230,22 +231,46 @@ const COUNTDOWN_TARGET = "2026-09-14T23:59:59-03:00";
     });
   }
 
-  // Toggle para mobile ou seleção direta no desktop
+  // Mobile: Comportamento de accordion independente (expansão natural para baixo)
+  function toggleTabMobile(index) {
+    const tab = tabs[index];
+    if (!tab) return;
+
+    const trigger = tab.querySelector(".curriculum__trigger");
+    const collapse = tab.querySelector(".curriculum__collapse");
+    const panel = stagePanels[index];
+    const isCurrentlyActive = tab.classList.contains("curriculum__tab--active");
+
+    if (isCurrentlyActive) {
+      tab.classList.remove("curriculum__tab--active");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+      if (collapse) collapse.setAttribute("hidden", "");
+    } else {
+      tab.classList.add("curriculum__tab--active");
+      if (trigger) trigger.setAttribute("aria-expanded", "true");
+      if (collapse) collapse.removeAttribute("hidden");
+      if (panel) {
+        stagePanels.forEach((p, i) => {
+          if (i === index) {
+            p.classList.add("curriculum__stage-panel--active");
+            p.removeAttribute("hidden");
+          } else {
+            p.classList.remove("curriculum__stage-panel--active");
+          }
+        });
+      }
+    }
+  }
+
+  // Event Listeners para cada item do curriculum
   triggers.forEach((trigger, index) => {
     trigger.addEventListener("click", (e) => {
       e.preventDefault();
       const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-      const tab = tabs[index];
-      const isCurrentlyActive = tab.classList.contains("curriculum__tab--active");
-
-      // No mobile, se já estiver aberto e o usuário clicar, permite fechar o accordion
-      if (!isDesktop && isCurrentlyActive) {
-        tab.classList.remove("curriculum__tab--active");
-        trigger.setAttribute("aria-expanded", "false");
-        const collapse = tab.querySelector(".curriculum__collapse");
-        if (collapse) collapse.setAttribute("hidden", "");
+      if (isDesktop) {
+        setActiveTabDesktop(index, false);
       } else {
-        setActiveTab(index, false);
+        toggleTabMobile(index);
       }
     });
 
@@ -268,7 +293,12 @@ const COUNTDOWN_TARGET = "2026-09-14T23:59:59-03:00";
       }
 
       if (targetIndex !== null) {
-        setActiveTab(targetIndex, true);
+        const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+        if (isDesktop) {
+          setActiveTabDesktop(targetIndex, true);
+        } else {
+          triggers[targetIndex].focus();
+        }
       }
     });
   });
