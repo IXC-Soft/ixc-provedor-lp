@@ -32,35 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Executa uma vez no início para checar estado inicial
   handleScroll();
 
-  // --- Mobile Navigation Menu ---
-  const menuToggle = document.querySelector('.menu-toggle');
-  const mobileNavClose = document.querySelector('.mobile-nav-close');
-  const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
-  const mobileNavDrawer = document.querySelector('.mobile-nav-drawer');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
-
-  const openMobileNav = () => {
-    mobileNavOverlay.classList.add('active');
-    mobileNavDrawer.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Impede o scroll do body quando aberto
-  };
-
-  const closeMobileNav = () => {
-    mobileNavOverlay.classList.remove('active');
-    mobileNavDrawer.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-
-  if (menuToggle) menuToggle.addEventListener('click', openMobileNav);
-  if (mobileNavClose) mobileNavClose.addEventListener('click', closeMobileNav);
-  if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', closeMobileNav);
-
-  mobileNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      closeMobileNav();
-    });
-  });
-
   // --- Scroll to Top Button ---
   const scrollTopBtn = document.querySelector('.scroll-top-btn');
   if (scrollTopBtn) {
@@ -71,53 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
-  // --- SVG Network Interaction ---
-  // Mapa do Hero: Iluminar fibra ao passar o mouse nas conexões/cabo ou CTOs
-  const mapNodes = document.querySelectorAll('.map-node');
-  const mapLines = document.querySelectorAll('.map-line');
-  const infoToast = document.getElementById('map-toast');
-  const infoToastText = document.getElementById('map-toast-text');
-
-  mapNodes.forEach(node => {
-    node.addEventListener('mouseenter', (e) => {
-      const type = node.getAttribute('data-type') || 'Elemento';
-      const name = node.getAttribute('data-name') || 'Equipamento';
-      const status = node.getAttribute('data-status') || 'Operacional';
-      
-      // Iluminar as linhas conectadas a este nó
-      const nodeId = node.getAttribute('id');
-      mapLines.forEach(line => {
-        if (line.getAttribute('data-connected-to')?.includes(nodeId)) {
-          line.style.stroke = '#00BDD2';
-          line.style.strokeWidth = '3px';
-          line.style.filter = 'drop-shadow(0 0 6px rgba(0, 189, 210, 0.8))';
-        }
-      });
-
-      if (infoToast && infoToastText) {
-        infoToastText.innerHTML = `<strong>${type}:</strong> ${name} <span style="color: ${status === 'Alerta' ? '#FF5F57' : '#00BDD2'}">(${status})</span>`;
-        infoToast.style.opacity = '1';
-        infoToast.style.transform = 'translateY(0)';
-      }
-    });
-
-    node.addEventListener('mouseleave', () => {
-      const nodeId = node.getAttribute('id');
-      mapLines.forEach(line => {
-        if (line.getAttribute('data-connected-to')?.includes(nodeId)) {
-          line.style.stroke = '';
-          line.style.strokeWidth = '';
-          line.style.filter = '';
-        }
-      });
-
-      if (infoToast) {
-        infoToast.style.opacity = '0';
-        infoToast.style.transform = 'translateY(10px)';
-      }
-    });
-  });
 
   // --- Smooth Anchor Scrolling Offset ---
   document.querySelectorAll('a[href^="#"]:not(.btn)').forEach(anchor => {
@@ -146,11 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const openModal = () => {
     if (leadModal) {
-      // Fecha a navegação mobile se estiver aberta para não conflitar
-      if (mobileNavOverlay && mobileNavOverlay.classList.contains('active')) {
-        mobileNavOverlay.classList.remove('active');
-        mobileNavDrawer.classList.remove('active');
-      }
       leadModal.classList.add('active');
       document.body.style.overflow = 'hidden';
       leadModal.setAttribute('aria-hidden', 'false');
@@ -162,10 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       leadModal.classList.add('closing');
       setTimeout(() => {
         leadModal.classList.remove('active', 'closing');
-        // Só restaura o scroll se a navegação mobile também não estiver ativa
-        if (!mobileNavDrawer || !mobileNavDrawer.classList.contains('active')) {
-          document.body.style.overflow = '';
-        }
+        document.body.style.overflow = '';
         leadModal.setAttribute('aria-hidden', 'true');
       }, 300);
     }
@@ -200,54 +116,221 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- Window Showcase Carousel ---
-  const carousel = document.querySelector('.window-carousel');
-  if (carousel) {
-    const items = carousel.querySelectorAll('.window-carousel-item');
-    let currentIndex = 0;
-    const intervalTime = 4000; // 4 segundos
-    let carouselInterval;
 
-    const showSlide = (index) => {
-      items.forEach((item, i) => {
-        if (i === index) {
-          item.classList.add('active');
-        } else {
-          item.classList.remove('active');
-        }
+
+  // --- Elements Horizontal Card Carousel (Section 3: Iluminar Fibra) ---
+  const initElementsCarousel = () => {
+    const track = document.querySelector('.elements-grid');
+    const prevBtn = document.querySelector('.elements-carousel-arrow--prev');
+    const nextBtn = document.querySelector('.elements-carousel-arrow--next');
+
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const cards = track.querySelectorAll('.element-card');
+    if (!cards.length) return;
+
+    // Obtém a largura de rolagem dinâmica (largura do card + gap real)
+    const getScrollDistance = () => {
+      const firstCard = cards[0];
+      const secondCard = cards[1];
+      if (firstCard && secondCard) {
+        // Distância exata entre os inícios de dois cards consecutivos (inclui gap)
+        return secondCard.offsetLeft - firstCard.offsetLeft;
+      }
+      const trackStyle = window.getComputedStyle(track);
+      const gap = parseFloat(trackStyle.gap) || 24;
+      return (firstCard ? firstCard.offsetWidth : 300) + gap;
+    };
+
+    // Atualiza estados disabled e aria-disabled dos botões de seta
+    const updateArrowsState = () => {
+      const scrollLeft = track.scrollLeft;
+      const clientWidth = track.clientWidth;
+      const scrollWidth = track.scrollWidth;
+      const tolerance = 6; // Tolerância para subpixels e arredondamentos
+
+      const isAtStart = scrollLeft <= tolerance;
+      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - tolerance;
+
+      prevBtn.disabled = isAtStart;
+      prevBtn.setAttribute('aria-disabled', isAtStart ? 'true' : 'false');
+
+      nextBtn.disabled = isAtEnd;
+      nextBtn.setAttribute('aria-disabled', isAtEnd ? 'true' : 'false');
+    };
+
+    // Navegação suave considerando preferências de movimento reduzido
+    const scrollByStep = (direction) => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const behavior = prefersReducedMotion ? 'auto' : 'smooth';
+      const distance = getScrollDistance() * direction;
+
+      track.scrollBy({
+        left: distance,
+        behavior: behavior
       });
     };
 
-    const nextSlide = () => {
-      currentIndex = (currentIndex + 1) % items.length;
-      showSlide(currentIndex);
-    };
+    nextBtn.addEventListener('click', () => scrollByStep(1));
+    prevBtn.addEventListener('click', () => scrollByStep(-1));
 
-    const startCarousel = () => {
-      // Respeita preferência por redução de movimento
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!prefersReducedMotion) {
-        carouselInterval = setInterval(nextSlide, intervalTime);
+    // Atualiza estado das setas em scroll e resize
+    track.addEventListener('scroll', updateArrowsState, { passive: true });
+    window.addEventListener('resize', updateArrowsState, { passive: true });
+
+    // Acessibilidade por teclado: garantir que card focado via Tab esteja visível
+    cards.forEach(card => {
+      card.addEventListener('focusin', () => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        card.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'nearest',
+          inline: 'nearest'
+        });
+      });
+    });
+
+    // --- Suporte a Mouse Drag Desktop (Pointer Events) ---
+    let isPointerDown = false;
+    let isDragging = false;
+    let hasDragged = false;
+    let dragStartX = 0;
+    let dragStartScrollLeft = 0;
+    const DRAG_THRESHOLD = 6; // Threshold em pixels para distinguir click de drag
+
+    const onPointerDown = (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+
+      isPointerDown = true;
+      hasDragged = false;
+      dragStartX = e.clientX;
+      dragStartScrollLeft = track.scrollLeft;
+
+      if (track.setPointerCapture) {
+        try {
+          track.setPointerCapture(e.pointerId);
+        } catch (err) {
+          // Fallback silencioso se falhar
+        }
       }
     };
 
-    const stopCarousel = () => {
-      if (carouselInterval) {
-        clearInterval(carouselInterval);
+    const onPointerMove = (e) => {
+      if (!isPointerDown || e.pointerType !== 'mouse') return;
+
+      const deltaX = e.clientX - dragStartX;
+
+      if (!isDragging && Math.abs(deltaX) > DRAG_THRESHOLD) {
+        isDragging = true;
+        hasDragged = true;
+        track.classList.add('is-dragging');
+      }
+
+      if (isDragging) {
+        track.scrollLeft = dragStartScrollLeft - deltaX;
       }
     };
 
-    // Inicializa o carrossel se tiver múltiplos itens
-    if (items.length > 1) {
-      startCarousel();
+    const onPointerUpOrCancel = (e) => {
+      if (e.pointerType !== 'mouse') return;
 
-      // Pausa sob hover ou foco para melhor UX
-      carousel.addEventListener('mouseenter', stopCarousel);
-      carousel.addEventListener('mouseleave', startCarousel);
-      carousel.addEventListener('focusin', stopCarousel);
-      carousel.addEventListener('focusout', startCarousel);
-    }
-  }
+      if (isPointerDown) {
+        isPointerDown = false;
+
+        if (isDragging) {
+          isDragging = false;
+          track.classList.remove('is-dragging');
+          updateArrowsState();
+        }
+
+        if (track.releasePointerCapture && track.hasPointerCapture && track.hasPointerCapture(e.pointerId)) {
+          try {
+            track.releasePointerCapture(e.pointerId);
+          } catch (err) {
+            // Fallback silencioso
+          }
+        }
+      }
+    };
+
+    track.addEventListener('pointerdown', onPointerDown);
+    track.addEventListener('pointermove', onPointerMove);
+    track.addEventListener('pointerup', onPointerUpOrCancel);
+    track.addEventListener('pointercancel', onPointerUpOrCancel);
+
+    // Evita ativação indevida de click/navegação apenas após drag real
+    track.addEventListener('click', (e) => {
+      if (hasDragged) {
+        e.preventDefault();
+        e.stopPropagation();
+        hasDragged = false;
+      }
+    }, true);
+
+    // Estado inicial
+    updateArrowsState();
+  };
+
+  initElementsCarousel();
+
+  // --- Seção 5: Features Accordion (Single-Open & Acessível) ---
+  const initFeaturesAccordion = () => {
+    const accordion = document.getElementById('featuresAccordion');
+    if (!accordion) return;
+
+    const items = accordion.querySelectorAll('[data-accordion-item]');
+    if (!items.length) return;
+
+    // Definição de estado inicial:
+    // Faixa 1024px a 1279px: todos iniciam fechados
+    // Demais faixas (Mobile <1024px, Desktop >=1280px): somente o primeiro item inicia aberto
+    const is1024Breakpoint = window.matchMedia('(min-width: 1024px) and (max-width: 1279px)').matches;
+    
+    items.forEach((item, index) => {
+      const trigger = item.querySelector('.accordion-trigger');
+      if (is1024Breakpoint) {
+        item.classList.remove('active');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      } else {
+        if (index === 0) {
+          item.classList.add('active');
+          if (trigger) trigger.setAttribute('aria-expanded', 'true');
+        } else {
+          item.classList.remove('active');
+          if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    const toggleItem = (targetItem) => {
+      const isCurrentlyActive = targetItem.classList.contains('active');
+
+      // Comportamento Single-Open: fecha todos os outros itens
+      items.forEach(item => {
+        const trigger = item.querySelector('.accordion-trigger');
+        item.classList.remove('active');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      });
+
+      // Se o item clicado estava fechado, abre-o
+      if (!isCurrentlyActive) {
+        const targetTrigger = targetItem.querySelector('.accordion-trigger');
+        targetItem.classList.add('active');
+        if (targetTrigger) targetTrigger.setAttribute('aria-expanded', 'true');
+      }
+    };
+
+    items.forEach(item => {
+      const trigger = item.querySelector('.accordion-trigger');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleItem(item);
+      });
+    });
+  };
+
+  initFeaturesAccordion();
 });
-
 
