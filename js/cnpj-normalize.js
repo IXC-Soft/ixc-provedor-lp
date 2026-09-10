@@ -22,16 +22,23 @@
  * `composedPath()[0]` devolve o input de verdade. Mesmo motivo, mesma solução
  * do hubspot-listener.js.
  *
- * FORMATO CANÔNICO: alfanumérico, sem pontuação, caixa alta
- * ----------------------------------------------------------
- * Escolhido a partir dos dados que já existem no portal (28 contatos com
- * `qual_seu_cnpj` em 2026-09-10): 17 de 20 amostrados já estão sem pontuação,
- * como `55446008000178`. Só um estava formatado. Gravar formatado agora criaria
- * um segundo padrão na mesma propriedade e quebraria qualquer deduplicação.
+ * FORMATO: máscara pontuada, 00.000.000/0000-00
+ * ----------------------------------------------
+ * Decisão do time em 2026-09-10: o campo deve inserir `.`, `/` e `-` conforme
+ * a pessoa digita. A pontuação entra sozinha; ninguém precisa digitá-la, e
+ * digitá-la também não atrapalha.
  *
- * Sem pontuação também é o formato mais compatível com validação de formulário:
- * se o campo estiver marcado como numérico no editor do HubSpot, `51.183.908/`
- * seria recusado — e o lead, perdido.
+ * Registrado para quem mexer aqui depois: os 28 contatos que já existiam em
+ * `qual_seu_cnpj` estão majoritariamente SEM pontuação (17 de 20 amostrados,
+ * como `55446008000178`). A partir daqui a propriedade passa a ter os dois
+ * formatos. Se algum dia for preciso deduplicar ou cruzar com a Receita,
+ * compare sempre `replace(/[^0-9A-Za-z]/g, '')` dos dois lados, nunca a string
+ * crua.
+ *
+ * ⚠ Se o campo estiver marcado como NUMÉRICO no editor do HubSpot, a máscara
+ * será recusada por ele e o lead se perde. O campo precisa estar como texto de
+ * linha única, sem validação. Isso é configuração de portal, não tem conserto
+ * pelo lado do site.
  *
  * CNPJ ALFANUMÉRICO
  * -----------------
@@ -81,6 +88,19 @@
     return /cnpj/i.test(rotulo(el));
   }
 
+  /* Índice logo depois do n-ésimo caractere alfanumérico. */
+  function posApos(s, n) {
+    if (n <= 0) return 0;
+    var c = 0;
+    for (var i = 0; i < s.length; i++) {
+      if (/[0-9A-Za-z]/.test(s.charAt(i))) {
+        c++;
+        if (c === n) return i + 1;
+      }
+    }
+    return s.length;
+  }
+
   function contarValidos(s) {
     var m = s.match(/[0-9A-Za-z]/g);
     return m ? m.length : 0;
@@ -95,11 +115,43 @@
    * "MELIGAPELOWHAT", que não ajuda ninguém e ainda destrói o recado.
    */
   function ehTentativa(bruto, limpo) {
-    var digitos = (bruto.match(/\d/g) || []).length;
-    if (digitos >= 8) return true;
-    /* Borda do CNPJ alfanumérico: raiz toda em letras deixa só os 2 dígitos
-       verificadores. Poucos dígitos, mas o formato é inconfundível. */
-    return limpo.length === TAMANHO && /\d\d$/.test(limpo);
+    /* Sem nenhum dígito é recado, não documento. */
+    if (!/\d/.test(limpo)) return false;
+
+    /* Só dígitos, de qualquer tamanho: mascara desde a primeira tecla. Inclui
+       o caso de quem digita a mais — o corte em 14 resolve depois. */
+    if (/^[0-9]+$/.test(limpo)) return true;
+
+    /* Formato exato do CNPJ alfanumérico: 14 posições terminando em 2 dígitos
+       verificadores. Cobre a borda da raiz toda em letras, que tem só 2
+       dígitos e não passaria pela proporção abaixo. */
+    if (limpo.length === TAMANHO && /\d\d$/.test(limpo)) return true;
+
+    /* Mais longo que um CNPJ e com letras no meio: é frase. */
+    if (limpo.length > TAMANHO) return false;
+
+    /* Sobra a mistura. Dígito em minoria indica texto com número solto
+       ("nao tenho 2 cnpjs"), não documento. */
+    var digitos = (limpo.match(/\d/g) || []).length;
+    return digitos * 2 >= limpo.length;
+  }
+
+  /**
+   * Insere a pontuação nas posições do CNPJ: 00.000.000/0000-00
+   *
+   * O separador entra ANTES do caractere seguinte, nunca sobrando pendurado no
+   * fim. Digitar "12" mostra "12", não "12." — e apagar não deixa lixo para
+   * trás. Máscara que pendura separador obriga a apagar duas vezes.
+   */
+  function formatar(limpo) {
+    var out = '';
+    for (var i = 0; i < limpo.length; i++) {
+      if (i === 2 || i === 5) out += '.';
+      else if (i === 8) out += '/';
+      else if (i === 12) out += '-';
+      out += limpo.charAt(i);
+    }
+    return out;
   }
 
   function normalizar(bruto) {
@@ -109,7 +161,7 @@
     /* Corta em 14 ENQUANTO digita — é prevenção, não correção: a pessoa vê o
        campo parar e percebe o dedo pesado. Cortar depois, no envio, geraria um
        CNPJ plausível e errado, que é pior que um visivelmente errado. */
-    return limpo.slice(0, TAMANHO);
+    return formatar(limpo.slice(0, TAMANHO));
   }
 
   /* React ignora `el.value = x`: o setter da instância é substituído pelo dele.
@@ -147,19 +199,18 @@
     var depois = normalizar(antes);
     if (depois === antes) return;
 
-    /* Só removemos caracteres, nunca inserimos — então contar alfanuméricos
-       antes do cursor basta para devolvê-lo ao lugar certo. Sem isto o cursor
-       pula para o fim a cada pontuação digitada e editar o meio do campo vira
-       um exercício de paciência. */
+    /* A máscara INSERE pontuação, então a posição do cursor muda de índice. O
+       que se conserva é quantos caracteres ÚTEIS existem antes dele: recoloco o
+       cursor depois do mesmo número de alfanuméricos no texto novo. Sem isto o
+       cursor pula para o fim a cada separador inserido, e editar o meio do
+       campo vira um exercício de paciência. */
     var validos = null;
     try { validos = contarValidos(antes.slice(0, el.selectionStart)); } catch (e) {}
 
     definirValor(el, depois);
 
     if (validos !== null) {
-      var pos = 0, contados = 0;
-      while (pos < depois.length && contados < validos) { pos++; contados++; }
-      try { el.setSelectionRange(pos, pos); } catch (e) {}
+      try { el.setSelectionRange(posApos(depois, validos), posApos(depois, validos)); } catch (e) {}
     }
   }
 
