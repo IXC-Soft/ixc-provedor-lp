@@ -55,6 +55,35 @@ const EVENTO_META = {
 /** Eventos que a coleta própria aceita. Qualquer outro é descartado. */
 const EVENTOS_ACEITOS = Object.keys(EVENTO_META);
 
+/**
+ * Valor por etapa do funil, em BRL.
+ *
+ * É o INCREMENTO da etapa, não o valor total. As conversões disparam em
+ * sequência para a MESMA pessoa: se cada uma levasse o valor esperado cheio,
+ * quem fecha seria contado quatro vezes. Somados, os incrementos telescopam
+ * exatamente em R$ 11.977,80 — o valor real de 12 meses.
+ *
+ * Origem dos números (não invente novos aqui):
+ *   Agência de Traqueamento e Ads/01-Clientes/ixcsoft/
+ *     02-implementacao/valor-real-para-plataformas-2026-07-30.md
+ *
+ * O `generate_lead` TEM de bater com o valor da tag 273 do GTM
+ * (🔵 3.2 [META] Lead), hoje literal `3170.59`. Os dois lados mandam o mesmo
+ * `event_id`; se os valores divergirem, o Meta desduplica e passa a reportar
+ * inconsistência entre Pixel e CAPI. Mudou um, muda o outro no mesmo PR.
+ *
+ * ⛔ PROIBIDO ROAS alvo com estes valores: no agregado inflam ~2x, porque o
+ * lead que empaca mantém o valor esperado dele e não há conversão negativa
+ * para descontar. Servem como sinal de diferenciação, nunca como meta de
+ * retorno. Se um dia usar tROAS, calibre pelo ROAS observado após 30 dias.
+ */
+const VALOR_EVENTO = {
+  generate_lead: 3170.59,
+  mql: 1321.08,
+};
+
+const MOEDA = 'BRL';
+
 // --------------------------------------------------------------- utilidades
 
 /** SHA-256 em hex, como Meta e Google exigem. */
@@ -125,6 +154,36 @@ async function montarUserData(payload, request) {
 
 // ------------------------------------------------------------------ destinos
 
+/**
+ * `custom_data` do Meta.
+ *
+ * `value` e `currency` só saem para as etapas que têm valor definido. Sem eles
+ * o Meta trata todo lead como igual — o que vira cliente e o que nunca atende
+ * o telefone entram como o mesmo evento, e o algoritmo maximiza quantidade
+ * porque quantidade é a única dimensão visível. Era o que acontecia com a
+ * metade dos eventos que o Meta desduplicava ficando com a cópia da CAPI: o
+ * Pixel mandava valor desde 2026-08-06, a CAPI não mandava nada.
+ */
+function montarCustomData(payload, atrib) {
+  const cd = {
+    utm_source: atrib.utm_source,
+    utm_medium: atrib.utm_medium,
+    utm_campaign: atrib.utm_campaign,
+    utm_content: atrib.utm_content,
+    utm_term: atrib.utm_term,
+    ad_id: atrib.ad_id,
+    page_referrer: (payload.page && payload.page.referrer) || undefined,
+  };
+
+  const valor = VALOR_EVENTO[payload.event_name];
+  if (valor !== undefined) {
+    cd.value = valor;
+    cd.currency = MOEDA;
+  }
+
+  return cd;
+}
+
 async function enviarMetaCapi(payload, request, env) {
   if (!env.META_CAPI_TOKEN) {
     return { destino: 'meta', ok: false, motivo: 'META_CAPI_TOKEN ausente' };
@@ -144,15 +203,7 @@ async function enviarMetaCapi(payload, request, env) {
     event_source_url: (payload.page && payload.page.location) || undefined,
     action_source: payload.action_source || 'website',
     user_data: await montarUserData(payload, request),
-    custom_data: {
-      utm_source: atrib.utm_source,
-      utm_medium: atrib.utm_medium,
-      utm_campaign: atrib.utm_campaign,
-      utm_content: atrib.utm_content,
-      utm_term: atrib.utm_term,
-      ad_id: atrib.ad_id,
-      page_referrer: (payload.page && payload.page.referrer) || undefined,
-    },
+    custom_data: montarCustomData(payload, atrib),
   };
 
   const corpo = { data: [evento] };
