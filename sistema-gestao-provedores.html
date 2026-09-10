@@ -618,6 +618,19 @@
   <script src="js/hubspot-listener.js?v=20260810" defer></script>
 
   <!--
+    Normalização do campo CNPJ do formulário.
+
+    Roda por listener delegado no document, não por querySelector: os campos do
+    embed v4 podem viver em shadow DOM. E normaliza a cada tecla, não no submit,
+    porque o embed envia por `fetch` sem disparar `submit` nativo — o mesmo
+    motivo documentado em js/hubspot-listener.js.
+
+    Nunca bloqueia o envio: texto livre ("me liga pelo whats") passa intacto.
+    Perder um lead custa mais que guardar um CNPJ torto.
+  -->
+  <script src="js/cnpj-normalize.js?v=20260910" defer></script>
+
+  <!--
     Tracking code do HubSpot. Sem ele o portal não tem sessão, e por consequência:
     todo lead de formulário entra como OFFLINE, as propriedades nativas de click id
     (hs_google_click_id, hs_facebook_click_id, hs_linkedin_click_id) nunca são
